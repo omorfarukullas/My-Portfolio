@@ -274,8 +274,38 @@ footer { padding: 3rem 2rem; text-align: center; border-top: 1px dashed var(--bo
 /* Responsive */
 @media (max-width: 1024px) {
     .about-grid, .contact-grid { grid-template-columns: 1fr; }
+    .section { padding: 4rem 1.5rem 1.5rem; }
 }
+
 @media (max-width: 768px) {
     .nav-links, .nav-status { display: none; }
     .mobile-menu-btn { display: block; }
+    
+    .section-header { font-size: 1.2rem; }
+    .counter { font-size: 2rem; }
+    
+    .terminal-body { padding: 1rem; }
+    .ascii-art { font-size: 0.5rem; } /* Scale down ASCII art for small screens */
+    
+    .matrix-dashboard { grid-template-columns: 1fr; }
+    
+    .timeline { padding-left: 1.5rem; }
+    .timeline-node { left: -2.35rem; }
 }
+
+@media (max-width: 480px) {
+    .ascii-art { font-size: 0.4rem; }
+    .nav-brand { font-size: 1rem; }
+    .btn-cli { width: 100%; text-align: center; }
+    .cta-buttons { flex-direction: column; width: 100%; }
+    
+    .stat-counters { flex-direction: column; }
+    
+    .about-left { max-width: 250px; margin: 0 auto; }
+}
+
+/* Fix for overlapping content in small heights */
+@media (max-height: 600px) {
+    .section { min-height: auto; padding-bottom: 4rem; }
+}
+

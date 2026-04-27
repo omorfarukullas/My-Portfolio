@@ -41,16 +41,16 @@ document.addEventListener("DOMContentLoaded", () => {
     runBootSequence();
     initCursor();
     initAmbientParticles();
-    initMatrixRain('matrix-canvas');
+    // initMatrixRain('matrix-canvas');
     initTypewriters();
     renderSkills();
     renderProjects('all');
     initScrollAnimations();
-    initSkillGlobe();
+    // initSkillGlobe();
     initRadarChart();
     initMobileMenu();
-    initTerminalInput();
-    initKonamiCode();
+    // initTerminalInput();
+    // initKonamiCode();
     updateUptime();
     setInterval(updateUptime, 1000);
 });
@@ -657,11 +657,11 @@ function initMobileMenu() {
     const linksContainer = document.querySelector('.mobile-links');
     
     const links = [
-        {text: '[01_ABOUT]', href: '#about'},
-        {text: '[02_MATRIX]', href: '#skills'},
-        {text: '[03_DATA]', href: '#projects'},
-        {text: '[04_LOGS]', href: '#education'},
-        {text: '[05_COMMS]', href: '#contact'}
+        {text: '[ABOUT]', href: '#about'},
+        {text: '[SKILLS]', href: '#skills'},
+        {text: '[PROJECTS]', href: '#projects'},
+        {text: '[EDUCATION]', href: '#education'},
+        {text: '[CONTACT]', href: '#contact'}
     ];
 
     btn.addEventListener('click', () => {
