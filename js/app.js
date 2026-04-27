@@ -15,7 +15,7 @@ const skillsData = {
         { name: "React", pct: 95 }, { name: "Next.js", pct: 92 }, { name: "Node.js", pct: 95 },
         { name: "Express", pct: 93 }, { name: "Flask", pct: 90 }, { name: "FastAPI", pct: 90 },
         { name: "Django", pct: 87 }, { name: "Laravel", pct: 85 }, { name: "Spring Boot", pct: 82 },
-        { name: "Ruby on Rails", pct: 80 }, { name: "TensorFlow", pct: 90 }, { name: "PyTorch", pct: 90 },
+        { name: "Flutter", pct: 90 }, { name: "TensorFlow", pct: 90 }, { name: "PyTorch", pct: 90 },
         { name: "NumPy", pct: 95 }
     ],
     tools: [
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // --- Boot Sequence ---
 function runBootSequence() {
     const bootLines = [
-        "ULLAS_SYS KERNEL COMPILATION v4.0",
+        "OMOR FARUK ULLAS KERNEL COMPILATION v4.0",
         "=====================================================",
         "[*] Loading core modules........................ [OK]",
         "[*] Mounting encrypted skill matrix............. [OK]",
