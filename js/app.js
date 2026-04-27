@@ -664,25 +664,30 @@ function initMobileMenu() {
         {text: '[CONTACT]', href: '#contact'}
     ];
 
-    btn.addEventListener('click', () => {
-        overlay.style.display = 'flex';
-        linksContainer.innerHTML = '';
-        
-        // Typewriter effect for links
-        links.forEach((link, idx) => {
-            setTimeout(() => {
-                const a = document.createElement('a');
-                a.href = link.href;
-                a.className = 'nav-link';
-                a.style.display = 'block';
-                a.innerText = link.text;
-                a.addEventListener('click', () => overlay.style.display = 'none');
-                linksContainer.appendChild(a);
-            }, idx * 200);
-        });
+    // Pre-render links
+    linksContainer.innerHTML = links.map(link => `
+        <a href="${link.href}" class="nav-link">${link.text}</a>
+    `).join('');
+
+    // Close on link click
+    linksContainer.querySelectorAll('.nav-link').forEach(a => {
+        a.addEventListener('click', () => overlay.classList.remove('active'));
     });
 
-    closeBtn.addEventListener('click', () => overlay.style.display = 'none');
+    btn.addEventListener('click', () => {
+        overlay.classList.add('active');
+    });
+
+    closeBtn.addEventListener('click', () => {
+        overlay.classList.remove('active');
+    });
+
+    // Close when clicking outside
+    document.addEventListener('click', (e) => {
+        if (overlay.classList.contains('active') && !overlay.contains(e.target) && !btn.contains(e.target)) {
+            overlay.classList.remove('active');
+        }
+    });
 }
 
 // Contact Form 
