@@ -52,6 +52,8 @@ function HandDrawnPhotoCard() {
                 width: '100%',
                 maxWidth: '380px',
                 margin: '0 auto',
+                paddingTop: '1.5rem',
+                paddingBottom: '1.25rem',
             }}
         >
             {/* Main Polaroid Frame */}
@@ -162,21 +164,21 @@ function HandDrawnPhotoCard() {
 
             {/* Bouncing Hand-Drawn Badge */}
             <div
-                className="animate-bounce-gentle hidden md:block"
+                className="animate-bounce-gentle"
                 style={{
                     position: 'absolute',
-                    top: '-20px',
-                    right: '-25px',
+                    top: '2px',
+                    right: '-10px',
                     background: 'var(--bg-postit-green)',
                     border: '2px solid #2d2d2d',
                     borderRadius: RADIUS.wobblySm,
-                    padding: '0.4rem 0.85rem',
+                    padding: '0.35rem 0.75rem',
                     boxShadow: '3px 3px 0px #2d2d2d',
                     fontFamily: 'Patrick Hand, cursive',
-                    fontSize: '1rem',
+                    fontSize: '0.92rem',
                     fontWeight: 700,
-                    transform: 'rotate(8deg)',
-                    zIndex: 10,
+                    transform: 'rotate(6deg)',
+                    zIndex: 15,
                 }}
             >
                 🧠 AI / ML &amp; NLP
@@ -184,21 +186,20 @@ function HandDrawnPhotoCard() {
 
             {/* Floating ESP32 / IoT Badge */}
             <div
-                className="hidden md:block"
                 style={{
                     position: 'absolute',
-                    bottom: '-15px',
-                    left: '-20px',
+                    bottom: '0px',
+                    left: '-10px',
                     background: '#ffffff',
                     border: '2px solid #2d2d2d',
                     borderRadius: RADIUS.wobblySm,
-                    padding: '0.35rem 0.75rem',
+                    padding: '0.3rem 0.65rem',
                     boxShadow: '3px 3px 0px #2d2d2d',
                     fontFamily: 'Patrick Hand, cursive',
-                    fontSize: '0.95rem',
+                    fontSize: '0.9rem',
                     fontWeight: 700,
-                    transform: 'rotate(-6deg)',
-                    zIndex: 10,
+                    transform: 'rotate(-5deg)',
+                    zIndex: 15,
                 }}
             >
                 ☀️ HelioSense IoT
@@ -258,9 +259,8 @@ export default function HeroSection() {
                 display: 'flex',
                 alignItems: 'center',
                 position: 'relative',
-                paddingTop: '80px',
+                paddingTop: '96px',
                 paddingBottom: '2.5rem',
-                overflowX: 'clip',
             }}
         >
             {/* Left Floating Social Sidebar (Desktop) */}
