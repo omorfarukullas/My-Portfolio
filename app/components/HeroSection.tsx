@@ -1,10 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { SiFacebook, SiInstagram, SiX, SiLinkedin, SiGithub } from 'react-icons/si';
 import { siteConfig } from '@/config/site';
-import { RADIUS, TapeStrip, HandDrawnArrow, HandDrawnSparkle, StickyTag } from './HandDrawn';
+import { RADIUS, TapeStrip, HandDrawnArrow, StickyTag } from './HandDrawn';
 
 /* Animated Typing Text */
 function TypingText({ words }: { words: string[] }) {
@@ -41,25 +42,25 @@ function TypingText({ words }: { words: string[] }) {
     );
 }
 
-/* Hand-Drawn Sketch Developer Illustration */
-function HandDrawnDeveloperCard() {
+/* Hand-Drawn Polaroid Photo Card with Real Picture */
+function HandDrawnPhotoCard() {
     return (
         <div
             style={{
                 position: 'relative',
                 width: '100%',
-                maxWidth: '440px',
+                maxWidth: '400px',
                 margin: '0 auto',
             }}
         >
-            {/* Main Notebook Card */}
+            {/* Main Polaroid Frame */}
             <div
                 style={{
                     position: 'relative',
                     background: '#ffffff',
                     border: '3px solid #2d2d2d',
                     borderRadius: RADIUS.wobblyMd,
-                    padding: '2rem 1.75rem',
+                    padding: '1.25rem 1.25rem 1.5rem 1.25rem',
                     boxShadow: '8px 8px 0px 0px #2d2d2d',
                     transform: 'rotate(1.5deg)',
                     transition: 'transform 0.2s ease, box-shadow 0.2s ease',
@@ -75,67 +76,83 @@ function HandDrawnDeveloperCard() {
             >
                 <TapeStrip rotate={-2} />
 
-                {/* Card Header */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px dashed #2d2d2d', paddingBottom: '0.75rem', marginBottom: '1.25rem' }}>
+                {/* Card Header Tag */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px dashed #2d2d2d', paddingBottom: '0.5rem', marginBottom: '1rem', marginTop: '0.25rem' }}>
                     <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
-                        <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#ff4d4d', border: '1.5px solid #2d2d2d' }} />
-                        <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#ffb703', border: '1.5px solid #2d2d2d' }} />
-                        <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#55a630', border: '1.5px solid #2d2d2d' }} />
+                        <div style={{ width: '11px', height: '11px', borderRadius: '50%', background: '#ff4d4d', border: '1.5px solid #2d2d2d' }} />
+                        <div style={{ width: '11px', height: '11px', borderRadius: '50%', background: '#ffb703', border: '1.5px solid #2d2d2d' }} />
+                        <div style={{ width: '11px', height: '11px', borderRadius: '50%', background: '#55a630', border: '1.5px solid #2d2d2d' }} />
                     </div>
-                    <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.85rem', color: '#2d2d2d', fontWeight: 600 }}>
-                        sketchbook.dev
+                    <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.82rem', color: '#2d2d2d', fontWeight: 600 }}>
+                        polaroid_01.png
                     </span>
                 </div>
 
-                {/* Hand-drawn SVG Avatar / Scene */}
-                <div style={{ textAlign: 'center', marginBottom: '1rem', position: 'relative' }}>
-                    <svg viewBox="0 0 280 200" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', maxWidth: '280px', margin: '0 auto' }}>
-                        {/* Desk surface */}
-                        <path d="M20 170 C 90 168, 190 168, 260 170" stroke="#2d2d2d" strokeWidth="3.5" strokeLinecap="round" />
-                        <path d="M35 174 L 25 195 M 245 174 L 255 195" stroke="#2d2d2d" strokeWidth="3" strokeLinecap="round" />
-
-                        {/* Laptop */}
-                        <rect x="75" y="100" width="130" height="70" rx="6" fill="#fff9c4" stroke="#2d2d2d" strokeWidth="3" />
-                        <path d="M60 170 L 220 170 L 210 162 L 70 162 Z" fill="#e5e0d8" stroke="#2d2d2d" strokeWidth="3" />
-                        {/* Code on screen */}
-                        <path d="M90 120 L 140 120 M 90 132 L 175 132 M 90 144 L 130 144 M 90 156 L 160 156" stroke="#2d2d2d" strokeWidth="2.5" strokeLinecap="round" strokeDasharray="1 1" />
-                        {/* Apple/OFU Logo on laptop back or screen */}
-                        <text x="180" y="122" fontFamily="Kalam, cursive" fontSize="12" fill="#ff4d4d" fontWeight="bold">&lt;OFU/&gt;</text>
-
-                        {/* Coffee Mug with Steam */}
-                        <rect x="225" y="140" width="22" height="28" rx="4" fill="#ffffff" stroke="#2d2d2d" strokeWidth="2.5" />
-                        <path d="M247 146 C 255 146, 255 162, 247 162" stroke="#2d2d2d" strokeWidth="2.5" />
-                        <path d="M232 135 C 230 128, 235 125, 233 118" stroke="#ff4d4d" strokeWidth="2" strokeLinecap="round" />
-                        <path d="M239 136 C 237 130, 242 126, 240 120" stroke="#ff4d4d" strokeWidth="2" strokeLinecap="round" />
-
-                        {/* Plant in pot */}
-                        <path d="M35 152 L 40 170 L 54 170 L 59 152 Z" fill="#ffe0b2" stroke="#2d2d2d" strokeWidth="2.5" />
-                        <path d="M47 152 C 40 135, 30 140, 36 130 C 44 140, 48 145, 47 152 Z" fill="#dcfce7" stroke="#2d2d2d" strokeWidth="2" />
-                        <path d="M47 152 C 54 135, 64 140, 58 130 C 50 140, 46 145, 47 152 Z" fill="#dcfce7" stroke="#2d2d2d" strokeWidth="2" />
-
-                        {/* Floating Speech / Idea Bubble */}
-                        <path d="M185 45 C 185 30, 250 25, 255 45 C 260 65, 205 75, 195 62 L 180 72 L 188 56 Z" fill="#fff9c4" stroke="#2d2d2d" strokeWidth="2.5" />
-                        <text x="202" y="48" fontFamily="Patrick Hand, cursive" fontSize="13" fill="#2d2d2d" fontWeight="bold">AI + NLP!</text>
-                    </svg>
+                {/* Photo Container */}
+                <div
+                    style={{
+                        position: 'relative',
+                        width: '100%',
+                        height: '320px',
+                        borderRadius: RADIUS.wobblySm,
+                        border: '2.5px solid #2d2d2d',
+                        overflow: 'hidden',
+                        background: '#f4efe6',
+                        marginBottom: '1rem',
+                        boxShadow: 'inset 0 0 10px rgba(0,0,0,0.05)',
+                    }}
+                >
+                    <Image
+                        src="/Omor.png"
+                        alt="Omor Faruk Ullas"
+                        fill
+                        priority
+                        style={{
+                            objectFit: 'cover',
+                            objectPosition: 'center top',
+                        }}
+                    />
                 </div>
 
-                {/* Interactive Status Note */}
+                {/* Handwritten Photo Caption */}
+                <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
+                    <p style={{
+                        fontFamily: 'Kalam, cursive',
+                        fontSize: '1.4rem',
+                        fontWeight: 700,
+                        color: '#2d2d2d',
+                        margin: '0 0 0.15rem 0',
+                        lineHeight: 1.1,
+                    }}>
+                        Omor Faruk Ullas ✍️
+                    </p>
+                    <p style={{
+                        fontFamily: 'Patrick Hand, cursive',
+                        fontSize: '1.05rem',
+                        color: 'var(--text-muted)',
+                        margin: 0,
+                    }}>
+                        📍 Dhaka, Bangladesh · 🎓 UIU CSE
+                    </p>
+                </div>
+
+                {/* Status Note on Polaroid Bottom */}
                 <div
                     style={{
                         background: 'var(--bg-postit)',
                         border: '2px solid #2d2d2d',
                         borderRadius: RADIUS.wobblySm,
-                        padding: '0.75rem 1rem',
-                        boxShadow: '3px 3px 0px #2d2d2d',
+                        padding: '0.65rem 0.85rem',
+                        boxShadow: '2px 2px 0px #2d2d2d',
                         fontFamily: 'Patrick Hand, cursive',
                         transform: 'rotate(-1deg)',
                     }}
                 >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.25rem' }}>
-                        <span style={{ fontSize: '1.1rem' }}>🔬</span>
-                        <span style={{ fontWeight: 700, fontSize: '1rem', color: '#2d2d2d' }}>Currently Exploring:</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', marginBottom: '0.15rem' }}>
+                        <span style={{ fontSize: '1rem' }}>🔬</span>
+                        <span style={{ fontWeight: 700, fontSize: '0.95rem', color: '#2d2d2d' }}>Currently Exploring:</span>
                     </div>
-                    <p style={{ fontSize: '0.95rem', color: '#4a4a4a', margin: 0, lineHeight: 1.4 }}>
+                    <p style={{ fontSize: '0.92rem', color: '#4a4a4a', margin: 0, lineHeight: 1.35 }}>
                         Coordinated propaganda detection in low-resource Bangla NLP.
                     </p>
                 </div>
@@ -160,7 +177,7 @@ function HandDrawnDeveloperCard() {
                     zIndex: 10,
                 }}
             >
-                ✨ 100% Handcrafted
+                🧠 AI / ML &amp; NLP
             </div>
 
             {/* Floating ESP32 / IoT Badge */}
@@ -446,9 +463,9 @@ export default function HeroSection() {
                         </div>
                     </div>
 
-                    {/* Right Column: Hand-Drawn Illustration Card */}
+                    {/* Right Column: Hand-Drawn Polaroid Photo Card */}
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <HandDrawnDeveloperCard />
+                        <HandDrawnPhotoCard />
                     </div>
                 </div>
             </div>
