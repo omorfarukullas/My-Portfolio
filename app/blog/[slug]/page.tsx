@@ -11,6 +11,7 @@ import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
 import BlogCard from '@/app/components/BlogCard';
 import Link from 'next/link';
+import { RADIUS, TapeStrip, StickyTag } from '@/app/components/HandDrawn';
 
 interface Params { slug: string }
 
@@ -54,115 +55,172 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
             <main style={{ paddingTop: '80px' }}>
                 <article>
                     {/* Post Header */}
-                    <div style={{ borderBottom: '1px solid var(--border)', paddingBottom: '2rem', marginBottom: '2rem' }}>
-                        <div className="container" style={{ paddingTop: '3rem', maxWidth: '780px' }}>
+                    <div style={{ borderBottom: '3px solid #2d2d2d', paddingBottom: '2.5rem', marginBottom: '2.5rem' }}>
+                        <div className="container" style={{ paddingTop: '3rem', maxWidth: '820px' }}>
                             {/* Breadcrumb */}
-                            <nav aria-label="Breadcrumb" style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
-                                <Link href="/" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Home</Link>
+                            <nav aria-label="Breadcrumb" style={{
+                                display: 'flex',
+                                gap: '0.5rem',
+                                alignItems: 'center',
+                                fontSize: '1.05rem',
+                                fontFamily: 'Patrick Hand, cursive',
+                                color: 'var(--text-muted)',
+                                marginBottom: '1.5rem',
+                            }}>
+                                <Link href="/" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>Home</Link>
                                 <span>/</span>
-                                <Link href="/blog" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Blog</Link>
+                                <Link href="/blog" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>Notebook</Link>
                                 <span>/</span>
-                                <span style={{ color: 'var(--text-secondary)' }}>{post.title}</span>
+                                <span style={{ color: 'var(--accent)', fontWeight: 600 }}>{post.title}</span>
                             </nav>
 
                             {/* Tags */}
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem', marginBottom: '1.25rem' }}>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.45rem', marginBottom: '1.25rem' }}>
                                 {post.tags.map((tag) => (
                                     <Link key={tag} href={`/blog?tag=${tag}`}>
-                                        <span className="tag">{tag}</span>
+                                        <StickyTag color="yellow" rotate={-1}>
+                                            #{tag}
+                                        </StickyTag>
                                     </Link>
                                 ))}
                             </div>
 
                             {/* Title */}
-                            <h1 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.75rem)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '1rem' }}>
+                            <h1 style={{
+                                fontSize: 'clamp(2rem, 5vw, 3.25rem)',
+                                fontWeight: 700,
+                                fontFamily: 'Kalam, cursive',
+                                color: '#2d2d2d',
+                                lineHeight: 1.15,
+                                marginBottom: '1rem',
+                            }}>
                                 {post.title}
                             </h1>
 
-                            <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1.5rem' }}>
+                            <p style={{
+                                fontSize: '1.3rem',
+                                color: 'var(--text-secondary)',
+                                fontFamily: 'Patrick Hand, cursive',
+                                lineHeight: 1.5,
+                                marginBottom: '1.75rem',
+                            }}>
                                 {post.description}
                             </p>
 
                             {/* Meta */}
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'center', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                                <span style={{ fontWeight: 600, color: 'var(--text-secondary)' }}>{post.author}</span>
+                            <div style={{
+                                display: 'flex',
+                                flexWrap: 'wrap',
+                                gap: '1rem',
+                                alignItems: 'center',
+                                fontSize: '1.05rem',
+                                fontFamily: 'Patrick Hand, cursive',
+                                color: 'var(--text-secondary)',
+                                borderTop: '2px dashed #2d2d2d',
+                                paddingTop: '1rem',
+                            }}>
+                                <span style={{ fontWeight: 700, color: '#2d2d2d' }}>✍️ {post.author}</span>
                                 <span>·</span>
-                                <time dateTime={post.date}>{formatDate(post.date)}</time>
+                                <time dateTime={post.date}>📅 {formatDate(post.date)}</time>
                                 <span>·</span>
-                                <span>{post.readTime} min read</span>
+                                <span>⏱️ {post.readTime} min read</span>
 
-                                {/* Share buttons */}
-                                <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                                    <span style={{ fontSize: '0.78rem' }}>Share:</span>
+                                {/* Share button */}
+                                <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
                                     <a
                                         href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`${seoConfig.siteUrl}/blog/${post.slug}`)}`}
                                         target="_blank" rel="noopener noreferrer"
                                         aria-label="Share on Twitter"
-                                        style={{ color: 'var(--text-muted)', display: 'flex', alignItems: 'center', transition: 'color 0.15s' }}
-                                        className="hover-accent-text"
+                                        style={{
+                                            padding: '0.2rem 0.65rem',
+                                            background: '#ffffff',
+                                            border: '1.5px solid #2d2d2d',
+                                            borderRadius: RADIUS.wobblySm,
+                                            boxShadow: '1px 1px 0px #2d2d2d',
+                                            fontSize: '0.95rem',
+                                            fontWeight: 600,
+                                        }}
                                     >
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                                        </svg>
-                                    </a>
-                                    <a
-                                        href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`${seoConfig.siteUrl}/blog/${post.slug}`)}`}
-                                        target="_blank" rel="noopener noreferrer"
-                                        aria-label="Share on LinkedIn"
-                                        style={{ color: 'var(--text-muted)', display: 'flex', alignItems: 'center', transition: 'color 0.15s' }}
-                                        className="hover-accent-text"
-                                    >
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                                        </svg>
+                                        Share on X
                                     </a>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    {/* Post Content */}
-                    <div className="container" style={{ maxWidth: '780px', paddingBottom: '4rem' }}>
-                        <div className="prose">
-                            <MDXRemote
-                                source={post.content}
-                                options={{
-                                    mdxOptions: {
-                                        remarkPlugins: [remarkGfm],
-                                        rehypePlugins: [rehypeSlug, [rehypeAutolinkHeadings, { behavior: 'wrap' }]],
-                                    },
-                                }}
-                            />
-                        </div>
+                    {/* Post Content Notebook Canvas */}
+                    <div className="container" style={{ maxWidth: '820px', paddingBottom: '4rem' }}>
+                        <div
+                            style={{
+                                position: 'relative',
+                                background: '#ffffff',
+                                border: '3px solid #2d2d2d',
+                                borderRadius: RADIUS.wobbly,
+                                padding: '3rem 2.5rem',
+                                boxShadow: '6px 6px 0px 0px #2d2d2d',
+                                marginBottom: '3rem',
+                            }}
+                        >
+                            <TapeStrip rotate={-1} />
 
-                        {/* Tags at bottom */}
-                        <div style={{ marginTop: '3rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border)' }}>
-                            <p style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '0.6rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Topics</p>
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}>
-                                {post.tags.map((tag) => (
-                                    <Link key={tag} href={`/blog?tag=${tag}`}>
-                                        <span className="tag">{tag}</span>
-                                    </Link>
-                                ))}
+                            <div className="prose">
+                                <MDXRemote
+                                    source={post.content}
+                                    options={{
+                                        mdxOptions: {
+                                            remarkPlugins: [remarkGfm],
+                                            rehypePlugins: [rehypeSlug, [rehypeAutolinkHeadings, { behavior: 'wrap' }]],
+                                        },
+                                    }}
+                                />
                             </div>
                         </div>
 
-                        {/* Prev / Next */}
+                        {/* Prev / Next Navigation Cards */}
                         {(prev || next) && (
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '2.5rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border)' }}>
+                            <div style={{
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+                                gap: '1.5rem',
+                                marginTop: '2rem',
+                            }}>
                                 {prev ? (
                                     <Link href={`/blog/${prev.slug}`} style={{ textDecoration: 'none' }}>
-                                        <div className="card hover-border-accent" style={{ padding: '1.25rem' }}>
-                                            <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '0.35rem' }}>← Previous</p>
-                                            <p style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1.3 }}>{prev.title}</p>
+                                        <div
+                                            style={{
+                                                background: '#ffffff',
+                                                border: '2px solid #2d2d2d',
+                                                borderRadius: RADIUS.wobblySm,
+                                                padding: '1.25rem',
+                                                boxShadow: '3px 3px 0px #2d2d2d',
+                                                transition: 'transform 0.15s ease',
+                                            }}
+                                            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                                            onMouseLeave={(e) => e.currentTarget.style.transform = 'none'}
+                                        >
+                                            <p style={{ fontSize: '0.95rem', fontFamily: 'Patrick Hand, cursive', color: 'var(--text-muted)', margin: 0 }}>← Previous note</p>
+                                            <p style={{ fontSize: '1.15rem', fontFamily: 'Kalam, cursive', fontWeight: 700, color: '#2d2d2d', margin: '0.35rem 0 0 0' }}>{prev.title}</p>
                                         </div>
                                     </Link>
                                 ) : <div />}
+
                                 {next ? (
                                     <Link href={`/blog/${next.slug}`} style={{ textDecoration: 'none' }}>
-                                        <div className="card hover-border-accent" style={{ padding: '1.25rem', textAlign: 'right' }}>
-                                            <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '0.35rem' }}>Next →</p>
-                                            <p style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1.3 }}>{next.title}</p>
+                                        <div
+                                            style={{
+                                                background: '#ffffff',
+                                                border: '2px solid #2d2d2d',
+                                                borderRadius: RADIUS.wobblySm,
+                                                padding: '1.25rem',
+                                                boxShadow: '3px 3px 0px #2d2d2d',
+                                                textAlign: 'right',
+                                                transition: 'transform 0.15s ease',
+                                            }}
+                                            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                                            onMouseLeave={(e) => e.currentTarget.style.transform = 'none'}
+                                        >
+                                            <p style={{ fontSize: '0.95rem', fontFamily: 'Patrick Hand, cursive', color: 'var(--text-muted)', margin: 0 }}>Next note →</p>
+                                            <p style={{ fontSize: '1.15rem', fontFamily: 'Kalam, cursive', fontWeight: 700, color: '#2d2d2d', margin: '0.35rem 0 0 0' }}>{next.title}</p>
                                         </div>
                                     </Link>
                                 ) : <div />}
@@ -171,9 +229,19 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
 
                         {/* Related Posts */}
                         {related.length > 0 && (
-                            <div style={{ marginTop: '3rem' }}>
-                                <h2 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '1.25rem' }}>Related Articles</h2>
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '1rem' }}>
+                            <div style={{ marginTop: '3.5rem' }}>
+                                <h2 style={{
+                                    fontSize: '1.75rem',
+                                    fontWeight: 700,
+                                    fontFamily: 'Kalam, cursive',
+                                    color: '#2d2d2d',
+                                    marginBottom: '1.5rem',
+                                    textDecoration: 'underline wavy var(--accent)',
+                                    textUnderlineOffset: '4px',
+                                }}>
+                                    Related Field Notes
+                                </h2>
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '1.5rem' }}>
                                     {related.map((p) => (
                                         <BlogCard key={p.slug} post={p} />
                                     ))}

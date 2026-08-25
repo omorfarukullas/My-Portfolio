@@ -1,8 +1,8 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, ReactNode } from 'react';
 
-type Theme = 'dark' | 'light';
+type Theme = 'light';
 
 interface ThemeContextValue {
     theme: Theme;
@@ -10,43 +10,13 @@ interface ThemeContextValue {
 }
 
 const ThemeContext = createContext<ThemeContextValue>({
-    theme: 'dark',
+    theme: 'light',
     toggleTheme: () => { },
 });
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-    const [theme, setTheme] = useState<Theme>('dark');
-    const [mounted, setMounted] = useState(false);
-
-    useEffect(() => {
-        // Read saved preference or fall back to system preference
-        const saved = localStorage.getItem('theme') as Theme | null;
-        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const initial: Theme = saved ?? (systemPrefersDark ? 'dark' : 'light');
-
-        setTheme(initial);
-        document.documentElement.setAttribute('data-theme', initial);
-        setMounted(true);
-    }, []);
-
-    const toggleTheme = () => {
-        const next: Theme = theme === 'dark' ? 'light' : 'dark';
-        setTheme(next);
-        document.documentElement.setAttribute('data-theme', next);
-        localStorage.setItem('theme', next);
-    };
-
-    // Avoid flash of wrong theme
-    if (!mounted) {
-        return (
-            <div style={{ visibility: 'hidden' }}>
-                {children}
-            </div>
-        );
-    }
-
     return (
-        <ThemeContext.Provider value={{ theme, toggleTheme }}>
+        <ThemeContext.Provider value={{ theme: 'light', toggleTheme: () => { } }}>
             {children}
         </ThemeContext.Provider>
     );

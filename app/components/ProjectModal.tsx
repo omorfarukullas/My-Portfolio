@@ -2,22 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-
-interface Project {
-    id: number;
-    title: string;
-    tagline: string;
-    description: string;
-    longDescription: string;
-    techStack: string[];
-    features: string[];
-    status: string;
-    category: string;
-    github: string;
-    live?: string;
-    colors: { primary: string; secondary: string };
-    image: string;
-}
+import { Project } from './ProjectsSection';
+import { RADIUS, TapeStrip, StickyTag } from './HandDrawn';
 
 interface ProjectModalProps {
     project: Project | null;
@@ -63,202 +49,238 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        padding: '1rem',
-                        background: 'rgba(0,0,0,0.6)',
-                        backdropFilter: 'blur(8px)',
+                        padding: '1.5rem',
+                        background: 'rgba(45, 45, 45, 0.55)',
+                        backdropFilter: 'blur(3px)',
                     }}
                 >
                     <motion.div
                         ref={modalRef}
                         tabIndex={-1}
-                        initial={{ scale: 0.94, opacity: 0, y: 12 }}
+                        initial={{ scale: 0.92, opacity: 0, y: 15 }}
                         animate={{ scale: 1, opacity: 1, y: 0 }}
-                        exit={{ scale: 0.96, opacity: 0, y: 8 }}
-                        transition={{ duration: 0.25, ease: 'easeOut' }}
+                        exit={{ scale: 0.95, opacity: 0, y: 10 }}
+                        transition={{ duration: 0.2, ease: 'easeOut' }}
                         onClick={(e) => e.stopPropagation()}
                         style={{
-                            background: 'var(--bg-surface)',
-                            border: '1px solid var(--border-hover)',
-                            borderRadius: '16px',
+                            position: 'relative',
+                            background: '#ffffff',
+                            backgroundImage: 'radial-gradient(#d8d1c5 1.2px, transparent 1.2px)',
+                            backgroundSize: '20px 20px',
+                            border: '3px solid #2d2d2d',
+                            borderRadius: RADIUS.wobbly,
                             width: '100%',
                             maxWidth: '680px',
-                            maxHeight: '88vh',
+                            maxHeight: '90vh',
                             overflowY: 'auto',
                             outline: 'none',
-                            boxShadow: `0 24px 64px rgba(0,0,0,0.35), 0 0 0 1px var(--border)`,
+                            boxShadow: '10px 10px 0px 0px #2d2d2d',
+                            padding: '2.5rem 2rem',
+                            transform: 'rotate(-0.5deg)',
                         }}
                     >
+                        <TapeStrip rotate={-1.5} />
+
                         {/* Modal Header */}
                         <div style={{
                             display: 'flex',
                             justifyContent: 'space-between',
                             alignItems: 'flex-start',
-                            padding: '1.5rem 1.5rem 0',
+                            borderBottom: '2px dashed #2d2d2d',
+                            paddingBottom: '1.25rem',
+                            marginBottom: '1.5rem',
                             gap: '1rem',
                         }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                <div style={{ fontSize: '2.5rem', lineHeight: 1 }}>{project.image}</div>
+                                <div style={{
+                                    fontSize: '2.8rem',
+                                    background: 'var(--bg-postit)',
+                                    border: '2px solid #2d2d2d',
+                                    borderRadius: RADIUS.wobblySm,
+                                    width: '64px',
+                                    height: '64px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    boxShadow: '3px 3px 0px #2d2d2d',
+                                    flexShrink: 0,
+                                }}>
+                                    {project.image}
+                                </div>
                                 <div>
                                     <h2
                                         id="modal-project-title"
                                         style={{
-                                            fontSize: '1.35rem',
-                                            fontWeight: 800,
-                                            letterSpacing: '-0.02em',
-                                            background: `linear-gradient(135deg, ${project.colors.primary}, ${project.colors.secondary})`,
-                                            WebkitBackgroundClip: 'text',
-                                            WebkitTextFillColor: 'transparent',
-                                            backgroundClip: 'text',
-                                            marginBottom: '0.25rem',
+                                            fontSize: '1.75rem',
+                                            fontWeight: 700,
+                                            fontFamily: 'Kalam, cursive',
+                                            color: '#2d2d2d',
+                                            margin: 0,
+                                            lineHeight: 1.2,
                                         }}
                                     >
                                         {project.title}
                                     </h2>
-                                    <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>{project.tagline}</p>
+                                    <p style={{
+                                        fontSize: '1.1rem',
+                                        color: 'var(--secondary-accent)',
+                                        fontFamily: 'Patrick Hand, cursive',
+                                        fontWeight: 600,
+                                        margin: '0.25rem 0 0 0',
+                                    }}>
+                                        {project.tagline}
+                                    </p>
                                 </div>
                             </div>
+
+                            {/* Close Button */}
                             <button
                                 onClick={onClose}
                                 aria-label="Close modal"
                                 style={{
                                     flexShrink: 0,
-                                    width: '32px', height: '32px',
-                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                    background: 'var(--bg-elevated)',
-                                    border: '1px solid var(--border)',
-                                    borderRadius: '8px',
-                                    color: 'var(--text-muted)',
+                                    width: '36px',
+                                    height: '36px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    background: '#ffffff',
+                                    border: '2px solid #2d2d2d',
+                                    borderRadius: RADIUS.wobblySm,
+                                    boxShadow: '2px 2px 0px #2d2d2d',
+                                    color: '#2d2d2d',
                                     cursor: 'pointer',
-                                    transition: 'background 0.15s, color 0.15s',
+                                    fontSize: '1.2rem',
+                                    fontWeight: 700,
+                                    transition: 'all 0.1s ease',
                                 }}
                                 onMouseEnter={(e) => {
-                                    (e.currentTarget as HTMLButtonElement).style.background = 'var(--border-hover)';
-                                    (e.currentTarget as HTMLButtonElement).style.color = 'var(--text-primary)';
+                                    e.currentTarget.style.background = 'var(--accent)';
+                                    e.currentTarget.style.color = '#ffffff';
                                 }}
                                 onMouseLeave={(e) => {
-                                    (e.currentTarget as HTMLButtonElement).style.background = 'var(--bg-elevated)';
-                                    (e.currentTarget as HTMLButtonElement).style.color = 'var(--text-muted)';
+                                    e.currentTarget.style.background = '#ffffff';
+                                    e.currentTarget.style.color = '#2d2d2d';
                                 }}
                             >
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                                    <path d="M18 6L6 18M6 6l12 12" />
-                                </svg>
+                                ✕
                             </button>
                         </div>
 
-                        {/* Modal Body */}
-                        <div style={{ padding: '1.5rem' }}>
-                            {/* Status Badge */}
-                            <div style={{ marginBottom: '1.25rem' }}>
-                                <span style={{
-                                    padding: '0.3rem 0.75rem',
-                                    borderRadius: '999px',
-                                    fontSize: '0.78rem',
-                                    fontWeight: 600,
-                                    background: `${project.colors.primary}18`,
-                                    color: project.colors.primary,
-                                    border: `1px solid ${project.colors.primary}30`,
-                                }}>
-                                    {project.status}
-                                </span>
+                        {/* Status Badge */}
+                        <div style={{ marginBottom: '1.25rem' }}>
+                            <StickyTag color={project.status === 'Completed' ? 'green' : 'orange'} rotate={1}>
+                                {project.status === 'Completed' ? '✅ Status: Completed' : '⚡ Status: Active Research / In Progress'}
+                            </StickyTag>
+                        </div>
+
+                        {/* Long Description */}
+                        <p style={{
+                            fontSize: '1.2rem',
+                            lineHeight: 1.6,
+                            color: '#333333',
+                            marginBottom: '1.75rem',
+                            fontFamily: 'Patrick Hand, cursive',
+                        }}>
+                            {project.longDescription}
+                        </p>
+
+                        {/* Key Features */}
+                        <div style={{
+                            background: 'var(--bg-postit)',
+                            border: '2px solid #2d2d2d',
+                            borderRadius: RADIUS.wobblySm,
+                            padding: '1.25rem 1.5rem',
+                            boxShadow: '3px 3px 0px #2d2d2d',
+                            marginBottom: '1.75rem',
+                            transform: 'rotate(-0.5deg)',
+                        }}>
+                            <h3 style={{
+                                fontSize: '1.25rem',
+                                fontWeight: 700,
+                                fontFamily: 'Kalam, cursive',
+                                color: '#2d2d2d',
+                                marginBottom: '0.75rem',
+                            }}>
+                                📌 Key Features &amp; Capabilities
+                            </h3>
+                            <ul style={{
+                                listStyle: 'none',
+                                padding: 0,
+                                margin: 0,
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '0.5rem',
+                            }}>
+                                {project.features.map((f, i) => (
+                                    <li key={i} style={{
+                                        display: 'flex',
+                                        alignItems: 'flex-start',
+                                        gap: '0.5rem',
+                                        fontSize: '1.1rem',
+                                        fontFamily: 'Patrick Hand, cursive',
+                                        color: '#2d2d2d',
+                                    }}>
+                                        <span style={{ color: 'var(--accent)', fontWeight: 'bold' }}>✓</span>
+                                        <span>{f}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        {/* Tech Stack Pills */}
+                        <div style={{ marginBottom: '2rem' }}>
+                            <h3 style={{
+                                fontSize: '1.15rem',
+                                fontWeight: 700,
+                                fontFamily: 'Kalam, cursive',
+                                color: '#2d2d2d',
+                                marginBottom: '0.65rem',
+                            }}>
+                                🛠️ Technologies Used
+                            </h3>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.45rem' }}>
+                                {project.techStack.map((tech) => (
+                                    <span
+                                        key={tech}
+                                        style={{
+                                            padding: '0.25rem 0.75rem',
+                                            background: '#ffffff',
+                                            border: '1.5px solid #2d2d2d',
+                                            borderRadius: RADIUS.wobblySm,
+                                            boxShadow: '2px 2px 0px #2d2d2d',
+                                            fontSize: '0.95rem',
+                                            fontFamily: 'Patrick Hand, cursive',
+                                            fontWeight: 600,
+                                            color: '#2d2d2d',
+                                        }}
+                                    >
+                                        {tech}
+                                    </span>
+                                ))}
                             </div>
+                        </div>
 
-                            {/* Description */}
-                            <p style={{ fontSize: '0.95rem', lineHeight: 1.7, color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
-                                {project.longDescription}
-                            </p>
-
-                            {/* Divider */}
-                            <div style={{ height: '1px', background: 'var(--border)', marginBottom: '1.5rem' }} />
-
-                            {/* Tech Stack */}
-                            <div style={{ marginBottom: '1.5rem' }}>
-                                <h3 style={{ fontSize: '0.85rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>
-                                    Tech Stack
-                                </h3>
-                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
-                                    {project.techStack.map((tech) => (
-                                        <span
-                                            key={tech}
-                                            style={{
-                                                padding: '0.3rem 0.7rem',
-                                                background: 'var(--bg-elevated)',
-                                                border: '1px solid var(--border)',
-                                                borderRadius: '6px',
-                                                fontSize: '0.82rem',
-                                                fontWeight: 500,
-                                                color: 'var(--text-secondary)',
-                                            }}
-                                        >
-                                            {tech}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Key Features */}
-                            <div style={{ marginBottom: '1.75rem' }}>
-                                <h3 style={{ fontSize: '0.85rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>
-                                    Key Features
-                                </h3>
-                                <ul style={{
-                                    display: 'grid',
-                                    gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
-                                    gap: '0.5rem',
-                                    listStyle: 'none',
-                                    padding: 0,
-                                    margin: 0,
-                                }}>
-                                    {project.features.map((f, i) => (
-                                        <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={project.colors.primary} strokeWidth="2.5" strokeLinecap="round" style={{ flexShrink: 0, marginTop: '3px' }}>
-                                                <polyline points="20 6 9 17 4 12" />
-                                            </svg>
-                                            {f}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-
-                            {/* Action buttons */}
-                            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                        {/* Action Buttons */}
+                        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', borderTop: '2px dashed #2d2d2d', paddingTop: '1.25rem' }}>
+                            {project.github && (
                                 <a
                                     href={project.github}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    style={{
-                                        display: 'inline-flex',
-                                        alignItems: 'center',
-                                        gap: '0.5rem',
-                                        padding: '0.6rem 1.25rem',
-                                        background: `linear-gradient(135deg, ${project.colors.primary}, ${project.colors.secondary})`,
-                                        color: '#fff',
-                                        borderRadius: '8px',
-                                        fontWeight: 600,
-                                        fontSize: '0.875rem',
-                                        textDecoration: 'none',
-                                        transition: 'opacity 0.15s, transform 0.15s',
-                                    }}
-                                    onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.9'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
-                                    onMouseLeave={(e) => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'none'; }}
+                                    className="btn-sketch"
+                                    style={{ fontSize: '1.1rem', padding: '0.5rem 1.5rem' }}
                                 >
-                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.807 1.305 3.492.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12" />
-                                    </svg>
-                                    View on GitHub
+                                    💻 View on GitHub
                                 </a>
-                                {project.live && (
-                                    <a
-                                        href={project.live}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="btn-ghost"
-                                        style={{ fontSize: '0.875rem' }}
-                                    >
-                                        Live Demo →
-                                    </a>
-                                )}
-                            </div>
+                            )}
+                            <button
+                                onClick={onClose}
+                                className="btn-sketch-secondary"
+                                style={{ fontSize: '1.1rem', padding: '0.5rem 1.5rem' }}
+                            >
+                                Close Sketch
+                            </button>
                         </div>
                     </motion.div>
                 </motion.div>

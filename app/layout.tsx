@@ -1,36 +1,37 @@
 import type { Metadata } from 'next';
-import { Inter, Plus_Jakarta_Sans } from 'next/font/google';
+import { Kalam, Patrick_Hand } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from './components/ThemeProvider';
 import { generatePersonSchema, generateWebSiteSchema } from '@/lib/seo';
 
-const inter = Inter({
-  variable: '--font-inter',
+const kalam = Kalam({
+  variable: '--font-heading',
   subsets: ['latin'],
   display: 'swap',
-  weight: ['300', '400', '500', '600', '700', '800', '900'],
+  weight: ['400', '700'],
 });
 
-const plusJakarta = Plus_Jakarta_Sans({
-  variable: '--font-plus-jakarta',
+const patrickHand = Patrick_Hand({
+  variable: '--font-body',
   subsets: ['latin'],
   display: 'swap',
-  weight: ['300', '400', '500', '600', '700', '800'],
+  weight: ['400'],
 });
 
 const siteUrl = 'https://omorfarukullas.vercel.app';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Omor Faruk Ullas | Full Stack Developer & CSE Student',
+    default: 'Omor Faruk Ullas | AI/ML, NLP & Low-Resource Language Researcher',
     template: '%s | Omor Faruk Ullas',
   },
   description:
-    'Computer Science student at United International University, passionate about building innovative solutions. Specializing in Full Stack Development with React, Node.js, and TypeScript.',
+    'CSE undergraduate at United International University (UIU), Bangladesh. Focusing on AI/ML, NLP, low-resource language processing, and software engineering.',
   keywords: [
-    'Omor Faruk Ullas', 'Full Stack Developer', 'React Developer',
-    'Node.js', 'TypeScript', 'CSE Student', 'UIU', 'MediconnectBD',
-    'Bangladesh Developer', 'Web Developer', 'Software Engineer',
+    'Omor Faruk Ullas', 'AI/ML Researcher', 'NLP',
+    'Low-Resource Language Processing', 'Bangla NLP', 'Full Stack Developer',
+    'React Developer', 'Node.js', 'TypeScript', 'CSE Student', 'UIU',
+    'Bangladesh Developer', 'Software Engineer',
   ],
   authors: [{ name: 'Omor Faruk Ullas' }],
   creator: 'Omor Faruk Ullas',
@@ -41,14 +42,14 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: siteUrl,
     siteName: 'Omor Faruk Ullas Portfolio',
-    title: 'Omor Faruk Ullas — Full Stack Developer',
-    description: 'CSE student at UIU building innovative full-stack solutions.',
+    title: 'Omor Faruk Ullas — AI/ML, NLP & Software Engineering',
+    description: 'CSE undergraduate at UIU focusing on AI/ML, Low-Resource NLP, and Software Engineering.',
     images: [{ url: '/images/og-image.png', width: 1200, height: 630, alt: 'Omor Faruk Ullas Portfolio' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Omor Faruk Ullas — Full Stack Developer',
-    description: 'CSE student at UIU building innovative full-stack solutions.',
+    title: 'Omor Faruk Ullas — AI/ML, NLP & Software Engineering',
+    description: 'CSE undergraduate at UIU focusing on AI/ML, Low-Resource NLP, and Software Engineering.',
     images: ['/images/og-image.png'],
     creator: '@omorfarukullas',
   },
@@ -61,28 +62,21 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="en" className="scroll-smooth">
       <head>
         <link rel="manifest" href="/manifest.json" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-        {/* Prevent theme flash */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('theme')||((window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();`,
-          }}
-        />
-
         {/* JSON-LD Schemas */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(generatePersonSchema()) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(generateWebSiteSchema()) }} />
 
-        {/* PWA */}
-        <meta name="theme-color" content="#7c6ee6" />
+        {/* Hand-drawn paper theme color */}
+        <meta name="theme-color" content="#fdfbf7" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
       </head>
-      <body className={`${inter.variable} ${plusJakarta.variable}`}>
+      <body className={`${kalam.variable} ${patrickHand.variable}`}>
         <ThemeProvider>
           {children}
         </ThemeProvider>

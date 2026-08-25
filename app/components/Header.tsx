@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import ThemeToggle from './ThemeToggle';
 import { siteConfig } from '@/config/site';
+import { RADIUS } from './HandDrawn';
 
 export default function Header() {
     const [scrolled, setScrolled] = useState(false);
@@ -13,7 +13,7 @@ export default function Header() {
     const pathname = usePathname();
 
     useEffect(() => {
-        const onScroll = () => setScrolled(window.scrollY > 30);
+        const onScroll = () => setScrolled(window.scrollY > 20);
         window.addEventListener('scroll', onScroll, { passive: true });
         return () => window.removeEventListener('scroll', onScroll);
     }, []);
@@ -30,121 +30,135 @@ export default function Header() {
     return (
         <>
             <header style={{
-                position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
-                background: scrolled
-                    ? 'color-mix(in srgb, var(--bg-base) 92%, transparent)'
-                    : 'transparent',
-                backdropFilter: scrolled ? 'blur(20px)' : 'none',
-                WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
-                borderBottom: scrolled ? '1px solid var(--border)' : '1px solid transparent',
-                transition: 'background 0.3s, border-color 0.3s, box-shadow 0.3s',
-                boxShadow: scrolled ? '0 2px 20px rgba(0,0,0,0.3)' : 'none',
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                zIndex: 50,
+                backgroundColor: scrolled ? 'rgba(253, 251, 247, 0.96)' : 'var(--bg-base)',
+                backgroundImage: 'radial-gradient(#d8d1c5 1.5px, transparent 1.5px)',
+                backgroundSize: '24px 24px',
+                borderBottom: '3px solid #2d2d2d',
+                boxShadow: scrolled ? '0 4px 0px 0px #2d2d2d' : '0 2px 0px 0px #2d2d2d',
+                transition: 'box-shadow 0.2s ease, background-color 0.2s ease',
             }}>
-                <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '68px' }}>
+                <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '72px' }}>
 
-                    {/* Logo — code tag style */}
+                    {/* Hand-Drawn Logo */}
                     <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-                        <span style={{
-                            fontFamily: 'Plus Jakarta Sans, monospace',
-                            fontWeight: 800,
-                            fontSize: '1.35rem',
-                            letterSpacing: '-0.02em',
-                            color: 'var(--text-primary)',
-                            lineHeight: 1,
-                        }}>
-                            {'</'}
-                            <span style={{ color: 'var(--accent)' }}>OFU</span>
-                            {'>'}
-                        </span>
+                        <div style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '2px',
+                            background: 'var(--bg-postit)',
+                            border: '2px solid #2d2d2d',
+                            borderRadius: RADIUS.wobblySm,
+                            padding: '0.2rem 0.75rem',
+                            boxShadow: '2px 2px 0px #2d2d2d',
+                            transform: 'rotate(-2deg)',
+                            transition: 'transform 0.15s ease',
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.transform = 'rotate(1deg) scale(1.05)'}
+                        onMouseLeave={(e) => e.currentTarget.style.transform = 'rotate(-2deg)'}
+                        >
+                            <span style={{
+                                fontFamily: 'Kalam, cursive',
+                                fontWeight: 700,
+                                fontSize: '1.4rem',
+                                color: '#2d2d2d',
+                                lineHeight: 1,
+                            }}>
+                                &lt;/
+                                <span style={{ color: 'var(--accent)' }}>OFU</span>
+                                &gt;
+                            </span>
+                        </div>
                     </Link>
 
-                    {/* Desktop Nav */}
-                    <nav className="hidden-mobile" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                        {siteConfig.nav.map((item) => (
-                            <a
-                                key={item.href}
-                                href={item.href}
-                                onClick={(e) => {
-                                    if (item.href.startsWith('/#')) {
-                                        e.preventDefault();
-                                        const hash = item.href.replace('/', '');
-                                        const el = document.querySelector(hash);
-                                        if (el) {
-                                            el.scrollIntoView({ behavior: 'smooth' });
-                                            window.history.pushState(null, '', hash);
-                                        } else if (pathname !== '/') {
-                                            window.location.href = item.href;
-                                        }
-                                    }
-                                }}
-                                style={{
-                                    padding: '0.45rem 1rem',
-                                    borderRadius: '5px',
-                                    fontSize: '0.9rem',
-                                    fontWeight: isActive(item.href) ? 600 : 500,
-                                    color: isActive(item.href) ? 'var(--accent)' : 'var(--text-secondary)',
-                                    textDecoration: 'none',
-                                    transition: 'color 0.15s',
-                                    letterSpacing: '0.01em',
-                                    cursor: 'pointer'
-                                }}
-                                onMouseEnter={(e) => { if (!isActive(item.href)) (e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-primary)'; }}
-                                onMouseLeave={(e) => { if (!isActive(item.href)) (e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-secondary)'; }}
-                            >
-                                {item.label}
-                            </a>
-                        ))}
+                    {/* Desktop Navigation */}
+                    <nav className="hidden-mobile" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                        {siteConfig.nav.map((item) => {
+                            const active = isActive(item.href);
+                            return (
+                                <Link
+                                    key={item.href}
+                                    href={item.href}
+                                    style={{
+                                        fontFamily: 'Patrick Hand, cursive',
+                                        fontSize: '1.25rem',
+                                        fontWeight: active ? 700 : 500,
+                                        color: active ? 'var(--accent)' : '#2d2d2d',
+                                        textDecoration: 'none',
+                                        padding: '0.3rem 0.6rem',
+                                        position: 'relative',
+                                        transition: 'color 0.15s ease',
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        if (!active) (e.currentTarget as HTMLAnchorElement).style.color = 'var(--accent)';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        if (!active) (e.currentTarget as HTMLAnchorElement).style.color = '#2d2d2d';
+                                    }}
+                                >
+                                    {item.label}
+                                    {active && (
+                                        <div
+                                            style={{
+                                                position: 'absolute',
+                                                bottom: '0px',
+                                                left: '10%',
+                                                right: '10%',
+                                                height: '3px',
+                                                backgroundColor: 'var(--accent)',
+                                                borderRadius: '2px',
+                                                transform: 'rotate(-1deg)',
+                                            }}
+                                        />
+                                    )}
+                                </Link>
+                            );
+                        })}
                     </nav>
 
-                    {/* Right actions */}
+                    {/* Right CTA */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                        {/* Let's Talk */}
                         <Link
                             href="/contact"
-                            className="hidden-mobile"
+                            className="hidden-mobile btn-sketch"
                             style={{
-                                padding: '0.5rem 1.25rem',
-                                borderRadius: '6px',
-                                border: '2px solid var(--accent)',
-                                color: 'var(--accent)',
-                                fontWeight: 600,
-                                fontSize: '0.875rem',
-                                textDecoration: 'none',
-                                transition: 'background 0.15s, color 0.15s',
-                                whiteSpace: 'nowrap',
-                            }}
-                            onMouseEnter={(e) => {
-                                (e.currentTarget as HTMLAnchorElement).style.background = 'var(--accent)';
-                                (e.currentTarget as HTMLAnchorElement).style.color = '#fff';
-                            }}
-                            onMouseLeave={(e) => {
-                                (e.currentTarget as HTMLAnchorElement).style.background = 'transparent';
-                                (e.currentTarget as HTMLAnchorElement).style.color = 'var(--accent)';
+                                padding: '0.45rem 1.35rem',
+                                fontSize: '1.1rem',
                             }}
                         >
-                            Let&apos;s Talk
+                            Let&apos;s Talk! ✍️
                         </Link>
 
-                        <ThemeToggle />
-
-                        {/* Hamburger */}
+                        {/* Mobile Hamburger Button */}
                         <button
                             onClick={() => setMenuOpen(!menuOpen)}
                             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
                             className="show-mobile"
                             style={{
-                                display: 'none', alignItems: 'center', justifyContent: 'center',
-                                width: '38px', height: '38px', borderRadius: '6px',
-                                background: 'var(--bg-elevated)', border: '1px solid var(--border)',
-                                cursor: 'pointer', color: 'var(--text-primary)', flexShrink: 0,
+                                display: 'none',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                width: '42px',
+                                height: '42px',
+                                background: '#ffffff',
+                                border: '2.5px solid #2d2d2d',
+                                borderRadius: RADIUS.wobblySm,
+                                boxShadow: '2px 2px 0px #2d2d2d',
+                                cursor: 'pointer',
+                                color: '#2d2d2d',
+                                flexShrink: 0,
                             }}
                         >
                             {menuOpen ? (
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
                                     <path d="M18 6L6 18M6 6l12 12" />
                                 </svg>
                             ) : (
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
                                     <path d="M3 12h18M3 6h18M3 18h18" />
                                 </svg>
                             )}
@@ -158,24 +172,54 @@ export default function Header() {
                 {menuOpen && (
                     <>
                         <motion.div
-                            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
                             transition={{ duration: 0.2 }}
                             onClick={() => setMenuOpen(false)}
-                            style={{ position: 'fixed', inset: 0, zIndex: 40, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(6px)' } as React.CSSProperties}
+                            style={{
+                                position: 'fixed',
+                                inset: 0,
+                                zIndex: 40,
+                                background: 'rgba(45, 45, 45, 0.4)',
+                                backdropFilter: 'blur(2px)',
+                            }}
                         />
                         <motion.div
-                            initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }}
+                            initial={{ x: '100%' }}
+                            animate={{ x: 0 }}
+                            exit={{ x: '100%' }}
                             transition={{ type: 'tween', duration: 0.25, ease: 'easeInOut' }}
                             style={{
-                                position: 'fixed', top: 0, right: 0, bottom: 0, width: '270px',
-                                zIndex: 45, background: 'var(--bg-surface)',
-                                borderLeft: '1px solid var(--border)',
-                                padding: '5rem 1.5rem 2rem',
-                                display: 'flex', flexDirection: 'column', gap: '0.25rem',
-                            } as React.CSSProperties}
+                                position: 'fixed',
+                                top: 0,
+                                right: 0,
+                                bottom: 0,
+                                width: '280px',
+                                zIndex: 45,
+                                background: '#fdfbf7',
+                                backgroundImage: 'radial-gradient(#d8d1c5 1.5px, transparent 1.5px)',
+                                backgroundSize: '24px 24px',
+                                borderLeft: '3px solid #2d2d2d',
+                                boxShadow: '-4px 0px 0px #2d2d2d',
+                                padding: '5.5rem 1.5rem 2rem',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '0.75rem',
+                            }}
                         >
-                            <div style={{ marginBottom: '1rem', fontSize: '0.72rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                                Navigation
+                            <div style={{
+                                fontFamily: 'Kalam, cursive',
+                                fontSize: '1rem',
+                                fontWeight: 700,
+                                color: 'var(--text-muted)',
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.05em',
+                                borderBottom: '2px dashed #2d2d2d',
+                                paddingBottom: '0.5rem',
+                                marginBottom: '0.5rem',
+                            }}>
+                                Notebook Index
                             </div>
                             {siteConfig.nav.map((item) => (
                                 <Link
@@ -183,23 +227,31 @@ export default function Header() {
                                     href={item.href}
                                     onClick={() => setMenuOpen(false)}
                                     style={{
-                                        padding: '0.7rem 1rem', borderRadius: '8px', fontSize: '1rem',
-                                        fontWeight: 500, color: isActive(item.href) ? 'var(--accent)' : 'var(--text-primary)',
-                                        background: isActive(item.href) ? 'var(--accent-subtle)' : 'transparent',
-                                        textDecoration: 'none', display: 'block', cursor: 'pointer'
+                                        padding: '0.6rem 1rem',
+                                        borderRadius: RADIUS.wobblySm,
+                                        fontFamily: 'Patrick Hand, cursive',
+                                        fontSize: '1.3rem',
+                                        fontWeight: 600,
+                                        color: isActive(item.href) ? 'var(--accent)' : '#2d2d2d',
+                                        background: isActive(item.href) ? 'var(--bg-postit)' : '#ffffff',
+                                        border: '2px solid #2d2d2d',
+                                        boxShadow: '2px 2px 0px #2d2d2d',
+                                        textDecoration: 'none',
+                                        display: 'block',
+                                        transform: isActive(item.href) ? 'rotate(-1deg)' : 'none',
                                     }}
                                 >
                                     {item.label}
                                 </Link>
                             ))}
                             <div style={{ marginTop: 'auto' }}>
-                                <Link href="/contact" onClick={() => setMenuOpen(false)} style={{
-                                    display: 'block', textAlign: 'center', padding: '0.75rem',
-                                    background: 'var(--accent)', color: '#fff', borderRadius: '8px',
-                                    fontWeight: 700, textDecoration: 'none',
-                                    boxShadow: '0 4px 15px rgba(168, 85, 247, 0.35)',
-                                }}>
-                                    Let&apos;s Talk!
+                                <Link
+                                    href="/contact"
+                                    onClick={() => setMenuOpen(false)}
+                                    className="btn-primary"
+                                    style={{ width: '100%', textAlign: 'center' }}
+                                >
+                                    Let&apos;s Talk! ✍️
                                 </Link>
                             </div>
                         </motion.div>
@@ -208,9 +260,9 @@ export default function Header() {
             </AnimatePresence>
 
             <style>{`
-        @media (min-width: 769px) { .hidden-mobile{display:flex!important} .show-mobile{display:none!important} }
-        @media (max-width: 768px)  { .hidden-mobile{display:none!important} .show-mobile{display:flex!important} }
-      `}</style>
+                @media (min-width: 769px) { .hidden-mobile{display:flex!important} .show-mobile{display:none!important} }
+                @media (max-width: 768px)  { .hidden-mobile{display:none!important} .show-mobile{display:flex!important} }
+            `}</style>
         </>
     );
 }
