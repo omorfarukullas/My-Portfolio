@@ -42,6 +42,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                     role="dialog"
                     aria-modal="true"
                     aria-labelledby="modal-project-title"
+                    className="modal-backdrop"
                     style={{
                         position: 'fixed',
                         inset: 0,
@@ -49,7 +50,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        padding: '1.5rem',
+                        padding: '0.75rem',
                         background: 'rgba(45, 45, 45, 0.55)',
                         backdropFilter: 'blur(3px)',
                     }}
@@ -62,6 +63,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                         exit={{ scale: 0.95, opacity: 0, y: 10 }}
                         transition={{ duration: 0.2, ease: 'easeOut' }}
                         onClick={(e) => e.stopPropagation()}
+                        className="modal-sheet"
                         style={{
                             position: 'relative',
                             background: '#ffffff',
@@ -74,8 +76,8 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                             maxHeight: '90vh',
                             overflowY: 'auto',
                             outline: 'none',
-                            boxShadow: '10px 10px 0px 0px #2d2d2d',
-                            padding: '2.5rem 2rem',
+                            boxShadow: '8px 8px 0px 0px #2d2d2d',
+                            padding: '2rem 1.75rem',
                             transform: 'rotate(-0.5deg)',
                         }}
                     >
@@ -87,22 +89,22 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                             justifyContent: 'space-between',
                             alignItems: 'flex-start',
                             borderBottom: '2px dashed #2d2d2d',
-                            paddingBottom: '1.25rem',
-                            marginBottom: '1.5rem',
-                            gap: '1rem',
+                            paddingBottom: '1rem',
+                            marginBottom: '1.25rem',
+                            gap: '0.75rem',
                         }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
                                 <div style={{
-                                    fontSize: '2.8rem',
+                                    fontSize: '2.4rem',
                                     background: 'var(--bg-postit)',
                                     border: '2px solid #2d2d2d',
                                     borderRadius: RADIUS.wobblySm,
-                                    width: '64px',
-                                    height: '64px',
+                                    width: '56px',
+                                    height: '56px',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    boxShadow: '3px 3px 0px #2d2d2d',
+                                    boxShadow: '2px 2px 0px #2d2d2d',
                                     flexShrink: 0,
                                 }}>
                                     {project.image}
@@ -111,22 +113,22 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                                     <h2
                                         id="modal-project-title"
                                         style={{
-                                            fontSize: '1.75rem',
+                                            fontSize: 'clamp(1.35rem, 4vw, 1.75rem)',
                                             fontWeight: 700,
                                             fontFamily: 'Kalam, cursive',
                                             color: '#2d2d2d',
                                             margin: 0,
-                                            lineHeight: 1.2,
+                                            lineHeight: 1.15,
                                         }}
                                     >
                                         {project.title}
                                     </h2>
                                     <p style={{
-                                        fontSize: '1.1rem',
+                                        fontSize: '1rem',
                                         color: 'var(--secondary-accent)',
                                         fontFamily: 'Patrick Hand, cursive',
                                         fontWeight: 600,
-                                        margin: '0.25rem 0 0 0',
+                                        margin: '0.15rem 0 0 0',
                                     }}>
                                         {project.tagline}
                                     </p>
@@ -139,8 +141,8 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                                 aria-label="Close modal"
                                 style={{
                                     flexShrink: 0,
-                                    width: '36px',
-                                    height: '36px',
+                                    width: '34px',
+                                    height: '34px',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
@@ -150,7 +152,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                                     boxShadow: '2px 2px 0px #2d2d2d',
                                     color: '#2d2d2d',
                                     cursor: 'pointer',
-                                    fontSize: '1.2rem',
+                                    fontSize: '1.1rem',
                                     fontWeight: 700,
                                     transition: 'all 0.1s ease',
                                 }}
@@ -168,7 +170,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                         </div>
 
                         {/* Status Badge */}
-                        <div style={{ marginBottom: '1.25rem' }}>
+                        <div style={{ marginBottom: '1.15rem' }}>
                             <StickyTag color={project.status === 'Completed' ? 'green' : 'orange'} rotate={1}>
                                 {project.status === 'Completed' ? '✅ Status: Completed' : '⚡ Status: Active Research / In Progress'}
                             </StickyTag>
@@ -176,10 +178,10 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
                         {/* Long Description */}
                         <p style={{
-                            fontSize: '1.2rem',
-                            lineHeight: 1.6,
+                            fontSize: '1.15rem',
+                            lineHeight: 1.55,
                             color: '#333333',
-                            marginBottom: '1.75rem',
+                            marginBottom: '1.5rem',
                             fontFamily: 'Patrick Hand, cursive',
                         }}>
                             {project.longDescription}
@@ -190,17 +192,17 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                             background: 'var(--bg-postit)',
                             border: '2px solid #2d2d2d',
                             borderRadius: RADIUS.wobblySm,
-                            padding: '1.25rem 1.5rem',
+                            padding: '1.15rem 1.25rem',
                             boxShadow: '3px 3px 0px #2d2d2d',
-                            marginBottom: '1.75rem',
+                            marginBottom: '1.5rem',
                             transform: 'rotate(-0.5deg)',
                         }}>
                             <h3 style={{
-                                fontSize: '1.25rem',
+                                fontSize: '1.2rem',
                                 fontWeight: 700,
                                 fontFamily: 'Kalam, cursive',
                                 color: '#2d2d2d',
-                                marginBottom: '0.75rem',
+                                marginBottom: '0.65rem',
                             }}>
                                 📌 Key Features &amp; Capabilities
                             </h3>
@@ -210,14 +212,14 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                                 margin: 0,
                                 display: 'flex',
                                 flexDirection: 'column',
-                                gap: '0.5rem',
+                                gap: '0.45rem',
                             }}>
                                 {project.features.map((f, i) => (
                                     <li key={i} style={{
                                         display: 'flex',
                                         alignItems: 'flex-start',
-                                        gap: '0.5rem',
-                                        fontSize: '1.1rem',
+                                        gap: '0.45rem',
+                                        fontSize: '1.05rem',
                                         fontFamily: 'Patrick Hand, cursive',
                                         color: '#2d2d2d',
                                     }}>
@@ -229,27 +231,27 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                         </div>
 
                         {/* Tech Stack Pills */}
-                        <div style={{ marginBottom: '2rem' }}>
+                        <div style={{ marginBottom: '1.75rem' }}>
                             <h3 style={{
-                                fontSize: '1.15rem',
+                                fontSize: '1.1rem',
                                 fontWeight: 700,
                                 fontFamily: 'Kalam, cursive',
                                 color: '#2d2d2d',
-                                marginBottom: '0.65rem',
+                                marginBottom: '0.55rem',
                             }}>
                                 🛠️ Technologies Used
                             </h3>
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.45rem' }}>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
                                 {project.techStack.map((tech) => (
                                     <span
                                         key={tech}
                                         style={{
-                                            padding: '0.25rem 0.75rem',
+                                            padding: '0.2rem 0.65rem',
                                             background: '#ffffff',
                                             border: '1.5px solid #2d2d2d',
                                             borderRadius: RADIUS.wobblySm,
                                             boxShadow: '2px 2px 0px #2d2d2d',
-                                            fontSize: '0.95rem',
+                                            fontSize: '0.9rem',
                                             fontFamily: 'Patrick Hand, cursive',
                                             fontWeight: 600,
                                             color: '#2d2d2d',
@@ -262,22 +264,22 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                         </div>
 
                         {/* Action Buttons */}
-                        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', borderTop: '2px dashed #2d2d2d', paddingTop: '1.25rem' }}>
+                        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', borderTop: '2px dashed #2d2d2d', paddingTop: '1.15rem' }}>
                             {project.github && (
                                 <a
                                     href={project.github}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="btn-sketch"
-                                    style={{ fontSize: '1.1rem', padding: '0.5rem 1.5rem' }}
+                                    style={{ fontSize: '1.05rem', padding: '0.45rem 1.35rem' }}
                                 >
-                                    💻 View on GitHub
+                                    💻 GitHub Repo
                                 </a>
                             )}
                             <button
                                 onClick={onClose}
                                 className="btn-sketch-secondary"
-                                style={{ fontSize: '1.1rem', padding: '0.5rem 1.5rem' }}
+                                style={{ fontSize: '1.05rem', padding: '0.45rem 1.35rem' }}
                             >
                                 Close Sketch
                             </button>

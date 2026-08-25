@@ -361,8 +361,8 @@ export default function ProjectsSection() {
                 {/* Projects Grid */}
                 <div style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-                    gap: '2.5rem',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+                    gap: '2rem',
                 }}>
                     <AnimatePresence mode="popLayout">
                         {filtered.map((project) => (

@@ -119,9 +119,9 @@ export default function AboutSection() {
                 {/* Top Grid: Bio Card + Research Spotlight */}
                 <div style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-                    gap: '2.5rem',
-                    marginBottom: '4rem',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                    gap: '2rem',
+                    marginBottom: '3.5rem',
                 }}>
                     {/* Bio Notebook Card */}
                     <div

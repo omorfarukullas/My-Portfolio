@@ -46,10 +46,11 @@ function TypingText({ words }: { words: string[] }) {
 function HandDrawnPhotoCard() {
     return (
         <div
+            className="polaroid-wrapper"
             style={{
                 position: 'relative',
                 width: '100%',
-                maxWidth: '400px',
+                maxWidth: '380px',
                 margin: '0 auto',
             }}
         >
@@ -60,45 +61,45 @@ function HandDrawnPhotoCard() {
                     background: '#ffffff',
                     border: '3px solid #2d2d2d',
                     borderRadius: RADIUS.wobblyMd,
-                    padding: '1.25rem 1.25rem 1.5rem 1.25rem',
-                    boxShadow: '8px 8px 0px 0px #2d2d2d',
+                    padding: '1.15rem 1.15rem 1.35rem 1.15rem',
+                    boxShadow: '6px 6px 0px 0px #2d2d2d',
                     transform: 'rotate(1.5deg)',
                     transition: 'transform 0.2s ease, box-shadow 0.2s ease',
                 }}
                 onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'rotate(-0.5deg) scale(1.02)';
-                    e.currentTarget.style.boxShadow = '12px 12px 0px 0px #2d2d2d';
+                    e.currentTarget.style.boxShadow = '10px 10px 0px 0px #2d2d2d';
                 }}
                 onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'rotate(1.5deg)';
-                    e.currentTarget.style.boxShadow = '8px 8px 0px 0px #2d2d2d';
+                    e.currentTarget.style.boxShadow = '6px 6px 0px 0px #2d2d2d';
                 }}
             >
                 <TapeStrip rotate={-2} />
 
                 {/* Card Header Tag */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px dashed #2d2d2d', paddingBottom: '0.5rem', marginBottom: '1rem', marginTop: '0.25rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px dashed #2d2d2d', paddingBottom: '0.45rem', marginBottom: '0.85rem', marginTop: '0.25rem' }}>
                     <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
-                        <div style={{ width: '11px', height: '11px', borderRadius: '50%', background: '#ff4d4d', border: '1.5px solid #2d2d2d' }} />
-                        <div style={{ width: '11px', height: '11px', borderRadius: '50%', background: '#ffb703', border: '1.5px solid #2d2d2d' }} />
-                        <div style={{ width: '11px', height: '11px', borderRadius: '50%', background: '#55a630', border: '1.5px solid #2d2d2d' }} />
+                        <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#ff4d4d', border: '1.5px solid #2d2d2d' }} />
+                        <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#ffb703', border: '1.5px solid #2d2d2d' }} />
+                        <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#55a630', border: '1.5px solid #2d2d2d' }} />
                     </div>
-                    <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.82rem', color: '#2d2d2d', fontWeight: 600 }}>
+                    <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.78rem', color: '#2d2d2d', fontWeight: 600 }}>
                         polaroid_01.png
                     </span>
                 </div>
 
                 {/* Photo Container */}
                 <div
+                    className="polaroid-photo-frame"
                     style={{
                         position: 'relative',
                         width: '100%',
-                        height: '320px',
                         borderRadius: RADIUS.wobblySm,
                         border: '2.5px solid #2d2d2d',
                         overflow: 'hidden',
                         background: '#f4efe6',
-                        marginBottom: '1rem',
+                        marginBottom: '0.85rem',
                         boxShadow: 'inset 0 0 10px rgba(0,0,0,0.05)',
                     }}
                 >
@@ -107,6 +108,7 @@ function HandDrawnPhotoCard() {
                         alt="Omor Faruk Ullas"
                         fill
                         priority
+                        sizes="(max-width: 768px) 280px, 360px"
                         style={{
                             objectFit: 'cover',
                             objectPosition: 'center top',
@@ -115,20 +117,20 @@ function HandDrawnPhotoCard() {
                 </div>
 
                 {/* Handwritten Photo Caption */}
-                <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
+                <div style={{ textAlign: 'center', marginBottom: '0.85rem' }}>
                     <p style={{
                         fontFamily: 'Kalam, cursive',
-                        fontSize: '1.4rem',
+                        fontSize: '1.35rem',
                         fontWeight: 700,
                         color: '#2d2d2d',
-                        margin: '0 0 0.15rem 0',
+                        margin: '0 0 0.1rem 0',
                         lineHeight: 1.1,
                     }}>
                         Omor Faruk Ullas ✍️
                     </p>
                     <p style={{
                         fontFamily: 'Patrick Hand, cursive',
-                        fontSize: '1.05rem',
+                        fontSize: '1rem',
                         color: 'var(--text-muted)',
                         margin: 0,
                     }}>
@@ -142,17 +144,17 @@ function HandDrawnPhotoCard() {
                         background: 'var(--bg-postit)',
                         border: '2px solid #2d2d2d',
                         borderRadius: RADIUS.wobblySm,
-                        padding: '0.65rem 0.85rem',
+                        padding: '0.55rem 0.75rem',
                         boxShadow: '2px 2px 0px #2d2d2d',
                         fontFamily: 'Patrick Hand, cursive',
                         transform: 'rotate(-1deg)',
                     }}
                 >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', marginBottom: '0.15rem' }}>
-                        <span style={{ fontSize: '1rem' }}>🔬</span>
-                        <span style={{ fontWeight: 700, fontSize: '0.95rem', color: '#2d2d2d' }}>Currently Exploring:</span>
+                        <span style={{ fontSize: '0.95rem' }}>🔬</span>
+                        <span style={{ fontWeight: 700, fontSize: '0.9rem', color: '#2d2d2d' }}>Currently Exploring:</span>
                     </div>
-                    <p style={{ fontSize: '0.92rem', color: '#4a4a4a', margin: 0, lineHeight: 1.35 }}>
+                    <p style={{ fontSize: '0.88rem', color: '#4a4a4a', margin: 0, lineHeight: 1.35 }}>
                         Coordinated propaganda detection in low-resource Bangla NLP.
                     </p>
                 </div>
@@ -256,8 +258,9 @@ export default function HeroSection() {
                 display: 'flex',
                 alignItems: 'center',
                 position: 'relative',
-                paddingTop: '90px',
-                paddingBottom: '3rem',
+                paddingTop: '80px',
+                paddingBottom: '2.5rem',
+                overflowX: 'clip',
             }}
         >
             {/* Left Floating Social Sidebar (Desktop) */}
@@ -344,18 +347,16 @@ export default function HeroSection() {
                     style={{
                         display: 'grid',
                         gridTemplateColumns: '1.15fr 0.85fr',
-                        gap: '2.5rem',
+                        gap: '2rem',
                         alignItems: 'center',
-                        paddingLeft: '2rem',
-                        paddingRight: '2rem',
                     }}
                 >
                     {/* Left Column: Hand-drawn Bio & CTA */}
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                    <div className="hero-text-col" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
 
                         {/* Top Post-It Greeting */}
-                        <div style={{ marginBottom: '0.85rem' }}>
-                            <StickyTag color="yellow" rotate={-2} style={{ fontSize: '1.1rem', padding: '0.3rem 0.95rem' }}>
+                        <div style={{ marginBottom: '0.75rem' }}>
+                            <StickyTag color="yellow" rotate={-2} style={{ fontSize: '1.05rem', padding: '0.25rem 0.85rem' }}>
                                 👋 Hello World, I&apos;m
                             </StickyTag>
                         </div>
@@ -363,10 +364,10 @@ export default function HeroSection() {
                         {/* Bold Handwritten Name */}
                         <h1
                             style={{
-                                fontSize: 'clamp(2.5rem, 6vw, 4.25rem)',
+                                fontSize: 'clamp(2.4rem, 6vw, 4.25rem)',
                                 fontWeight: 700,
                                 lineHeight: 1.1,
-                                marginBottom: '0.5rem',
+                                marginBottom: '0.45rem',
                                 color: '#2d2d2d',
                                 fontFamily: 'Kalam, cursive',
                             }}
@@ -384,11 +385,11 @@ export default function HeroSection() {
                         {/* Dynamic Typing Title */}
                         <p
                             style={{
-                                fontSize: 'clamp(1.2rem, 3vw, 1.6rem)',
+                                fontSize: 'clamp(1.15rem, 3vw, 1.55rem)',
                                 color: '#2d2d2d',
                                 fontFamily: 'Patrick Hand, cursive',
-                                marginBottom: '1.25rem',
-                                minHeight: '2.2em',
+                                marginBottom: '1.15rem',
+                                minHeight: '2em',
                                 display: 'flex',
                                 alignItems: 'center',
                                 gap: '0.35rem',
@@ -416,31 +417,31 @@ export default function HeroSection() {
                                 background: '#ffffff',
                                 border: '2.5px solid #2d2d2d',
                                 borderRadius: RADIUS.wobblySm,
-                                padding: '1rem 1.25rem',
+                                padding: '0.85rem 1.1rem',
                                 boxShadow: '4px 4px 0px #2d2d2d',
                                 transform: 'rotate(-0.5deg)',
-                                marginBottom: '2rem',
+                                marginBottom: '1.75rem',
                                 maxWidth: '520px',
                                 width: '100%',
                             }}
                         >
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem', borderBottom: '1px dashed #2d2d2d', paddingBottom: '0.35rem' }}>
-                                <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.85rem', color: 'var(--secondary-accent)', fontWeight: 700 }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.35rem', borderBottom: '1px dashed #2d2d2d', paddingBottom: '0.3rem' }}>
+                                <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.82rem', color: 'var(--secondary-accent)', fontWeight: 700 }}>
                                     omor@ullas:~$ whoami
                                 </span>
                             </div>
-                            <p style={{ fontSize: '1.1rem', color: '#2d2d2d', margin: 0, lineHeight: 1.5 }}>
+                            <p style={{ fontSize: '1.05rem', color: '#2d2d2d', margin: 0, lineHeight: 1.45 }}>
                                 🎓 CSE undergraduate @ <strong>United International University</strong> (UIU), Bangladesh.<br />
                                 🎯 <strong>Mission:</strong> Turn messy real-world data into systems that actually work.
                             </p>
                         </div>
 
-                        {/* CTA Buttons Row with Hand-Drawn Arrow */}
-                        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap', position: 'relative' }}>
-                            <Link href="/projects" className="btn-sketch">
+                        {/* CTA Buttons Row */}
+                        <div className="hero-cta-row" style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap', position: 'relative', width: '100%' }}>
+                            <Link href="/projects" className="btn-sketch" style={{ padding: '0.6rem 1.5rem', fontSize: '1.1rem' }}>
                                 📂 Explore Projects
                             </Link>
-                            <Link href="/contact" className="btn-sketch-secondary">
+                            <Link href="/contact" className="btn-sketch-secondary" style={{ padding: '0.6rem 1.5rem', fontSize: '1.1rem' }}>
                                 ✍️ Let&apos;s Connect
                             </Link>
                             <a
@@ -448,7 +449,7 @@ export default function HeroSection() {
                                 download
                                 style={{
                                     fontFamily: 'Patrick Hand, cursive',
-                                    fontSize: '1.15rem',
+                                    fontSize: '1.1rem',
                                     fontWeight: 700,
                                     color: 'var(--secondary-accent)',
                                     textDecoration: 'underline',
@@ -456,7 +457,7 @@ export default function HeroSection() {
                                     marginLeft: '0.25rem',
                                 }}
                             >
-                                📄 Download Resume
+                                📄 Resume
                             </a>
 
                             {/* Decorative Arrow */}
@@ -464,29 +465,69 @@ export default function HeroSection() {
                                 <HandDrawnArrow direction="curved" />
                             </div>
                         </div>
+
+                        {/* Mobile Social Links Row (Only visible on small screens) */}
+                        <div className="mobile-social-bar" style={{ display: 'none', gap: '0.6rem', marginTop: '1.5rem', flexWrap: 'wrap', justifyContent: 'center', width: '100%' }}>
+                            <SketchSocialIcon href={siteConfig.social.github} label="GitHub">
+                                <SiGithub size={18} />
+                            </SketchSocialIcon>
+                            <SketchSocialIcon href={siteConfig.social.linkedin} label="LinkedIn">
+                                <SiLinkedin size={18} />
+                            </SketchSocialIcon>
+                            <SketchSocialIcon href={siteConfig.social.kaggle} label="Kaggle">
+                                <SiKaggle size={18} />
+                            </SketchSocialIcon>
+                            <SketchSocialIcon href={siteConfig.social.twitter} label="Twitter/X">
+                                <SiX size={18} />
+                            </SketchSocialIcon>
+                            <SketchSocialIcon href={siteConfig.social.facebook} label="Facebook">
+                                <SiFacebook size={18} />
+                            </SketchSocialIcon>
+                            <SketchSocialIcon href={siteConfig.social.instagram} label="Instagram">
+                                <SiInstagram size={18} />
+                            </SketchSocialIcon>
+                        </div>
                     </div>
 
                     {/* Right Column: Hand-Drawn Polaroid Photo Card */}
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
                         <HandDrawnPhotoCard />
                     </div>
                 </div>
             </div>
 
             <style>{`
+                .polaroid-photo-frame {
+                    height: 310px;
+                }
                 @media (max-width: 960px) {
                     .hero-grid {
                         grid-template-columns: 1fr !important;
-                        padding-left: 0.5rem !important;
-                        padding-right: 0.5rem !important;
-                        text-align: center;
+                        padding-left: 0.25rem !important;
+                        padding-right: 0.25rem !important;
+                        gap: 2rem !important;
                     }
                     .hero-grid > div:first-child {
                         order: 2;
-                        align-items: center !important;
                     }
                     .hero-grid > div:last-child {
                         order: 1;
+                    }
+                    .hero-text-col {
+                        align-items: center !important;
+                        text-align: center !important;
+                    }
+                    .hero-cta-row {
+                        justify-content: center !important;
+                    }
+                    .mobile-social-bar {
+                        display: flex !important;
+                    }
+                    .polaroid-wrapper {
+                        max-width: 310px !important;
+                    }
+                    .polaroid-photo-frame {
+                        height: 250px !important;
                     }
                 }
                 @media (min-width: 901px) {

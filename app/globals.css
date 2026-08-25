@@ -192,8 +192,14 @@ pre code {
 }
 
 @media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
   .section {
-    padding: 3.5rem 0;
+    padding: 3rem 0;
+  }
+  body {
+    font-size: 1.1rem;
   }
 }
 
