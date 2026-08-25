@@ -86,12 +86,17 @@ export default function ContactSection() {
                         </p>
 
                         {/* Social Links List */}
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                             {[
                                 {
-                                    label: 'Email: omorfarukullas@gmail.com',
+                                    label: `Email: ${siteConfig.social.email}`,
                                     href: `mailto:${siteConfig.social.email}`,
                                     icon: '✉️',
+                                },
+                                {
+                                    label: 'LinkedIn: /in/omorullas',
+                                    href: siteConfig.social.linkedin,
+                                    icon: '💼',
                                 },
                                 {
                                     label: 'GitHub: @omorfarukullas',
@@ -99,9 +104,14 @@ export default function ContactSection() {
                                     icon: '💻',
                                 },
                                 {
-                                    label: 'LinkedIn: /in/omorfarukullas',
-                                    href: siteConfig.social.linkedin,
-                                    icon: '💼',
+                                    label: 'Kaggle: @omorfaruk16',
+                                    href: siteConfig.social.kaggle,
+                                    icon: '📊',
+                                },
+                                {
+                                    label: 'Twitter / X: @berlinsergio34',
+                                    href: siteConfig.social.twitter,
+                                    icon: '🐦',
                                 },
                             ].map(({ label, href, icon }) => (
                                 <a

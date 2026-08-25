@@ -1,18 +1,21 @@
 export const seoConfig = {
   siteUrl: 'https://omorfarukullas.vercel.app',
   siteName: 'Omor Faruk Ullas',
-  siteTitle: 'Omor Faruk Ullas | Full Stack Developer & CSE Student',
+  siteTitle: 'Omor Faruk Ullas | AI/ML & Low-Resource Language Researcher',
   siteDescription:
-    'Computer Science student at United International University, passionate about building innovative solutions. Specializing in Full Stack Development with React, Node.js, and TypeScript.',
+    'CSE undergraduate at United International University (UIU), Bangladesh. Focusing on AI/ML, NLP, low-resource language processing, and software engineering.',
   author: {
     name: 'Omor Faruk Ullas',
-    email: 'omorfarukullas@gmail.com',
+    email: 'omor.farukh16@gmail.com',
     url: 'https://omorfarukullas.vercel.app',
   },
-  twitterHandle: '@omorfarukullas',
+  twitterHandle: '@berlinsergio34',
   defaultOgImage: '/images/og-image.png',
   keywords: [
     'Omor Faruk Ullas',
+    'AI/ML Researcher',
+    'Bangla NLP',
+    'Low-Resource Language Processing',
     'Full Stack Developer',
     'React Developer',
     'Node.js Developer',
@@ -22,7 +25,6 @@ export const seoConfig = {
     'United International University',
     'MediconnectBD',
     'Bangladesh Developer',
-    'Web Developer',
     'Software Engineer',
   ],
   language: 'en',

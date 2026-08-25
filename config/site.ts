@@ -1,8 +1,8 @@
 export const siteConfig = {
     name: 'Omor Faruk Ullas',
     initials: 'OFU',
-    role: 'Full Stack Developer • Software Engineer • Problem Solver',
-    tagline: 'Crafting Digital Solutions Across the Full Technology Spectrum',
+    role: 'CSE Undergraduate • AI/ML & Low-Resource NLP Researcher • Software Engineer',
+    tagline: 'Turning Messy Real-World Data into Systems that Actually Work',
     location: 'Dhaka, Bangladesh',
     university: 'United International University',
     department: 'Computer Science & Engineering',
@@ -13,12 +13,14 @@ export const siteConfig = {
         { label: 'Blog', href: '/blog' },
     ],
     social: {
-        facebook: 'https://facebook.com/omorfarukullas',
-        instagram: 'https://instagram.com/omorfarukullas',
+        linkedin: 'https://www.linkedin.com/in/omorullas/',
         github: 'https://github.com/omorfarukullas',
-        linkedin: 'https://linkedin.com/in/omorfarukullas',
-        twitter: 'https://twitter.com/omorfarukullas',
-        email: 'omorfarukullas@gmail.com',
+        twitter: 'https://x.com/berlinsergio34',
+        email: 'omor.farukh16@gmail.com',
+        kaggle: 'https://www.kaggle.com/omorfaruk16',
+        portfolio: 'https://omorfarukullas.vercel.app/',
+        facebook: 'https://www.facebook.com/sergio.marquina.203120/',
+        instagram: 'https://www.instagram.com/_sergio._.marquina_/',
     },
 };
 

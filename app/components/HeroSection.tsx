@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { SiFacebook, SiInstagram, SiX, SiLinkedin, SiGithub } from 'react-icons/si';
+import { SiFacebook, SiInstagram, SiX, SiLinkedin, SiGithub, SiKaggle } from 'react-icons/si';
 import { siteConfig } from '@/config/site';
 import { RADIUS, TapeStrip, HandDrawnArrow, StickyTag } from './HandDrawn';
 
@@ -280,6 +280,9 @@ export default function HeroSection() {
                 </SketchSocialIcon>
                 <SketchSocialIcon href={siteConfig.social.linkedin} label="LinkedIn">
                     <SiLinkedin size={18} />
+                </SketchSocialIcon>
+                <SketchSocialIcon href={siteConfig.social.kaggle} label="Kaggle">
+                    <SiKaggle size={18} />
                 </SketchSocialIcon>
                 <SketchSocialIcon href={siteConfig.social.twitter ?? 'https://twitter.com'} label="Twitter/X">
                     <SiX size={18} />

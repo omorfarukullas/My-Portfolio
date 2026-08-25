@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { siteConfig } from '@/config/site';
-import { SiFacebook, SiInstagram, SiX, SiLinkedin, SiGithub } from 'react-icons/si';
+import { SiFacebook, SiInstagram, SiX, SiLinkedin, SiGithub, SiKaggle } from 'react-icons/si';
 import { MdEmail } from 'react-icons/md';
 import { RADIUS } from './HandDrawn';
 
@@ -121,6 +121,7 @@ export default function Footer() {
                         {[
                             { icon: <SiGithub size={18} />, href: siteConfig.social.github, label: 'GitHub' },
                             { icon: <SiLinkedin size={18} />, href: siteConfig.social.linkedin, label: 'LinkedIn' },
+                            { icon: <SiKaggle size={18} />, href: siteConfig.social.kaggle, label: 'Kaggle' },
                             { icon: <SiX size={18} />, href: siteConfig.social.twitter, label: 'Twitter/X' },
                             { icon: <SiFacebook size={18} />, href: siteConfig.social.facebook, label: 'Facebook' },
                             { icon: <SiInstagram size={18} />, href: siteConfig.social.instagram, label: 'Instagram' },
