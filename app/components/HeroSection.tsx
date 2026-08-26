@@ -445,8 +445,8 @@ export default function HeroSection() {
                                 ✍️ Let&apos;s Connect
                             </Link>
                             <a
-                                href="/resume.pdf"
-                                download
+                                href="/OmorFaruckUllas.pdf"
+                                download="OmorFaruckUllas_Resume.pdf"
                                 style={{
                                     fontFamily: 'Patrick Hand, cursive',
                                     fontSize: '1.1rem',

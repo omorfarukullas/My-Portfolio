@@ -406,10 +406,18 @@ export default function AboutSection() {
                 </div>
 
                 {/* Bottom CTA */}
-                <div style={{ textAlign: 'center', marginTop: '4rem' }}>
-                    <Link href="/projects" className="btn-sketch" style={{ fontSize: '1.25rem', padding: '0.75rem 2.25rem' }}>
+                <div style={{ textAlign: 'center', marginTop: '4rem', display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+                    <Link href="/projects" className="btn-sketch" style={{ fontSize: '1.2rem', padding: '0.7rem 2rem' }}>
                         📂 View All Projects &amp; Demos →
                     </Link>
+                    <a
+                        href="/OmorFaruckUllas.pdf"
+                        download="OmorFaruckUllas_Resume.pdf"
+                        className="btn-sketch-secondary"
+                        style={{ fontSize: '1.2rem', padding: '0.7rem 2rem' }}
+                    >
+                        📄 Download Full Resume (PDF)
+                    </a>
                 </div>
             </div>
         </section>
