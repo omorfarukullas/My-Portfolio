@@ -32,18 +32,25 @@ export default function FeaturedPost({ post }: { post: BlogPostMeta }) {
                         <div style={{
                             position: 'relative',
                             width: '100%',
-                            height: '280px',
                             borderRadius: RADIUS.wobblySm,
                             border: '2.5px solid #2d2d2d',
                             overflow: 'hidden',
                             boxShadow: '4px 4px 0px #2d2d2d',
-                            background: '#eae3d6',
+                            background: '#faf8f5',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
                         }}>
-                            <Image
+                            <img
                                 src={post.featured_image}
                                 alt={post.title}
-                                fill
-                                style={{ objectFit: 'cover' }}
+                                style={{
+                                    width: '100%',
+                                    height: 'auto',
+                                    maxHeight: '340px',
+                                    objectFit: 'contain',
+                                    display: 'block',
+                                }}
                             />
                         </div>
                     </Link>

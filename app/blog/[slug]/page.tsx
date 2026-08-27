@@ -160,20 +160,26 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
                             <div style={{
                                 position: 'relative',
                                 width: '100%',
-                                height: '360px',
                                 borderRadius: RADIUS.wobbly,
                                 border: '3px solid #2d2d2d',
                                 overflow: 'hidden',
                                 boxShadow: '5px 5px 0px #2d2d2d',
                                 marginBottom: '2.5rem',
-                                background: '#eae3d6',
+                                background: '#faf8f5',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
                             }}>
-                                <Image
+                                <img
                                     src={post.featured_image}
                                     alt={post.title}
-                                    fill
-                                    priority
-                                    style={{ objectFit: 'cover' }}
+                                    style={{
+                                        width: '100%',
+                                        height: 'auto',
+                                        maxHeight: '750px',
+                                        objectFit: 'contain',
+                                        display: 'block',
+                                    }}
                                 />
                             </div>
                         )}
