@@ -447,15 +447,8 @@ export default function HeroSection() {
                             <a
                                 href="/OmorFaruckUllas.pdf"
                                 download="OmorFaruckUllas_Resume.pdf"
-                                style={{
-                                    fontFamily: 'Patrick Hand, cursive',
-                                    fontSize: '1.1rem',
-                                    fontWeight: 700,
-                                    color: 'var(--secondary-accent)',
-                                    textDecoration: 'underline',
-                                    textUnderlineOffset: '3px',
-                                    marginLeft: '0.25rem',
-                                }}
+                                className="btn-sketch-secondary"
+                                style={{ padding: '0.6rem 1.5rem', fontSize: '1.1rem' }}
                             >
                                 📄 Resume
                             </a>
