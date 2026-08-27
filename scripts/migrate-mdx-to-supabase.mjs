@@ -2,12 +2,30 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { createClient } from '@supabase/supabase-js';
-import dotenv from 'dotenv';
 
-// Load .env.local if present
-dotenv.config({ path: '.env.local' });
+// Simple .env.local parser (no external package needed)
+function loadEnv() {
+    const envPath = path.join(process.cwd(), '.env.local');
+    if (fs.existsSync(envPath)) {
+        const envContent = fs.readFileSync(envPath, 'utf-8');
+        envContent.split('\n').forEach((line) => {
+            const trimmed = line.trim();
+            if (trimmed && !trimmed.startsWith('#')) {
+                const eqIdx = trimmed.indexOf('=');
+                if (eqIdx !== -1) {
+                    const key = trimmed.substring(0, eqIdx).trim();
+                    const value = trimmed.substring(eqIdx + 1).trim();
+                    process.env[key] = value;
+                }
+            }
+        });
+    }
+}
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+loadEnv();
+
+const rawUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+const supabaseUrl = rawUrl ? rawUrl.replace(/\/rest\/v1\/?$/, '').replace(/\/+$/, '') : '';
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseServiceKey) {
@@ -20,6 +38,7 @@ const BLOGS_DIR = path.join(process.cwd(), 'content', 'blogs');
 
 async function migrate() {
     console.log('🚀 Starting MDX migration to Supabase...');
+    console.log(`🔗 Target Supabase URL: ${supabaseUrl}`);
 
     if (!fs.existsSync(BLOGS_DIR)) {
         console.log('⚠️ No content/blogs directory found.');
@@ -27,7 +46,7 @@ async function migrate() {
     }
 
     const files = fs.readdirSync(BLOGS_DIR).filter((f) => f.endsWith('.mdx'));
-    console.log(`📁 Found ${files.length} MDX files to process.`);
+    console.log(`📁 Found ${files.length} MDX file(s) to process.`);
 
     for (const filename of files) {
         const slug = filename.replace(/\.mdx$/, '');
@@ -55,7 +74,7 @@ async function migrate() {
         if (error) {
             console.error(`❌ Error migrating ${slug}:`, error.message);
         } else {
-            console.log(`✅ Successfully migrated: ${postRecord.title} (/blog/${slug})`);
+            console.log(`✅ Successfully migrated: "${postRecord.title}" (/blog/${slug})`);
         }
     }
 
