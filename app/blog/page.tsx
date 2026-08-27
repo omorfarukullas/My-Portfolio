@@ -1,4 +1,4 @@
-import { getAllPosts, getAllTags } from '@/lib/mdx';
+import { getAllPostsAsync, getAllTags } from '@/lib/mdx';
 import { generatePageMetadata } from '@/lib/seo';
 import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
@@ -11,8 +11,8 @@ export const metadata = generatePageMetadata({
     canonical: 'https://omorfarukullas.vercel.app/blog',
 });
 
-export default function BlogPage() {
-    const posts = getAllPosts();
+export default async function BlogPage() {
+    const posts = await getAllPostsAsync();
     const allTags = getAllTags();
 
     return (

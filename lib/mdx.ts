@@ -2,6 +2,24 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { estimateReadTime } from './utils';
+import { getSupabaseClient, isSupabaseConfigured } from './supabase';
+
+export interface AttachmentMeta {
+    id?: string;
+    file_url: string;
+    file_name: string;
+    file_type?: string;
+    file_size?: string;
+}
+
+export interface CommentMeta {
+    id: string;
+    author_name: string;
+    author_email?: string;
+    content: string;
+    created_at: string;
+    approved?: boolean;
+}
 
 export interface BlogPost {
     slug: string;
@@ -16,6 +34,8 @@ export interface BlogPost {
     seo_description?: string;
     readTime: number;
     content: string;
+    attachments?: AttachmentMeta[];
+    comments?: CommentMeta[];
 }
 
 export interface BlogPostMeta extends Omit<BlogPost, 'content'> { }
@@ -28,6 +48,7 @@ function ensureBlogsDir() {
     }
 }
 
+// Synchronous local file reader
 export function getAllPosts(): BlogPostMeta[] {
     ensureBlogsDir();
 
@@ -60,6 +81,40 @@ export function getAllPosts(): BlogPostMeta[] {
     return posts;
 }
 
+// Asynchronous reader prioritizing Supabase with local MDX fallback
+export async function getAllPostsAsync(): Promise<BlogPostMeta[]> {
+    if (isSupabaseConfigured()) {
+        try {
+            const supabase = getSupabaseClient();
+            if (supabase) {
+                const { data, error } = await supabase
+                    .from('posts')
+                    .select('*')
+                    .eq('published', true)
+                    .order('created_at', { ascending: false });
+
+                if (!error && data && data.length > 0) {
+                    return data.map((p) => ({
+                        slug: p.slug,
+                        title: p.title,
+                        description: p.description || '',
+                        date: p.created_at || new Date().toISOString(),
+                        author: 'Omor Faruk Ullas',
+                        tags: Array.isArray(p.tags) ? p.tags : [],
+                        featured_image: p.featured_image_url || null,
+                        published: p.published,
+                        readTime: p.read_time || estimateReadTime(p.content || ''),
+                    }));
+                }
+            }
+        } catch (err) {
+            console.error('Supabase fetch error, falling back to local files:', err);
+        }
+    }
+
+    return getAllPosts();
+}
+
 export function getPostBySlug(slug: string): BlogPost | null {
     ensureBlogsDir();
 
@@ -83,7 +138,50 @@ export function getPostBySlug(slug: string): BlogPost | null {
         seo_description: data.seo_description,
         readTime: estimateReadTime(content),
         content,
+        attachments: [],
+        comments: [],
     };
+}
+
+export async function getPostBySlugAsync(slug: string): Promise<BlogPost | null> {
+    if (isSupabaseConfigured()) {
+        try {
+            const supabase = getSupabaseClient();
+            if (supabase) {
+                const { data: post, error } = await supabase
+                    .from('posts')
+                    .select('*')
+                    .eq('slug', slug)
+                    .single();
+
+                if (!error && post) {
+                    const [attRes, comRes] = await Promise.all([
+                        supabase.from('attachments').select('*').eq('post_slug', slug),
+                        supabase.from('comments').select('*').eq('post_slug', slug).eq('approved', true).order('created_at', { ascending: true }),
+                    ]);
+
+                    return {
+                        slug: post.slug,
+                        title: post.title,
+                        description: post.description || '',
+                        date: post.created_at || new Date().toISOString(),
+                        author: 'Omor Faruk Ullas',
+                        tags: Array.isArray(post.tags) ? post.tags : [],
+                        featured_image: post.featured_image_url || null,
+                        published: post.published,
+                        readTime: post.read_time || estimateReadTime(post.content || ''),
+                        content: post.content,
+                        attachments: attRes.data || [],
+                        comments: comRes.data || [],
+                    };
+                }
+            }
+        } catch (err) {
+            console.error('Supabase getPost error:', err);
+        }
+    }
+
+    return getPostBySlug(slug);
 }
 
 export function getRelatedPosts(slug: string, tags: string[], limit = 3): BlogPostMeta[] {

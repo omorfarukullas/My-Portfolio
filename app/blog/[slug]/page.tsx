@@ -3,14 +3,18 @@ import { MDXRemote } from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
-import { getAllPosts, getPostBySlug, getRelatedPosts, getAdjacentPosts } from '@/lib/mdx';
+import { getPostBySlugAsync, getRelatedPosts, getAdjacentPosts } from '@/lib/mdx';
 import { generatePageMetadata, generateBlogPostingSchema, generateBreadcrumbSchema } from '@/lib/seo';
 import { formatDate } from '@/lib/utils';
 import { seoConfig } from '@/config/seo';
 import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
 import BlogCard from '@/app/components/BlogCard';
+import PostAttachments from '@/app/components/PostAttachments';
+import CommentForm from '@/app/components/CommentForm';
+import CommentsList from '@/app/components/CommentsList';
 import Link from 'next/link';
+import Image from 'next/image';
 import { RADIUS, TapeStrip, StickyTag } from '@/app/components/HandDrawn';
 
 interface Params { slug: string }
@@ -19,7 +23,7 @@ export const dynamicParams = true;
 
 export async function generateMetadata({ params }: { params: Promise<Params> }) {
     const resolvedParams = await params;
-    const post = getPostBySlug(resolvedParams.slug);
+    const post = await getPostBySlugAsync(resolvedParams.slug);
     if (!post) return {};
     return generatePageMetadata({
         title: post.seo_title || post.title,
@@ -33,7 +37,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }) 
 
 export default async function BlogPostPage({ params }: { params: Promise<Params> }) {
     const resolvedParams = await params;
-    const post = getPostBySlug(resolvedParams.slug);
+    const post = await getPostBySlugAsync(resolvedParams.slug);
     if (!post) notFound();
 
     const related = getRelatedPosts(post.slug, post.tags);
@@ -150,6 +154,30 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
 
                     {/* Post Content Notebook Canvas */}
                     <div className="container" style={{ maxWidth: '820px', paddingBottom: '4rem' }}>
+
+                        {/* Optional Featured Cover Photo */}
+                        {post.featured_image && (
+                            <div style={{
+                                position: 'relative',
+                                width: '100%',
+                                height: '360px',
+                                borderRadius: RADIUS.wobbly,
+                                border: '3px solid #2d2d2d',
+                                overflow: 'hidden',
+                                boxShadow: '5px 5px 0px #2d2d2d',
+                                marginBottom: '2.5rem',
+                                background: '#eae3d6',
+                            }}>
+                                <Image
+                                    src={post.featured_image}
+                                    alt={post.title}
+                                    fill
+                                    priority
+                                    style={{ objectFit: 'cover' }}
+                                />
+                            </div>
+                        )}
+
                         <div
                             style={{
                                 position: 'relative',
@@ -158,7 +186,7 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
                                 borderRadius: RADIUS.wobbly,
                                 padding: '3rem 2.5rem',
                                 boxShadow: '6px 6px 0px 0px #2d2d2d',
-                                marginBottom: '3rem',
+                                marginBottom: '2.5rem',
                             }}
                         >
                             <TapeStrip rotate={-1} />
@@ -175,6 +203,11 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
                                 />
                             </div>
                         </div>
+
+                        {/* Attached Research Files & PDFs */}
+                        {post.attachments && post.attachments.length > 0 && (
+                            <PostAttachments attachments={post.attachments} />
+                        )}
 
                         {/* Prev / Next Navigation Cards */}
                         {(prev || next) && (
@@ -227,9 +260,27 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
                             </div>
                         )}
 
+                        {/* Visitor Discussion & Comments Section */}
+                        <div id="comments" style={{ marginTop: '4rem' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                                <StickyTag color="blue" rotate={1}>
+                                    💬 Discussion &amp; Feedback
+                                </StickyTag>
+                                <span style={{ fontFamily: 'Patrick Hand, cursive', fontSize: '1.1rem', color: 'var(--text-muted)' }}>
+                                    ({post.comments?.length || 0} approved comments)
+                                </span>
+                            </div>
+
+                            {/* Comment Form */}
+                            <CommentForm postSlug={post.slug} />
+
+                            {/* Comments List */}
+                            <CommentsList comments={post.comments || []} />
+                        </div>
+
                         {/* Related Posts */}
                         {related.length > 0 && (
-                            <div style={{ marginTop: '3.5rem' }}>
+                            <div style={{ marginTop: '4.5rem' }}>
                                 <h2 style={{
                                     fontSize: '1.75rem',
                                     fontWeight: 700,

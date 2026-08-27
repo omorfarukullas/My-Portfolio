@@ -1,10 +1,11 @@
 import Link from 'next/link';
-import { getAllPosts } from '@/lib/mdx';
+import { getAllPostsAsync } from '@/lib/mdx';
 import BlogCard from './BlogCard';
 import { StickyTag } from './HandDrawn';
 
-export default function BlogPreview() {
-    const posts = getAllPosts().slice(0, 3);
+export default async function BlogPreview() {
+    const allPosts = await getAllPostsAsync();
+    const posts = allPosts.slice(0, 3);
 
     if (posts.length === 0) return null;
 
