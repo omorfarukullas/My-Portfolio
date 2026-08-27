@@ -226,10 +226,8 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
                                                 borderRadius: RADIUS.wobblySm,
                                                 padding: '1.25rem',
                                                 boxShadow: '3px 3px 0px #2d2d2d',
-                                                transition: 'transform 0.15s ease',
+                                                transition: 'transform 0.15s ease, box-shadow 0.15s ease',
                                             }}
-                                            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
-                                            onMouseLeave={(e) => e.currentTarget.style.transform = 'none'}
                                         >
                                             <p style={{ fontSize: '0.95rem', fontFamily: 'Patrick Hand, cursive', color: 'var(--text-muted)', margin: 0 }}>← Previous note</p>
                                             <p style={{ fontSize: '1.15rem', fontFamily: 'Kalam, cursive', fontWeight: 700, color: '#2d2d2d', margin: '0.35rem 0 0 0' }}>{prev.title}</p>
@@ -247,10 +245,8 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
                                                 padding: '1.25rem',
                                                 boxShadow: '3px 3px 0px #2d2d2d',
                                                 textAlign: 'right',
-                                                transition: 'transform 0.15s ease',
+                                                transition: 'transform 0.15s ease, box-shadow 0.15s ease',
                                             }}
-                                            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
-                                            onMouseLeave={(e) => e.currentTarget.style.transform = 'none'}
                                         >
                                             <p style={{ fontSize: '0.95rem', fontFamily: 'Patrick Hand, cursive', color: 'var(--text-muted)', margin: 0 }}>Next note →</p>
                                             <p style={{ fontSize: '1.15rem', fontFamily: 'Kalam, cursive', fontWeight: 700, color: '#2d2d2d', margin: '0.35rem 0 0 0' }}>{next.title}</p>

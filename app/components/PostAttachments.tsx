@@ -1,3 +1,5 @@
+'use client';
+
 import { RADIUS, StickyTag } from './HandDrawn';
 
 export interface Attachment {
