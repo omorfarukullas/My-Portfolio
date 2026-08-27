@@ -13,19 +13,25 @@ function generateSlug(title: string): string {
         .replace(/(^-|-$)+/g, '');
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
     try {
+        const token = req.cookies.get(AUTH_COOKIE_NAME)?.value;
+        const isAdmin = token ? await verifyAdminToken(token) : false;
+
         if (isSupabaseConfigured()) {
-            const supabase = getSupabaseClient();
+            // If admin is requesting, use admin client with service role so all posts (drafts & published) are returned
+            const supabase = isAdmin ? getSupabaseAdmin() : getSupabaseClient();
             if (supabase) {
-                const { data, error } = await supabase
-                    .from('posts')
-                    .select('*')
-                    .eq('published', true)
-                    .order('created_at', { ascending: false });
+                let query = supabase.from('posts').select('*');
+                if (!isAdmin) {
+                    query = query.eq('published', true);
+                }
+                const { data, error } = await query.order('created_at', { ascending: false });
 
                 if (!error && data) {
                     return NextResponse.json({ posts: data });
+                } else if (error) {
+                    console.error('Supabase query error in /api/blog:', error);
                 }
             }
         }
@@ -49,7 +55,7 @@ export async function POST(req: NextRequest) {
         }
 
         const body = await req.json();
-        const { title, description, tags, published, content, featured_image_url, attachments } = body;
+        const { title, description, tags, published, content, featured_image_url, featured, attachments } = body;
 
         if (!title || !description || !content) {
             return NextResponse.json({ error: 'Title, description, and content are required.' }, { status: 400 });
@@ -57,12 +63,17 @@ export async function POST(req: NextRequest) {
 
         const slug = body.slug ? generateSlug(body.slug) : generateSlug(title);
         const tagArray = Array.isArray(tags) ? tags : tags ? tags.split(',').map((t: string) => t.trim()).filter(Boolean) : [];
-        const date = new Date().toISOString().split('T')[0];
+        const isFeatured = Boolean(featured);
 
         // 1. If Supabase is configured, insert/upsert to database
         if (isSupabaseConfigured()) {
             const supabase = getSupabaseAdmin();
             if (supabase) {
+                // If this post is marked as featured, un-feature other posts to keep a clean top feature
+                if (isFeatured) {
+                    await supabase.from('posts').update({ featured: false }).neq('slug', slug);
+                }
+
                 const { data: postData, error: postError } = await supabase
                     .from('posts')
                     .upsert({
@@ -72,6 +83,7 @@ export async function POST(req: NextRequest) {
                         content,
                         tags: tagArray,
                         featured_image_url: featured_image_url || null,
+                        featured: isFeatured,
                         published: published ?? true,
                         read_time: Math.ceil(content.split(/\s+/).length / 200),
                         updated_at: new Date().toISOString(),
@@ -86,6 +98,7 @@ export async function POST(req: NextRequest) {
 
                 // If attachments were provided, save them
                 if (Array.isArray(attachments) && attachments.length > 0) {
+                    await supabase.from('attachments').delete().eq('post_slug', slug);
                     const attachmentRows = attachments.map((att: any) => ({
                         post_slug: slug,
                         file_url: att.file_url,
@@ -113,12 +126,14 @@ export async function POST(req: NextRequest) {
         }
 
         const filePath = path.join(blogsDir, `${slug}.mdx`);
+        const date = new Date().toISOString().split('T')[0];
         const fileContent = matter.stringify(content, {
             title,
             description,
             date,
             tags: tagArray,
             published: published ?? true,
+            featured: isFeatured,
             featured_image: featured_image_url || undefined,
         });
 

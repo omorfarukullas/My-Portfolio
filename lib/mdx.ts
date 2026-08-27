@@ -29,6 +29,7 @@ export interface BlogPost {
     author: string;
     tags: string[];
     featured_image?: string;
+    featured?: boolean;
     published: boolean;
     seo_title?: string;
     seo_description?: string;
@@ -69,6 +70,7 @@ export function getAllPosts(): BlogPostMeta[] {
                 author: data.author || 'Omor Faruk Ullas',
                 tags: Array.isArray(data.tags) ? data.tags : [],
                 featured_image: data.featured_image || null,
+                featured: Boolean(data.featured),
                 published: data.published !== false,
                 seo_title: data.seo_title,
                 seo_description: data.seo_description,
@@ -102,6 +104,7 @@ export async function getAllPostsAsync(): Promise<BlogPostMeta[]> {
                         author: 'Omor Faruk Ullas',
                         tags: Array.isArray(p.tags) ? p.tags : [],
                         featured_image: p.featured_image_url || null,
+                        featured: Boolean(p.featured),
                         published: p.published,
                         readTime: p.read_time || estimateReadTime(p.content || ''),
                     }));
@@ -113,6 +116,13 @@ export async function getAllPostsAsync(): Promise<BlogPostMeta[]> {
     }
 
     return getAllPosts();
+}
+
+export async function getFeaturedPostAsync(): Promise<BlogPostMeta | null> {
+    const posts = await getAllPostsAsync();
+    // Return explicitly featured post or first post as fallback
+    const explicitlyFeatured = posts.find((p) => p.featured);
+    return explicitlyFeatured || posts[0] || null;
 }
 
 export function getPostBySlug(slug: string): BlogPost | null {
@@ -133,6 +143,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
         author: data.author || 'Omor Faruk Ullas',
         tags: Array.isArray(data.tags) ? data.tags : [],
         featured_image: data.featured_image || null,
+        featured: Boolean(data.featured),
         published: data.published !== false,
         seo_title: data.seo_title,
         seo_description: data.seo_description,
@@ -168,6 +179,7 @@ export async function getPostBySlugAsync(slug: string): Promise<BlogPost | null>
                         author: 'Omor Faruk Ullas',
                         tags: Array.isArray(post.tags) ? post.tags : [],
                         featured_image: post.featured_image_url || null,
+                        featured: Boolean(post.featured),
                         published: post.published,
                         readTime: post.read_time || estimateReadTime(post.content || ''),
                         content: post.content,

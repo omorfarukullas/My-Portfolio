@@ -7,14 +7,17 @@ import path from 'path';
 import matter from 'gray-matter';
 
 export async function GET(
-    _req: NextRequest,
+    req: NextRequest,
     context: { params: Promise<{ slug: string }> }
 ) {
     const { slug } = await context.params;
 
     try {
+        const token = req.cookies.get(AUTH_COOKIE_NAME)?.value;
+        const isAdmin = token ? await verifyAdminToken(token) : false;
+
         if (isSupabaseConfigured()) {
-            const supabase = getSupabaseClient();
+            const supabase = isAdmin ? getSupabaseAdmin() : getSupabaseClient();
             if (supabase) {
                 const { data: post, error } = await supabase
                     .from('posts')
@@ -28,12 +31,16 @@ export async function GET(
                         .select('*')
                         .eq('post_slug', slug);
 
-                    const { data: comments } = await supabase
+                    let commentQuery = supabase
                         .from('comments')
                         .select('*')
-                        .eq('post_slug', slug)
-                        .eq('approved', true)
-                        .order('created_at', { ascending: true });
+                        .eq('post_slug', slug);
+
+                    if (!isAdmin) {
+                        commentQuery = commentQuery.eq('approved', true);
+                    }
+
+                    const { data: comments } = await commentQuery.order('created_at', { ascending: true });
 
                     return NextResponse.json({
                         post,
@@ -71,13 +78,18 @@ export async function PUT(
         }
 
         const body = await req.json();
-        const { title, description, content, tags, published, featured_image_url, attachments } = body;
+        const { title, description, content, tags, published, featured_image_url, featured, attachments } = body;
 
         const tagArray = Array.isArray(tags) ? tags : tags ? tags.split(',').map((t: string) => t.trim()).filter(Boolean) : [];
+        const isFeatured = Boolean(featured);
 
         if (isSupabaseConfigured()) {
             const supabase = getSupabaseAdmin();
             if (supabase) {
+                if (isFeatured) {
+                    await supabase.from('posts').update({ featured: false }).neq('slug', slug);
+                }
+
                 const { data, error } = await supabase
                     .from('posts')
                     .update({
@@ -86,8 +98,9 @@ export async function PUT(
                         content,
                         tags: tagArray,
                         published: published ?? true,
+                        featured: isFeatured,
                         featured_image_url: featured_image_url || null,
-                        read_time: Math.ceil(content.split(/\s+/).length / 200),
+                        read_time: Math.ceil((content || '').split(/\s+/).length / 200),
                         updated_at: new Date().toISOString(),
                     })
                     .eq('slug', slug)
@@ -125,12 +138,61 @@ export async function PUT(
                 description,
                 tags: tagArray,
                 published: published ?? true,
+                featured: isFeatured,
                 featured_image: featured_image_url || undefined,
             });
             fs.writeFileSync(filePath, fileContent, 'utf-8');
         }
 
         return NextResponse.json({ success: true, message: 'Post updated' });
+    } catch (err: any) {
+        return NextResponse.json({ error: err.message }, { status: 500 });
+    }
+}
+
+export async function PATCH(
+    req: NextRequest,
+    context: { params: Promise<{ slug: string }> }
+) {
+    const { slug } = await context.params;
+
+    try {
+        const token = req.cookies.get(AUTH_COOKIE_NAME)?.value;
+        const isAdmin = token ? await verifyAdminToken(token) : false;
+
+        if (!isAdmin) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        }
+
+        const body = await req.json();
+
+        if (isSupabaseConfigured()) {
+            const supabase = getSupabaseAdmin();
+            if (supabase) {
+                // If setting featured true, unpin others
+                if (body.featured === true) {
+                    await supabase.from('posts').update({ featured: false }).neq('slug', slug);
+                }
+
+                const { data, error } = await supabase
+                    .from('posts')
+                    .update({
+                        ...body,
+                        updated_at: new Date().toISOString(),
+                    })
+                    .eq('slug', slug)
+                    .select()
+                    .single();
+
+                if (error) {
+                    return NextResponse.json({ error: error.message }, { status: 500 });
+                }
+
+                return NextResponse.json({ success: true, post: data });
+            }
+        }
+
+        return NextResponse.json({ success: true, message: 'Updated' });
     } catch (err: any) {
         return NextResponse.json({ error: err.message }, { status: 500 });
     }

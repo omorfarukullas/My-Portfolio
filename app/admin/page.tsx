@@ -21,6 +21,7 @@ interface PostItem {
     content: string;
     tags: string[];
     featured_image_url?: string;
+    featured?: boolean;
     published: boolean;
     created_at?: string;
     read_time?: number;
@@ -52,6 +53,7 @@ export default function AdminDashboard() {
     const [tags, setTags] = useState('');
     const [content, setContent] = useState('');
     const [coverImage, setCoverImage] = useState('');
+    const [featured, setFeatured] = useState(false);
     const [published, setPublished] = useState(true);
     const [attachments, setAttachments] = useState<AttachmentItem[]>([]);
     const [editorTab, setEditorTab] = useState<'write' | 'preview'>('write');
@@ -112,6 +114,7 @@ export default function AdminDashboard() {
         setTags('');
         setContent('');
         setCoverImage('');
+        setFeatured(false);
         setPublished(true);
         setAttachments([]);
         setFormStatus('idle');
@@ -128,11 +131,37 @@ export default function AdminDashboard() {
         setTags(Array.isArray(post.tags) ? post.tags.join(', ') : '');
         setContent(post.content || '');
         setCoverImage(post.featured_image_url || '');
+        setFeatured(Boolean(post.featured));
         setPublished(post.published ?? true);
         setAttachments(post.attachments || []);
         setFormStatus('idle');
         setStatusMessage('');
         setTab('editor');
+    };
+
+    // Quick toggle top featured post
+    const handleToggleFeatured = async (postSlug: string, currentFeatured: boolean) => {
+        try {
+            const newFeatured = !currentFeatured;
+            const res = await fetch(`/api/blog/${postSlug}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ featured: newFeatured }),
+            });
+
+            if (res.ok) {
+                setPosts((prev) =>
+                    prev.map((p) => {
+                        if (p.slug === postSlug) {
+                            return { ...p, featured: newFeatured };
+                        }
+                        return newFeatured ? { ...p, featured: false } : p;
+                    })
+                );
+            }
+        } catch (err) {
+            console.error('Error toggling featured:', err);
+        }
     };
 
     // Delete Post
@@ -284,6 +313,7 @@ export default function AdminDashboard() {
             tags,
             content,
             featured_image_url: coverImage || undefined,
+            featured,
             published,
             attachments,
         };
@@ -522,10 +552,10 @@ export default function AdminDashboard() {
                                             key={p.slug}
                                             style={{
                                                 background: '#ffffff',
-                                                border: '2.5px solid #2d2d2d',
+                                                border: p.featured ? '3px solid var(--accent)' : '2.5px solid #2d2d2d',
                                                 borderRadius: RADIUS.wobblyMd,
                                                 padding: '1.5rem',
-                                                boxShadow: '4px 4px 0px #2d2d2d',
+                                                boxShadow: p.featured ? '5px 5px 0px var(--accent)' : '4px 4px 0px #2d2d2d',
                                                 display: 'flex',
                                                 justifyContent: 'space-between',
                                                 alignItems: 'center',
@@ -533,8 +563,21 @@ export default function AdminDashboard() {
                                                 gap: '1rem',
                                             }}
                                         >
-                                            <div style={{ maxWidth: '650px' }}>
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.35rem' }}>
+                                            <div style={{ maxWidth: '620px' }}>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.35rem', flexWrap: 'wrap' }}>
+                                                    {p.featured && (
+                                                        <span style={{
+                                                            padding: '0.15rem 0.55rem',
+                                                            borderRadius: RADIUS.wobblySm,
+                                                            fontSize: '0.85rem',
+                                                            fontFamily: 'Patrick Hand, cursive',
+                                                            fontWeight: 700,
+                                                            background: 'var(--bg-postit-coral)',
+                                                            border: '1.5px solid #2d2d2d',
+                                                        }}>
+                                                            ⭐ Top Featured
+                                                        </span>
+                                                    )}
                                                     <span style={{
                                                         padding: '0.15rem 0.5rem',
                                                         borderRadius: RADIUS.wobblySm,
@@ -570,7 +613,27 @@ export default function AdminDashboard() {
                                                 </p>
                                             </div>
 
-                                            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                                            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                                                {/* 1-Click Feature Toggle Button */}
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleToggleFeatured(p.slug, Boolean(p.featured))}
+                                                    title="Pin to top of blog page as hero feature"
+                                                    style={{
+                                                        padding: '0.4rem 0.85rem',
+                                                        borderRadius: RADIUS.wobblySm,
+                                                        border: '2px solid #2d2d2d',
+                                                        background: p.featured ? 'var(--bg-postit-coral)' : '#ffffff',
+                                                        fontFamily: 'Patrick Hand, cursive',
+                                                        fontSize: '0.95rem',
+                                                        fontWeight: 700,
+                                                        cursor: 'pointer',
+                                                        boxShadow: '2px 2px 0px #2d2d2d',
+                                                    }}
+                                                >
+                                                    {p.featured ? '⭐ Featured' : '☆ Pin to Top'}
+                                                </button>
+
                                                 <a
                                                     href={`/blog/${p.slug}`}
                                                     target="_blank"
@@ -662,7 +725,7 @@ export default function AdminDashboard() {
                                     color: 'var(--text-secondary)',
                                     margin: '0.25rem 0 0 0',
                                 }}>
-                                    Supports full Markdown, embedded image uploads, cover photography, and downloadable research attachments.
+                                    Supports full Markdown, embedded image uploads, cover photography, downloadable research attachments, and top featuring.
                                 </p>
                             </div>
 
@@ -1082,7 +1145,7 @@ export default function AdminDashboard() {
                                     )}
                                 </div>
 
-                                {/* Publish Checkbox & Action Row */}
+                                {/* Customization Checkboxes & Action Row */}
                                 <div style={{
                                     display: 'flex',
                                     justifyContent: 'space-between',
@@ -1093,23 +1156,45 @@ export default function AdminDashboard() {
                                     paddingTop: '1.25rem',
                                     marginTop: '0.5rem',
                                 }}>
-                                    <label style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '0.5rem',
-                                        fontFamily: 'Patrick Hand, cursive',
-                                        fontSize: '1.15rem',
-                                        fontWeight: 700,
-                                        cursor: 'pointer',
-                                    }}>
-                                        <input
-                                            type="checkbox"
-                                            checked={published}
-                                            onChange={(e) => setPublished(e.target.checked)}
-                                            style={{ width: '18px', height: '18px', cursor: 'pointer' }}
-                                        />
-                                        <span>Publish Article Live to Portfolio</span>
-                                    </label>
+                                    <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+                                        <label style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '0.5rem',
+                                            fontFamily: 'Patrick Hand, cursive',
+                                            fontSize: '1.15rem',
+                                            fontWeight: 700,
+                                            cursor: 'pointer',
+                                        }}>
+                                            <input
+                                                type="checkbox"
+                                                checked={published}
+                                                onChange={(e) => setPublished(e.target.checked)}
+                                                style={{ width: '18px', height: '18px', cursor: 'pointer' }}
+                                            />
+                                            <span>Publish Live</span>
+                                        </label>
+
+                                        {/* Featured Top Toggle */}
+                                        <label style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '0.5rem',
+                                            fontFamily: 'Patrick Hand, cursive',
+                                            fontSize: '1.15rem',
+                                            fontWeight: 700,
+                                            cursor: 'pointer',
+                                            color: 'var(--secondary-accent)',
+                                        }}>
+                                            <input
+                                                type="checkbox"
+                                                checked={featured}
+                                                onChange={(e) => setFeatured(e.target.checked)}
+                                                style={{ width: '18px', height: '18px', cursor: 'pointer' }}
+                                            />
+                                            <span>⭐ Top Featured Article (Hero Card)</span>
+                                        </label>
+                                    </div>
 
                                     <div style={{ display: 'flex', gap: '0.65rem' }}>
                                         <button

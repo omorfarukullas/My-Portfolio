@@ -12,15 +12,17 @@ create table if not exists public.posts (
     content text not null,
     tags text[] default '{}',
     featured_image_url text,
+    featured boolean default false,
     published boolean default true,
     read_time integer default 3,
     created_at timestamp with time zone default timezone('utc'::text, now()) not null,
     updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
--- Index for fast lookup by slug & published status
+-- Indexes for fast lookup
 create index if not exists idx_posts_slug on public.posts (slug);
 create index if not exists idx_posts_published on public.posts (published);
+create index if not exists idx_posts_featured on public.posts (featured);
 create index if not exists idx_posts_created_at on public.posts (created_at desc);
 
 -- 2. Create Comments Table
@@ -60,21 +62,25 @@ alter table public.comments enable row level security;
 alter table public.attachments enable row level security;
 
 -- Posts: Public can read published posts; Service role has full access
+drop policy if exists "Allow public read access for published posts" on public.posts;
 create policy "Allow public read access for published posts"
     on public.posts for select
     using (published = true);
 
 -- Comments: Public can read approved comments
+drop policy if exists "Allow public read for approved comments" on public.comments;
 create policy "Allow public read for approved comments"
     on public.comments for select
     using (approved = true);
 
 -- Comments: Public can insert comments (awaiting moderation)
+drop policy if exists "Allow public to submit comments" on public.comments;
 create policy "Allow public to submit comments"
     on public.comments for insert
     with check (true);
 
 -- Attachments: Public can read attachments
+drop policy if exists "Allow public read access for attachments" on public.attachments;
 create policy "Allow public read access for attachments"
     on public.attachments for select
     using (true);
@@ -82,11 +88,11 @@ create policy "Allow public read access for attachments"
 -- ===================================================
 -- Storage Bucket Creation for Images and Documents
 -- ===================================================
--- Note: You can also create the 'blog-assets' bucket in Supabase Storage dashboard.
 insert into storage.buckets (id, name, public)
 values ('blog-assets', 'blog-assets', true)
 on conflict (id) do nothing;
 
+drop policy if exists "Public Access to blog assets" on storage.objects;
 create policy "Public Access to blog assets"
     on storage.objects for select
     using (bucket_id = 'blog-assets');
