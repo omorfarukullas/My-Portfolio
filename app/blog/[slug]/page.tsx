@@ -19,6 +19,8 @@ import { RADIUS, TapeStrip, StickyTag } from '@/app/components/HandDrawn';
 
 interface Params { slug: string }
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 export const dynamicParams = true;
 
 export async function generateMetadata({ params }: { params: Promise<Params> }) {

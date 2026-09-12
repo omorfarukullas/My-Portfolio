@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { verifyAdminToken, AUTH_COOKIE_NAME } from '@/lib/auth';
 import { getSupabaseAdmin, getSupabaseClient, isSupabaseConfigured } from '@/lib/supabase';
 import { getAllPosts } from '@/lib/mdx';
@@ -126,6 +127,14 @@ export async function POST(req: NextRequest) {
                     await supabase.from('attachments').insert(attachmentRows);
                 }
 
+                try {
+                    revalidatePath('/');
+                    revalidatePath('/blog');
+                    revalidatePath(`/blog/${slug}`);
+                } catch (e) {
+                    console.error('Revalidation error:', e);
+                }
+
                 return NextResponse.json({
                     success: true,
                     message: 'Post published successfully to Supabase!',
@@ -154,6 +163,14 @@ export async function POST(req: NextRequest) {
         });
 
         fs.writeFileSync(filePath, fileContent, 'utf-8');
+
+        try {
+            revalidatePath('/');
+            revalidatePath('/blog');
+            revalidatePath(`/blog/${slug}`);
+        } catch (e) {
+            console.error('Revalidation error:', e);
+        }
 
         return NextResponse.json({
             success: true,

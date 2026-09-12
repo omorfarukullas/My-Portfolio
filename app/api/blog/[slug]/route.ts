@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { verifyAdminToken, AUTH_COOKIE_NAME } from '@/lib/auth';
 import { getSupabaseAdmin, getSupabaseClient, isSupabaseConfigured } from '@/lib/supabase';
 import { getPostBySlug } from '@/lib/mdx';
@@ -142,6 +143,14 @@ export async function PUT(
                     }
                 }
 
+                try {
+                    revalidatePath('/');
+                    revalidatePath('/blog');
+                    revalidatePath(`/blog/${slug}`);
+                } catch (e) {
+                    console.error('Revalidation error:', e);
+                }
+
                 return NextResponse.json({ success: true, post: data });
             }
         }
@@ -158,6 +167,14 @@ export async function PUT(
                 featured_image: featured_image_url || undefined,
             });
             fs.writeFileSync(filePath, fileContent, 'utf-8');
+        }
+
+        try {
+            revalidatePath('/');
+            revalidatePath('/blog');
+            revalidatePath(`/blog/${slug}`);
+        } catch (e) {
+            console.error('Revalidation error:', e);
         }
 
         return NextResponse.json({ success: true, message: 'Post updated' });
@@ -222,8 +239,24 @@ export async function PATCH(
                     return NextResponse.json({ error: error.message }, { status: 500 });
                 }
 
+                try {
+                    revalidatePath('/');
+                    revalidatePath('/blog');
+                    revalidatePath(`/blog/${slug}`);
+                } catch (e) {
+                    console.error('Revalidation error:', e);
+                }
+
                 return NextResponse.json({ success: true, post: data });
             }
+        }
+
+        try {
+            revalidatePath('/');
+            revalidatePath('/blog');
+            revalidatePath(`/blog/${slug}`);
+        } catch (e) {
+            console.error('Revalidation error:', e);
         }
 
         return NextResponse.json({ success: true, message: 'Updated' });
@@ -263,6 +296,14 @@ export async function DELETE(
         const filePath = path.join(process.cwd(), 'content', 'blogs', `${slug}.mdx`);
         if (fs.existsSync(filePath)) {
             fs.unlinkSync(filePath);
+        }
+
+        try {
+            revalidatePath('/');
+            revalidatePath('/blog');
+            revalidatePath(`/blog/${slug}`);
+        } catch (e) {
+            console.error('Revalidation error:', e);
         }
 
         return NextResponse.json({ success: true, message: 'Post deleted successfully' });

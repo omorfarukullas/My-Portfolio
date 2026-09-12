@@ -6,6 +6,9 @@ import BlogListClient from './BlogListClient';
 import FeaturedPost from '@/app/components/FeaturedPost';
 import { StickyTag } from '@/app/components/HandDrawn';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export const metadata = generatePageMetadata({
     title: 'Field Notes & Blog',
     description: 'Articles on Low-Resource NLP, Full Stack Development, React, Next.js, and building real-world solutions.',

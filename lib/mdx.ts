@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { estimateReadTime } from './utils';
-import { getSupabaseClient, isSupabaseConfigured } from './supabase';
+import { getSupabaseAdmin, getSupabaseClient, isSupabaseConfigured } from './supabase';
 
 export interface AttachmentMeta {
     id?: string;
@@ -87,7 +87,7 @@ export function getAllPosts(): BlogPostMeta[] {
 export async function getAllPostsAsync(): Promise<BlogPostMeta[]> {
     if (isSupabaseConfigured()) {
         try {
-            const supabase = getSupabaseClient();
+            const supabase = getSupabaseAdmin() || getSupabaseClient();
             if (supabase) {
                 const { data, error } = await supabase
                     .from('posts')
@@ -108,10 +108,12 @@ export async function getAllPostsAsync(): Promise<BlogPostMeta[]> {
                         published: p.published,
                         readTime: p.read_time ?? estimateReadTime(p.content || ''),
                     }));
+                } else if (error) {
+                    console.error('Supabase query error in getAllPostsAsync:', error);
                 }
             }
         } catch (err) {
-            console.error('Supabase fetch error, falling back to local files:', err);
+            console.error('Supabase fetch exception, falling back to local files:', err);
         }
     }
 
@@ -157,7 +159,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
 export async function getPostBySlugAsync(slug: string): Promise<BlogPost | null> {
     if (isSupabaseConfigured()) {
         try {
-            const supabase = getSupabaseClient();
+            const supabase = getSupabaseAdmin() || getSupabaseClient();
             if (supabase) {
                 const { data: post, error } = await supabase
                     .from('posts')
