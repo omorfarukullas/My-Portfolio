@@ -69,27 +69,43 @@ export async function POST(req: NextRequest) {
         if (isSupabaseConfigured()) {
             const supabase = getSupabaseAdmin();
             if (supabase) {
-                // If this post is marked as featured, un-feature other posts to keep a clean top feature
+                // If this post is marked as featured, try to un-feature other posts
                 if (isFeatured) {
-                    await supabase.from('posts').update({ featured: false }).neq('slug', slug);
+                    try {
+                        await supabase.from('posts').update({ featured: false }).neq('slug', slug);
+                    } catch {
+                        // 'featured' column may not exist yet in Supabase
+                    }
                 }
 
-                const { data: postData, error: postError } = await supabase
+                const postRecord: Record<string, any> = {
+                    slug,
+                    title,
+                    description,
+                    content,
+                    tags: tagArray,
+                    featured_image_url: featured_image_url || null,
+                    published: published ?? true,
+                    read_time: Math.ceil(content.split(/\s+/).length / 200),
+                    updated_at: new Date().toISOString(),
+                };
+
+                let { data: postData, error: postError } = await supabase
                     .from('posts')
-                    .upsert({
-                        slug,
-                        title,
-                        description,
-                        content,
-                        tags: tagArray,
-                        featured_image_url: featured_image_url || null,
-                        featured: isFeatured,
-                        published: published ?? true,
-                        read_time: Math.ceil(content.split(/\s+/).length / 200),
-                        updated_at: new Date().toISOString(),
-                    }, { onConflict: 'slug' })
+                    .upsert({ ...postRecord, featured: isFeatured }, { onConflict: 'slug' })
                     .select()
                     .single();
+
+                // If Supabase schema lacks 'featured' column, retry without it gracefully
+                if (postError && postError.message?.includes('featured')) {
+                    const retry = await supabase
+                        .from('posts')
+                        .upsert(postRecord, { onConflict: 'slug' })
+                        .select()
+                        .single();
+                    postData = retry.data;
+                    postError = retry.error;
+                }
 
                 if (postError) {
                     console.error('Supabase post insert error:', postError);

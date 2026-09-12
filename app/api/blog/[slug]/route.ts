@@ -87,25 +87,41 @@ export async function PUT(
             const supabase = getSupabaseAdmin();
             if (supabase) {
                 if (isFeatured) {
-                    await supabase.from('posts').update({ featured: false }).neq('slug', slug);
+                    try {
+                        await supabase.from('posts').update({ featured: false }).neq('slug', slug);
+                    } catch {
+                        // featured column may not exist yet
+                    }
                 }
 
-                const { data, error } = await supabase
+                const updatePayload: Record<string, any> = {
+                    title,
+                    description,
+                    content,
+                    tags: tagArray,
+                    published: published ?? true,
+                    featured_image_url: featured_image_url || null,
+                    read_time: Math.ceil((content || '').split(/\s+/).length / 200),
+                    updated_at: new Date().toISOString(),
+                };
+
+                let { data, error } = await supabase
                     .from('posts')
-                    .update({
-                        title,
-                        description,
-                        content,
-                        tags: tagArray,
-                        published: published ?? true,
-                        featured: isFeatured,
-                        featured_image_url: featured_image_url || null,
-                        read_time: Math.ceil((content || '').split(/\s+/).length / 200),
-                        updated_at: new Date().toISOString(),
-                    })
+                    .update({ ...updatePayload, featured: isFeatured })
                     .eq('slug', slug)
                     .select()
                     .single();
+
+                if (error && error.message?.includes('featured')) {
+                    const retry = await supabase
+                        .from('posts')
+                        .update(updatePayload)
+                        .eq('slug', slug)
+                        .select()
+                        .single();
+                    data = retry.data;
+                    error = retry.error;
+                }
 
                 if (error) {
                     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -171,10 +187,12 @@ export async function PATCH(
             if (supabase) {
                 // If setting featured true, unpin others
                 if (body.featured === true) {
-                    await supabase.from('posts').update({ featured: false }).neq('slug', slug);
+                    try {
+                        await supabase.from('posts').update({ featured: false }).neq('slug', slug);
+                    } catch {}
                 }
 
-                const { data, error } = await supabase
+                let { data, error } = await supabase
                     .from('posts')
                     .update({
                         ...body,
@@ -183,6 +201,22 @@ export async function PATCH(
                     .eq('slug', slug)
                     .select()
                     .single();
+
+                if (error && error.message?.includes('featured')) {
+                    const fallbackBody = { ...body };
+                    delete fallbackBody.featured;
+                    const retry = await supabase
+                        .from('posts')
+                        .update({
+                            ...fallbackBody,
+                            updated_at: new Date().toISOString(),
+                        })
+                        .eq('slug', slug)
+                        .select()
+                        .single();
+                    data = retry.data;
+                    error = retry.error;
+                }
 
                 if (error) {
                     return NextResponse.json({ error: error.message }, { status: 500 });

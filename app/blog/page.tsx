@@ -1,4 +1,4 @@
-import { getAllPostsAsync, getAllTags, getFeaturedPostAsync } from '@/lib/mdx';
+import { getAllPostsAsync, getAllTagsAsync, getFeaturedPostAsync } from '@/lib/mdx';
 import { generatePageMetadata } from '@/lib/seo';
 import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
@@ -14,7 +14,7 @@ export const metadata = generatePageMetadata({
 
 export default async function BlogPage() {
     const posts = await getAllPostsAsync();
-    const allTags = getAllTags();
+    const allTags = await getAllTagsAsync();
     const featuredPost = await getFeaturedPostAsync();
 
     return (

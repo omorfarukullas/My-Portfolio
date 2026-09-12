@@ -3,7 +3,7 @@ import { MDXRemote } from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
-import { getPostBySlugAsync, getRelatedPosts, getAdjacentPosts } from '@/lib/mdx';
+import { getPostBySlugAsync, getRelatedPostsAsync, getAdjacentPostsAsync } from '@/lib/mdx';
 import { generatePageMetadata, generateBlogPostingSchema, generateBreadcrumbSchema } from '@/lib/seo';
 import { formatDate } from '@/lib/utils';
 import { seoConfig } from '@/config/seo';
@@ -40,8 +40,10 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
     const post = await getPostBySlugAsync(resolvedParams.slug);
     if (!post) notFound();
 
-    const related = getRelatedPosts(post.slug, post.tags);
-    const { prev, next } = getAdjacentPosts(post.slug);
+    const [related, { prev, next }] = await Promise.all([
+        getRelatedPostsAsync(post.slug, post.tags),
+        getAdjacentPostsAsync(post.slug),
+    ]);
 
     const blogSchema = generateBlogPostingSchema(post);
     const breadcrumbSchema = generateBreadcrumbSchema([

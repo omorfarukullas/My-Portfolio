@@ -1,9 +1,8 @@
-import { getAllPosts } from '@/lib/mdx';
-import { generateRssFeed } from '@/lib/mdx';
+import { getAllPostsAsync, generateRssFeed } from '@/lib/mdx';
 import { seoConfig } from '@/config/seo';
 
 export async function GET() {
-    const posts = getAllPosts();
+    const posts = await getAllPostsAsync();
     const rss = generateRssFeed(posts, seoConfig.siteUrl);
 
     return new Response(rss, {

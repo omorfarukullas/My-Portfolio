@@ -95,7 +95,7 @@ export async function getAllPostsAsync(): Promise<BlogPostMeta[]> {
                     .eq('published', true)
                     .order('created_at', { ascending: false });
 
-                if (!error && data && data.length > 0) {
+                if (!error && data) {
                     return data.map((p) => ({
                         slug: p.slug,
                         title: p.title,
@@ -106,7 +106,7 @@ export async function getAllPostsAsync(): Promise<BlogPostMeta[]> {
                         featured_image: p.featured_image_url || null,
                         featured: Boolean(p.featured),
                         published: p.published,
-                        readTime: p.read_time || estimateReadTime(p.content || ''),
+                        readTime: p.read_time ?? estimateReadTime(p.content || ''),
                     }));
                 }
             }
@@ -163,6 +163,7 @@ export async function getPostBySlugAsync(slug: string): Promise<BlogPost | null>
                     .from('posts')
                     .select('*')
                     .eq('slug', slug)
+                    .eq('published', true)
                     .single();
 
                 if (!error && post) {
@@ -181,7 +182,7 @@ export async function getPostBySlugAsync(slug: string): Promise<BlogPost | null>
                         featured_image: post.featured_image_url || null,
                         featured: Boolean(post.featured),
                         published: post.published,
-                        readTime: post.read_time || estimateReadTime(post.content || ''),
+                        readTime: post.read_time ?? estimateReadTime(post.content || ''),
                         content: post.content,
                         attachments: attRes.data || [],
                         comments: comRes.data || [],
@@ -203,6 +204,13 @@ export function getRelatedPosts(slug: string, tags: string[], limit = 3): BlogPo
         .slice(0, limit);
 }
 
+export async function getRelatedPostsAsync(slug: string, tags: string[], limit = 3): Promise<BlogPostMeta[]> {
+    const allPosts = await getAllPostsAsync();
+    return allPosts
+        .filter((p) => p.slug !== slug && p.tags.some((t) => tags.includes(t)))
+        .slice(0, limit);
+}
+
 export function getAdjacentPosts(slug: string): {
     prev: BlogPostMeta | null;
     next: BlogPostMeta | null;
@@ -215,8 +223,30 @@ export function getAdjacentPosts(slug: string): {
     };
 }
 
+export async function getAdjacentPostsAsync(slug: string): Promise<{
+    prev: BlogPostMeta | null;
+    next: BlogPostMeta | null;
+}> {
+    const allPosts = await getAllPostsAsync();
+    const index = allPosts.findIndex((p) => p.slug === slug);
+    if (index === -1) {
+        return { prev: null, next: null };
+    }
+    return {
+        prev: index < allPosts.length - 1 ? allPosts[index + 1] : null,
+        next: index > 0 ? allPosts[index - 1] : null,
+    };
+}
+
 export function getAllTags(): string[] {
     const allPosts = getAllPosts();
+    const tagSet = new Set<string>();
+    allPosts.forEach((post) => post.tags.forEach((t) => tagSet.add(t)));
+    return Array.from(tagSet).sort();
+}
+
+export async function getAllTagsAsync(): Promise<string[]> {
+    const allPosts = await getAllPostsAsync();
     const tagSet = new Set<string>();
     allPosts.forEach((post) => post.tags.forEach((t) => tagSet.add(t)));
     return Array.from(tagSet).sort();

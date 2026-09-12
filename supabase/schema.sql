@@ -3,6 +3,11 @@
 -- Run this in your Supabase SQL Editor (supabase.com)
 -- ===================================================
 
+-- MIGRATION FOR EXISTING DATABASES:
+-- If your 'posts' table is already created, run this line to add the 'featured' column:
+alter table public.posts add column if not exists featured boolean default false;
+create index if not exists idx_posts_featured on public.posts (featured);
+
 -- 1. Create Posts Table
 create table if not exists public.posts (
     id uuid default gen_random_uuid() primary key,
@@ -95,4 +100,19 @@ on conflict (id) do nothing;
 drop policy if exists "Public Access to blog assets" on storage.objects;
 create policy "Public Access to blog assets"
     on storage.objects for select
+    using (bucket_id = 'blog-assets');
+
+drop policy if exists "Allow uploads to blog assets" on storage.objects;
+create policy "Allow uploads to blog assets"
+    on storage.objects for insert
+    with check (bucket_id = 'blog-assets');
+
+drop policy if exists "Allow updates to blog assets" on storage.objects;
+create policy "Allow updates to blog assets"
+    on storage.objects for update
+    using (bucket_id = 'blog-assets');
+
+drop policy if exists "Allow deletes to blog assets" on storage.objects;
+create policy "Allow deletes to blog assets"
+    on storage.objects for delete
     using (bucket_id = 'blog-assets');
