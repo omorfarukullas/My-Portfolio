@@ -14,49 +14,45 @@ export default function BlogCard({ post }: BlogCardProps) {
   return (
     <Link href={`/blog/${post.slug}`} className="block h-full no-underline group">
       <article
-        className="card-cream flex flex-col justify-between h-full transition-transform"
-        style={{ fontFamily: 'var(--font-figtree)' }}
+        className="bg-white border-2 border-[hsl(230,30%,14%)] riso-shadow-ink group-hover:riso-shadow-pink group-hover:-translate-y-1 transition-all duration-150 flex flex-col justify-between h-full p-6 sm:p-7"
       >
         <div>
           {/* Tags */}
           {post.tags.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 mb-4">
+            <div className="flex flex-wrap gap-1.5 mb-3.5">
               {post.tags.slice(0, 3).map((tag) => (
-                <DarkSquareBadge key={tag} variant="cream">
+                <span
+                  key={tag}
+                  className="font-space text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 bg-[hsl(52,100%,55%)] border border-[hsl(230,30%,14%)] text-[hsl(230,30%,14%)]"
+                >
                   #{tag}
-                </DarkSquareBadge>
+                </span>
               ))}
             </div>
           )}
 
-          {/* Title in EB Garamond 400 */}
+          {/* Title in Archivo Black */}
           <h3
-            className="text-[#1a1a1a] text-2xl sm:text-3xl mb-3 group-hover:text-[#034f46] transition-colors"
-            style={{
-              fontFamily: 'var(--font-eb-garamond)',
-              lineHeight: 1.1,
-              letterSpacing: '-0.96px',
-              fontWeight: 400,
-            }}
+            className="text-[hsl(230,30%,14%)] font-archivo uppercase text-xl sm:text-2xl mb-2.5 group-hover:text-[hsl(212,100%,45%)] transition-colors leading-tight"
           >
             {post.title}
           </h3>
 
-          {/* Excerpt */}
-          <p className="text-[#222222] text-base leading-relaxed line-clamp-3 mb-6">
+          {/* Excerpt in Space Mono */}
+          <p className="font-space text-xs sm:text-sm text-[hsl(230,30%,20%)] leading-relaxed line-clamp-3 mb-6">
             {post.description}
           </p>
         </div>
 
         {/* Footer Meta */}
-        <div className="pt-4 border-t border-[#e4e4d0] flex items-center justify-between text-sm text-[#8a8a80]">
+        <div className="pt-3 border-t-2 border-[hsl(230,30%,14%)] flex items-center justify-between font-space text-xs font-bold text-[hsl(230,12%,38%)]">
           <div className="flex items-center gap-2">
             <time dateTime={post.date}>{formatDateShort(post.date)}</time>
             <span>•</span>
-            <span>{post.readTime} min read</span>
+            <span>{post.readTime} MIN READ</span>
           </div>
-          <span className="font-semibold text-[#1a1a1a] group-hover:translate-x-1 transition-transform">
-            Read →
+          <span className="font-bold text-[hsl(230,30%,14%)] group-hover:translate-x-1 group-hover:text-[hsl(330,100%,60%)] transition-all">
+            READ →
           </span>
         </div>
       </article>

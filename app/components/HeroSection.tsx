@@ -2,63 +2,58 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { siteConfig } from '@/config/site';
-import { LavenderUnderline, WaveformPill, TealBadge } from './WisprPrimitives';
+import { MisregisteredHeading, DuotoneCard, RisoTape } from './WisprPrimitives';
 
 export default function HeroSection() {
   return (
     <section
       id="home"
-      className="relative min-h-[90vh] flex items-center pt-28 pb-16 bg-[#ffffeb] text-[#1a1a1a]"
-      style={{ fontFamily: 'var(--font-figtree)' }}
+      className="relative min-h-[85vh] flex items-center pt-16 pb-20 bg-[hsl(44,45%,92%)] text-[hsl(230,30%,14%)]"
     >
       <div className="container mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           
-          {/* Left Column: Editorial Display Typography */}
+          {/* Left Column: Loud Risograph Display Typography */}
           <div className="lg:col-span-7 flex flex-col items-start gap-6">
-            {/* Editorial Category Pill */}
-            <div className="flex items-center gap-3">
-              <TealBadge icon={<span className="w-2 h-2 rounded-full bg-[#ffa946] animate-pulse" />}>
-                AI / ML &amp; NLP Researcher
-              </TealBadge>
-              <span className="text-sm font-medium text-[#8a8a80]">
-                UIU • Dhaka, Bangladesh
+            
+            {/* Top Tape Badges */}
+            <div className="flex flex-wrap items-center gap-3">
+              <RisoTape rotate={-1.5}>
+                ★ AI / ML &amp; NLP RESEARCHER
+              </RisoTape>
+              <span className="font-space text-xs font-bold uppercase tracking-wider text-[hsl(230,12%,38%)]">
+                UIU • DHAKA, BANGLADESH
               </span>
             </div>
 
-            {/* Display Headline: Two-tone Fog -> Vast Ink in EB Garamond 400 */}
-            <h1
-              className="text-[#1a1a1a]"
-              style={{
-                fontFamily: 'var(--font-eb-garamond)',
-                fontSize: 'clamp(46px, 6.5vw, 92px)',
-                lineHeight: 0.92,
-                letterSpacing: '-2.4px',
-                fontWeight: 400,
-              }}
-            >
-              <span className="text-[#8a8a80] block">Engineering clarity</span>
-              from messy{' '}
-              <LavenderUnderline>real-world data.</LavenderUnderline>
-            </h1>
+            {/* Giant Misregistered Display Headline */}
+            <div className="flex flex-col">
+              <span className="font-space text-xs sm:text-sm font-bold uppercase tracking-widest text-[hsl(212,100%,45%)] mb-2">
+                // PORTFOLIO SPECIFICATION 2026
+              </span>
+              <MisregisteredHeading
+                as="h1"
+                ghostColor="pink"
+                offset={4}
+                className="text-4xl sm:text-6xl lg:text-7xl font-archivo tracking-tight leading-[0.92] uppercase text-[hsl(230,30%,14%)]"
+              >
+                Engineering Clarity from Messy Data.
+              </MisregisteredHeading>
+            </div>
 
-            {/* Subtitle in Figtree 400 */}
-            <p
-              className="text-lg sm:text-xl text-[#222222] max-w-xl leading-snug"
-              style={{ lineHeight: 1.35 }}
-            >
-              I am <strong>Omor Faruk Ullas</strong> — researching low-resource language processing and building production-grade software architectures that solve tangible problems.
+            {/* Subtitle in Space Mono / Clean type */}
+            <p className="font-space text-base sm:text-lg text-[hsl(230,30%,18%)] max-w-xl leading-relaxed">
+              I am <strong className="text-[hsl(230,30%,14%)] bg-[hsl(52,100%,55%)] px-1">Omor Faruk Ullas</strong> — undergraduate researcher at United International University, investigating low-resource language processing and architecting durable, production software systems.
             </p>
 
-            {/* Primary & Secondary Action CTAs */}
-            <div className="flex flex-wrap items-center gap-3.5 pt-2">
+            {/* Tactile Riso Action Buttons */}
+            <div className="flex flex-wrap items-center gap-4 pt-1">
               <a
                 href="/OmorFaruckUllas.pdf"
                 download="OmorFaruckUllas_Resume.pdf"
-                className="btn-primary"
+                className="btn-riso-pink text-xs sm:text-sm"
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="square">
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                   <polyline points="7 10 12 15 17 10" />
                   <line x1="12" y1="15" x2="12" y2="3" />
@@ -66,91 +61,85 @@ export default function HeroSection() {
                 Download Resume
               </a>
 
-              <Link href="/projects" className="btn-secondary">
+              <Link href="/projects" className="btn-riso-outline text-xs sm:text-sm">
                 View Selected Works →
               </Link>
             </div>
 
-            {/* Quick Metrics Bar */}
-            <div className="flex items-center gap-8 pt-6 border-t border-[#e4e4d0] w-full max-w-lg mt-2">
-              <div>
-                <div
-                  className="text-3xl sm:text-4xl text-[#1a1a1a]"
-                  style={{ fontFamily: 'var(--font-eb-garamond)' }}
-                >
+            {/* Tactile Stats Plate */}
+            <div className="w-full max-w-xl mt-4 p-5 bg-white border-2 border-[hsl(230,30%,14%)] riso-shadow-ink-sm flex flex-wrap items-center justify-between gap-4">
+              <div className="flex flex-col">
+                <span className="font-space font-bold text-3xl sm:text-4xl text-[hsl(212,100%,45%)]">
                   3+
-                </div>
-                <div className="text-xs sm:text-sm text-[#8a8a80] font-medium">
-                  Years of Research
-                </div>
+                </span>
+                <span className="font-space text-[11px] font-bold uppercase tracking-wider text-[hsl(230,12%,38%)]">
+                  Years Research
+                </span>
               </div>
-              <div className="w-[1px] h-8 bg-[#e4e4d0]" />
-              <div>
-                <div
-                  className="text-3xl sm:text-4xl text-[#1a1a1a]"
-                  style={{ fontFamily: 'var(--font-eb-garamond)' }}
-                >
+              <div className="w-[2px] h-10 bg-[hsl(230,30%,14%)] hidden sm:block" />
+              <div className="flex flex-col">
+                <span className="font-space font-bold text-3xl sm:text-4xl text-[hsl(330,100%,60%)]">
                   10+
-                </div>
-                <div className="text-xs sm:text-sm text-[#8a8a80] font-medium">
+                </span>
+                <span className="font-space text-[11px] font-bold uppercase tracking-wider text-[hsl(230,12%,38%)]">
                   Systems Shipped
-                </div>
+                </span>
               </div>
-              <div className="w-[1px] h-8 bg-[#e4e4d0]" />
-              <div>
-                <div
-                  className="text-3xl sm:text-4xl text-[#1a1a1a]"
-                  style={{ fontFamily: 'var(--font-eb-garamond)' }}
-                >
-                  Bangla
-                </div>
-                <div className="text-xs sm:text-sm text-[#8a8a80] font-medium">
+              <div className="w-[2px] h-10 bg-[hsl(230,30%,14%)] hidden sm:block" />
+              <div className="flex flex-col">
+                <span className="font-space font-bold text-2xl sm:text-3xl text-[hsl(230,30%,14%)]">
+                  BANGLA
+                </span>
+                <span className="font-space text-[11px] font-bold uppercase tracking-wider text-[hsl(230,12%,38%)]">
                   Low-Resource NLP
-                </div>
+                </span>
               </div>
             </div>
+
           </div>
 
-          {/* Right Column: Flat Dark Device Illustration Frame */}
-          <div className="lg:col-span-5 flex justify-center">
-            <div
-              className="relative w-full max-w-[400px] bg-[#1a1a1a] rounded-[40px] border-2 border-[#1a1a1a] p-6 text-[#ffffeb] flex flex-col gap-5"
-            >
-              {/* Header Bar inside flat mockup */}
-              <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                <div className="flex items-center gap-2">
-                  <span className="w-3 h-3 rounded-full bg-[#ffa946]" />
-                  <span className="text-xs uppercase tracking-widest text-[#8a8a80]">
-                    System State: Active
-                  </span>
-                </div>
-                <span className="text-xs text-[#ffffeb]/60">Dhaka, BD</span>
+          {/* Right Column: Tactile Duotone Portrait Card */}
+          <div className="lg:col-span-5 flex flex-col items-center justify-center">
+            <div className="relative w-full max-w-[420px]">
+              
+              {/* Corner Masking Tape */}
+              <div className="absolute -top-3 -right-2 z-20">
+                <RisoTape rotate={3}>
+                  EDITION // 001
+                </RisoTape>
               </div>
 
-              {/* Center Portrait */}
-              <div className="relative w-full aspect-[4/4.5] rounded-[28px] overflow-hidden border border-white/10 bg-[#222222]">
+              <div className="absolute -top-3 -left-2 z-20">
+                <RisoTape rotate={-3}>
+                  OFU // RESEARCH
+                </RisoTape>
+              </div>
+
+              {/* Duotone Card Frame */}
+              <DuotoneCard className="aspect-[4/4.8] w-full">
                 <Image
                   src="/Omor.png"
                   alt="Omor Faruk Ullas"
                   fill
-                  sizes="(max-width: 768px) 100vw, 400px"
+                  sizes="(max-width: 768px) 100vw, 420px"
                   priority
                   className="object-cover object-top"
                 />
+              </DuotoneCard>
+
+              {/* Physical Print Label Strip beneath Portrait */}
+              <div className="mt-3 bg-[hsl(52,100%,55%)] border-2 border-[hsl(230,30%,14%)] riso-shadow-ink-sm p-3.5 flex items-center justify-between gap-3">
+                <div className="flex flex-col">
+                  <span className="font-space text-[10px] uppercase font-bold tracking-widest text-[hsl(230,30%,14%)]">
+                    CURRENT DISPATCH
+                  </span>
+                  <span className="font-space text-xs font-bold text-[hsl(230,30%,14%)] uppercase line-clamp-1">
+                    Bangla NLP &amp; Low-Resource Pipelines
+                  </span>
+                </div>
+                <div className="w-3.5 h-3.5 bg-[hsl(330,100%,60%)] border border-[hsl(230,30%,14%)] shrink-0 animate-pulse" />
               </div>
 
-              {/* Chat / Speech Bubble inside mockup */}
-              <div className="bg-[#ffffeb] text-[#1a1a1a] rounded-2xl p-4 border border-[#1a1a1a] flex items-center justify-between gap-3">
-                <div>
-                  <div className="text-xs uppercase font-semibold text-[#8a8a80]">
-                    Current Focus
-                  </div>
-                  <div className="text-sm font-medium text-[#1a1a1a] line-clamp-1">
-                    Bangla NLP &amp; Scalable AI Systems
-                  </div>
-                </div>
-                <WaveformPill />
-              </div>
             </div>
           </div>
 

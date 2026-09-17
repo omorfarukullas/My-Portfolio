@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import ProjectModal from './ProjectModal';
-import { TealBadge, DarkSquareBadge } from './WisprPrimitives';
+import { MisregisteredHeading, RisoTape } from './WisprPrimitives';
 
 export interface Project {
   id: number;
@@ -146,56 +146,58 @@ function ProjectCard({ project, onClick }: { project: Project; onClick: () => vo
   return (
     <div
       onClick={onClick}
-      className="card-cream flex flex-col justify-between cursor-pointer h-full group"
-      style={{ fontFamily: 'var(--font-figtree)' }}
+      className="bg-white border-2 border-[hsl(230,30%,14%)] riso-shadow-ink hover:riso-shadow-pink hover:-translate-y-1 transition-all duration-150 flex flex-col justify-between cursor-pointer h-full p-6 sm:p-7 group"
     >
       <div>
-        {/* Card Header: Category & Status */}
-        <div className="flex items-center justify-between gap-2 mb-6">
-          <DarkSquareBadge variant="dark">{project.category}</DarkSquareBadge>
+        {/* Header: Category & Status */}
+        <div className="flex items-center justify-between gap-2 mb-4 pb-3 border-b-2 border-[hsl(230,30%,14%)]">
+          <span className="font-space text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 bg-[hsl(52,100%,55%)] text-[hsl(230,30%,14%)] border border-[hsl(230,30%,14%)]">
+            {project.category}
+          </span>
           {isCompleted ? (
-            <TealBadge>Completed</TealBadge>
+            <span className="font-space text-[10px] uppercase font-bold px-2 py-0.5 bg-[hsl(44,45%,92%)] text-[hsl(230,30%,14%)] border border-[hsl(230,30%,14%)]">
+              COMPLETED
+            </span>
           ) : (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-medium rounded-full bg-[#ffa946]/20 text-[#1a1a1a] border border-[#ffa946]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ffa946]" />
-              In Progress
+            <span className="font-space text-[10px] uppercase font-bold px-2 py-0.5 bg-[hsl(330,100%,60%)] text-[hsl(230,30%,14%)] border border-[hsl(230,30%,14%)] animate-pulse">
+              IN PROGRESS
             </span>
           )}
         </div>
 
-        {/* Project Title */}
-        <h3
-          className="text-[#1a1a1a] mb-2 text-2xl sm:text-3xl group-hover:text-[#034f46] transition-colors"
-          style={{ fontFamily: 'var(--font-eb-garamond)', letterSpacing: '-0.8px' }}
-        >
+        {/* Project Title in Archivo Black */}
+        <h3 className="text-[hsl(230,30%,14%)] font-archivo uppercase text-xl sm:text-2xl mb-1.5 group-hover:text-[hsl(212,100%,45%)] transition-colors leading-tight">
           {project.title}
         </h3>
 
         {/* Tagline */}
-        <p className="text-sm font-medium text-[#8a8a80] mb-4">
+        <p className="font-space text-xs font-bold text-[hsl(212,100%,45%)] mb-3 uppercase tracking-wider">
           {project.tagline}
         </p>
 
         {/* Description */}
-        <p className="text-[#222222] text-base leading-relaxed mb-6">
+        <p className="font-space text-xs sm:text-sm text-[hsl(230,30%,20%)] leading-relaxed mb-6">
           {project.description}
         </p>
       </div>
 
       <div>
         {/* Tech Stack Chips */}
-        <div className="flex flex-wrap gap-1.5 mb-6">
+        <div className="flex flex-wrap gap-1.5 mb-5">
           {project.techStack.map((tech) => (
-            <DarkSquareBadge key={tech} variant="cream">
+            <span
+              key={tech}
+              className="font-space text-[10px] font-bold uppercase px-2 py-0.5 bg-[hsl(44,45%,92%)] border border-[hsl(230,30%,14%)] text-[hsl(230,30%,14%)]"
+            >
               {tech}
-            </DarkSquareBadge>
+            </span>
           ))}
         </div>
 
         {/* Action Link */}
-        <div className="pt-4 border-t border-[#e4e4d0] flex items-center justify-between text-sm font-semibold text-[#1a1a1a]">
-          <span>Inspect Architecture</span>
-          <span className="group-hover:translate-x-1 transition-transform">→</span>
+        <div className="pt-3 border-t-2 border-[hsl(230,30%,14%)] flex items-center justify-between font-space text-xs font-bold uppercase tracking-wider text-[hsl(230,30%,14%)]">
+          <span>INSPECT BLUEPRINT</span>
+          <span className="group-hover:translate-x-1 transition-transform text-[hsl(330,100%,60%)] font-bold text-base">→</span>
         </div>
       </div>
     </div>
@@ -211,30 +213,28 @@ export default function ProjectsSection() {
     : projectsData.filter((p) => p.category === selectedCategory);
 
   return (
-    <section id="projects" className="cream-section" style={{ fontFamily: 'var(--font-figtree)' }}>
+    <section id="projects" className="py-20 bg-[hsl(44,45%,92%)]">
       <div className="container mx-auto">
         {/* Header */}
-        <div className="flex flex-col items-start gap-4 mb-12 max-w-2xl">
-          <TealBadge>Selected Engineering</TealBadge>
-          <h2
-            className="text-[#1a1a1a]"
-            style={{
-              fontFamily: 'var(--font-eb-garamond)',
-              fontSize: 'clamp(36px, 5.5vw, 64px)',
-              lineHeight: 0.95,
-              letterSpacing: '-1.92px',
-              fontWeight: 400,
-            }}
+        <div className="flex flex-col items-start gap-4 mb-12 max-w-3xl">
+          <RisoTape rotate={-1}>
+            SELECTED WORKS // CATALOG
+          </RisoTape>
+          <MisregisteredHeading
+            as="h2"
+            ghostColor="blue"
+            offset={3}
+            className="text-3xl sm:text-5xl lg:text-6xl font-archivo uppercase tracking-tight text-[hsl(230,30%,14%)] leading-[0.95]"
           >
-            Functional systems built for reality.
-          </h2>
-          <p className="text-[#8a8a80] text-lg sm:text-xl">
-            From healthcare microservices and low-resource NLP pipelines to embedded solar telemetry.
+            Functional Systems Built for Reality.
+          </MisregisteredHeading>
+          <p className="font-space text-sm sm:text-base text-[hsl(230,12%,38%)] max-w-2xl leading-relaxed">
+            Spanning low-resource NLP pipelines and healthcare platforms to embedded telemetry arrays and software tools.
           </p>
         </div>
 
         {/* Platform Selector Filter Row */}
-        <div className="flex flex-wrap items-center gap-2 mb-12 pb-6 border-b border-[#e4e4d0]">
+        <div className="flex flex-wrap items-center gap-2 mb-12 pb-6 border-b-2 border-[hsl(230,30%,14%)]">
           {categories.map((cat) => {
             const isSelected = selectedCategory === cat;
             return (
@@ -242,10 +242,10 @@ export default function ProjectsSection() {
                 key={cat}
                 type="button"
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 text-sm font-medium rounded-full border-2 transition-colors ${
+                className={`px-4 py-2 font-space text-xs font-bold uppercase tracking-wider border-2 transition-all cursor-pointer ${
                   isSelected
-                    ? 'bg-[#1a1a1a] text-[#ffffeb] border-[#1a1a1a]'
-                    : 'bg-[#ffffeb] text-[#1a1a1a] border-[#1a1a1a] hover:bg-[#e4e4d0]'
+                    ? 'bg-[hsl(212,100%,45%)] text-white border-[hsl(230,30%,14%)] riso-shadow-ink-sm'
+                    : 'bg-white text-[hsl(230,30%,14%)] border-[hsl(230,30%,14%)] hover:bg-[hsl(52,100%,55%)]'
                 }`}
               >
                 {cat}
@@ -264,7 +264,7 @@ export default function ProjectsSection() {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.2 }}
+                transition={{ duration: 0.15 }}
                 className="h-full"
               >
                 <ProjectCard project={project} onClick={() => setSelectedProject(project)} />

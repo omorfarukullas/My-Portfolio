@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 
 /**
  * Editorial Border Radii
@@ -192,7 +193,7 @@ export function WaveformPill({
 }
 
 /**
- * Dark Velvet Chamber Section Container
+ * Dark Velvet Chamber Section Container -> Styled for Riso Aesthetics
  */
 export function DarkChamber({
   children,
@@ -208,11 +209,10 @@ export function DarkChamber({
   return (
     <section
       id={id}
-      className={`relative overflow-hidden text-[#ffffeb] ${className}`}
+      className={`relative overflow-hidden text-[#f2eee3] bg-[hsl(230,30%,14%)] border-2 border-[hsl(230,30%,14%)] riso-shadow-pink ${className}`}
       style={{
-        backgroundColor: '#1a1a1a',
-        borderRadius: 'clamp(40px, 6vw, 80px)',
-        margin: '32px 16px',
+        borderRadius: '0px',
+        margin: '40px 16px',
         padding: 'clamp(48px, 6vw, 96px) clamp(20px, 4vw, 56px)',
         ...style,
       }}
@@ -236,17 +236,183 @@ export function CreamCard({
 }) {
   return (
     <div
-      className={`card-cream ${className}`}
+      className={`bg-[hsl(44,45%,92%)] border-2 border-[hsl(230,30%,14%)] riso-shadow-ink ${className}`}
       style={{
-        backgroundColor: '#ffffeb',
-        border: '2px solid #1a1a1a',
-        borderRadius: '32px',
+        borderRadius: '0px',
         padding: '32px',
         ...style,
       }}
     >
       {children}
     </div>
+  );
+}
+
+/**
+ * ============================================
+ * OFFSET CLUB RISOGRAPH PRIMITIVES
+ * ============================================
+ */
+
+/**
+ * MisregisteredHeading
+ * Renders bold display typography with deliberate physical print misregistration:
+ * A foreground ink layer and an offset fluorescent ghost ink layer with micro-drift animation.
+ */
+export function MisregisteredHeading({
+  children,
+  as: Component = 'h2',
+  className = '',
+  ghostColor = 'pink',
+  offset = 3,
+  style = {},
+}: {
+  children: React.ReactNode;
+  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'span' | 'div';
+  className?: string;
+  ghostColor?: 'pink' | 'blue' | 'yellow';
+  offset?: number;
+  style?: React.CSSProperties;
+}) {
+  const shouldReduceMotion = useReducedMotion();
+  const ghostColors = {
+    pink: 'hsl(330, 100%, 60%)',
+    blue: 'hsl(212, 100%, 45%)',
+    yellow: 'hsl(52, 100%, 55%)',
+  };
+  const ghostInk = ghostColors[ghostColor] || ghostColors.pink;
+
+  return (
+    <Component
+      className={`relative inline-block select-none ${className}`}
+      style={{
+        fontFamily: 'var(--font-archivo), sans-serif',
+        ...style,
+      }}
+    >
+      {/* Misregistered ink ghost layer behind */}
+      <motion.span
+        aria-hidden="true"
+        className="absolute top-0 left-0 pointer-events-none select-none z-0"
+        style={{
+          color: ghostInk,
+        }}
+        initial={false}
+        animate={
+          shouldReduceMotion
+            ? { x: offset, y: offset }
+            : {
+                x: [offset, offset + 1.5, offset - 1, offset],
+                y: [offset, offset - 1, offset + 1, offset],
+              }
+        }
+        transition={{
+          repeat: Infinity,
+          repeatType: 'reverse',
+          duration: 3.5,
+          ease: 'easeInOut',
+        }}
+      >
+        {children}
+      </motion.span>
+
+      {/* Primary ink layer */}
+      <span className="relative z-10 block text-[inherit]">
+        {children}
+      </span>
+    </Component>
+  );
+}
+
+/**
+ * DuotoneCard
+ * Wraps media in a risograph two-color print treatment (medium blue + fluorescent pink screen blend)
+ */
+export function DuotoneCard({
+  children,
+  className = '',
+  style = {},
+}: {
+  children: React.ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  return (
+    <div
+      className={`relative overflow-hidden border-2 border-[hsl(230,30%,14%)] riso-shadow-pink bg-[hsl(212,100%,45%)] ${className}`}
+      style={{
+        borderRadius: '0px',
+        ...style,
+      }}
+    >
+      <div className="relative w-full h-full riso-duotone-wrapper">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * RisoMarquee
+ * Loud yellow warning-style studio tape that loops across the screen
+ */
+export function RisoMarquee({
+  items,
+  className = '',
+}: {
+  items?: string[];
+  className?: string;
+}) {
+  const defaultItems = [
+    '★ LOW-RESOURCE NLP',
+    '★ PRODUCTION SYSTEMS',
+    '★ OFFSET PRINT AESTHETIC',
+    '★ RESEARCHER @ UIU',
+    '★ DHAKA, BANGLADESH',
+    '★ ARCHITECTURE & CODE',
+    '★ OPEN FOR COLLABORATION',
+  ];
+  const list = items || defaultItems;
+  const repeated = [...list, ...list, ...list, ...list];
+
+  return (
+    <div
+      className={`w-full bg-[hsl(52,100%,55%)] text-[hsl(230,30%,14%)] border-y-2 border-[hsl(230,30%,14%)] py-2 overflow-hidden select-none z-30 relative ${className}`}
+      style={{ fontFamily: 'var(--font-space), monospace' }}
+    >
+      <div className="animate-riso-marquee flex items-center gap-8 whitespace-nowrap text-xs sm:text-sm font-bold tracking-widest uppercase">
+        {repeated.map((text, i) => (
+          <span key={i} className="inline-flex items-center gap-4">
+            <span>{text}</span>
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * RisoTape
+ * Masking tape label with diagonal tilt
+ */
+export function RisoTape({
+  children,
+  className = '',
+  rotate = -2,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  rotate?: number;
+}) {
+  return (
+    <span
+      className={`riso-tape inline-flex items-center ${className}`}
+      style={{
+        transform: `rotate(${rotate}deg)`,
+      }}
+    >
+      {children}
+    </span>
   );
 }
 

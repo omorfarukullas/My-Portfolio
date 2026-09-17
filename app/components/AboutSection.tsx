@@ -8,7 +8,7 @@ import {
   SiPytorch, SiTensorflow, SiHuggingface,
   SiRaspberrypi, SiGit, SiGithub
 } from 'react-icons/si';
-import { TealBadge, PlatformBadge, DarkChamber } from './WisprPrimitives';
+import { MisregisteredHeading, RisoTape, DarkChamber } from './WisprPrimitives';
 
 const techStack = [
   {
@@ -69,110 +69,98 @@ const techStack = [
 export default function AboutSection() {
   return (
     <DarkChamber id="about">
-      {/* Editorial Header */}
-      <div className="flex flex-col items-start gap-4 mb-16 max-w-3xl">
-        <TealBadge>Research &amp; Philosophy</TealBadge>
-        <h2
-          className="text-[#ffffeb]"
-          style={{
-            fontFamily: 'var(--font-eb-garamond)',
-            fontSize: 'clamp(36px, 5.5vw, 64px)',
-            lineHeight: 0.95,
-            letterSpacing: '-1.92px',
-            fontWeight: 400,
-          }}
+      {/* Editorial Header with Riso Misregistration */}
+      <div className="flex flex-col items-start gap-4 mb-14 max-w-3xl">
+        <RisoTape rotate={-1}>
+          DOSSIER // RESEARCH &amp; PHILOSOPHY
+        </RisoTape>
+        
+        <MisregisteredHeading
+          as="h2"
+          ghostColor="pink"
+          offset={3}
+          className="text-3xl sm:text-5xl lg:text-6xl font-archivo uppercase tracking-tight text-[#f2eee3] leading-[0.95]"
         >
-          Grounding intelligence in rigorous software architecture.
-        </h2>
-        <p
-          className="text-lg sm:text-xl text-[#8a8a80]"
-          style={{ fontFamily: 'var(--font-figtree)', lineHeight: 1.35 }}
-        >
-          Undergraduate researcher at United International University (UIU). Committed to closing the gap between academic low-resource NLP research and durable software systems.
+          Grounding Intelligence in Rigorous Architecture.
+        </MisregisteredHeading>
+
+        <p className="font-space text-base sm:text-lg text-[#f2eee3]/80 leading-relaxed max-w-2xl">
+          Undergraduate researcher at United International University (UIU). Dedicated to bridging the gap between theoretical low-resource NLP experiments and robust production software systems.
         </p>
       </div>
 
       {/* Two Column Feature Chamber: Academic Bio + Research Spotlight */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
+        
         {/* Academic Card */}
-        <div
-          className="lg:col-span-6 bg-[#222222] border border-white/10 rounded-[32px] p-8 sm:p-10 flex flex-col justify-between"
-          style={{ fontFamily: 'var(--font-figtree)' }}
-        >
+        <div className="lg:col-span-6 bg-white border-2 border-[hsl(230,30%,14%)] riso-shadow-ink p-8 flex flex-col justify-between text-[hsl(230,30%,14%)]">
           <div className="flex flex-col gap-4">
-            <span className="text-xs uppercase font-semibold tracking-widest text-[#8a8a80]">
-              Academic Background
-            </span>
-            <h3
-              className="text-2xl sm:text-3xl text-[#ffffeb]"
-              style={{ fontFamily: 'var(--font-eb-garamond)' }}
-            >
+            <div className="flex items-center justify-between pb-3 border-b-2 border-[hsl(230,30%,14%)]">
+              <span className="font-space text-xs uppercase font-bold tracking-widest text-[hsl(230,12%,38%)]">
+                ACADEMIC SUBSTRATE
+              </span>
+              <span className="font-space text-xs font-bold bg-[hsl(52,100%,55%)] px-2 py-0.5 border border-[hsl(230,30%,14%)]">
+                UIU • CSE
+              </span>
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-archivo uppercase text-[hsl(230,30%,14%)]">
               United International University
             </h3>
-            <p className="text-[#8a8a80] text-base sm:text-lg leading-relaxed">
-              B.Sc. in Computer Science &amp; Engineering. My foundational work covers distributed systems, algorithm analysis, and statistical language modeling.
+            <p className="font-space text-sm sm:text-base text-[hsl(230,30%,20%)] leading-relaxed">
+              B.Sc. in Computer Science &amp; Engineering. Core focus spans distributed systems, computational linguistics, algorithmic complexity, and statistical language modeling.
             </p>
           </div>
 
-          <div className="mt-8 pt-6 border-t border-white/10">
-            <div className="text-sm text-[#ffffeb]/90 italic">
-              &ldquo;Sound engineering is the substrate upon which reproducible machine learning thrives.&rdquo;
+          <div className="mt-8 pt-6 border-t-2 border-[hsl(230,30%,14%)] bg-[hsl(44,45%,92%)] -mx-8 -mb-8 p-6">
+            <div className="font-space text-xs sm:text-sm font-bold text-[hsl(230,30%,14%)]">
+              &ldquo;Sound software engineering is the substrate upon which reproducible machine learning thrives.&rdquo;
             </div>
           </div>
         </div>
 
-        {/* Research Spotlight Card: Forest Ink Velvet Room Panel */}
-        <div
-          className="lg:col-span-6 bg-[#034f46] border border-white/10 rounded-[32px] p-8 sm:p-10 flex flex-col justify-between text-[#ffffeb]"
-          style={{ fontFamily: 'var(--font-figtree)' }}
-        >
+        {/* Research Spotlight Card: High-Impact Medium Blue Ink Card */}
+        <div className="lg:col-span-6 bg-[hsl(212,100%,45%)] border-2 border-[hsl(230,30%,14%)] riso-shadow-pink p-8 flex flex-col justify-between text-white">
           <div className="flex flex-col gap-4">
-            <div className="flex items-center justify-between">
-              <span className="text-xs uppercase font-semibold tracking-widest text-[#ffffeb]/70">
-                Active Research Focus
+            <div className="flex items-center justify-between pb-3 border-b-2 border-white/20">
+              <span className="font-space text-xs uppercase font-bold tracking-widest text-white/90">
+                ACTIVE LAB FOCUS
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded-full bg-white/10 text-[#f0d7ff]">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#ffa946] animate-pulse" />
-                In Progress
+              <span className="font-space text-xs font-bold bg-[hsl(330,100%,60%)] text-[hsl(230,30%,14%)] px-2.5 py-0.5 border border-[hsl(230,30%,14%)] animate-pulse">
+                IN PROGRESS
               </span>
             </div>
 
-            <h3
-              className="text-2xl sm:text-3xl text-[#ffffeb]"
-              style={{ fontFamily: 'var(--font-eb-garamond)' }}
-            >
+            <h3 className="text-2xl sm:text-3xl font-archivo uppercase text-white leading-tight">
               Coordinated Propaganda Detection in Low-Resource Bangla
             </h3>
-            <p className="text-[#ffffeb]/80 text-base sm:text-lg leading-relaxed">
-              Constructing an open standardized dataset and testing lightweight transformer pipelines to identify coordinated narrative manipulation and digital disinformation in low-resource Bangla social media.
+            <p className="font-space text-sm sm:text-base text-white/90 leading-relaxed">
+              Curating standardized open datasets and benchmarking lightweight transformer architectures to expose coordinated manipulation and synthetic narrative spread across Bangla digital media.
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-2 mt-8 pt-6 border-t border-white/10">
-            {['Bangla NLP', 'Dataset Engineering', 'Transformers', 'Graph Analysis'].map((tag) => (
+          <div className="flex flex-wrap gap-2 mt-8 pt-6 border-t-2 border-white/20">
+            {['BANGLA NLP', 'DATASET CURATION', 'TRANSFORMERS', 'GRAPH ANALYSIS'].map((tag) => (
               <span
                 key={tag}
-                className="text-xs font-medium px-3 py-1 rounded-full bg-black/20 text-[#ffffeb]"
+                className="font-space text-xs font-bold px-3 py-1 bg-[hsl(230,30%,14%)] text-[hsl(44,45%,92%)] border border-white/20"
               >
                 {tag}
               </span>
             ))}
           </div>
         </div>
+
       </div>
 
-      {/* Tech Stack Chamber Section */}
-      <div className="pt-8">
-        <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
+      {/* Tech Stack Arsenal Grid */}
+      <div className="pt-4">
+        <div className="flex items-center justify-between mb-8 pb-4 border-b-2 border-white/10">
           <div>
-            <span className="text-xs uppercase font-semibold tracking-widest text-[#8a8a80] block mb-1">
-              Capabilities
+            <span className="font-space text-xs uppercase font-bold tracking-widest text-[hsl(52,100%,55%)] block mb-1">
+              // ARSENAL SPECIFICATIONS
             </span>
-            <h3
-              className="text-2xl sm:text-3xl text-[#ffffeb]"
-              style={{ fontFamily: 'var(--font-eb-garamond)' }}
-            >
-              Technical Arsenal
+            <h3 className="text-2xl sm:text-3xl font-archivo uppercase text-[#f2eee3]">
+              Technical Capabilities
             </h3>
           </div>
         </div>
@@ -181,17 +169,23 @@ export default function AboutSection() {
           {techStack.map((group) => (
             <div
               key={group.category}
-              className="bg-[#222222] border border-white/10 rounded-[28px] p-6 flex flex-col gap-4"
-              style={{ fontFamily: 'var(--font-figtree)' }}
+              className="bg-white border-2 border-[hsl(230,30%,14%)] riso-shadow-ink-sm p-6 flex flex-col gap-4 text-[hsl(230,30%,14%)]"
             >
-              <span className="text-sm font-semibold uppercase tracking-wider text-[#8a8a80]">
-                {group.category}
-              </span>
+              <div className="flex items-center justify-between pb-2 border-b-2 border-[hsl(230,30%,14%)]">
+                <span className="font-space text-xs font-bold uppercase tracking-wider text-[hsl(230,30%,14%)]">
+                  {group.category}
+                </span>
+                <span className="w-2 h-2 bg-[hsl(330,100%,60%)] border border-[hsl(230,30%,14%)]" />
+              </div>
               <div className="flex flex-wrap gap-2">
                 {group.skills.map((skill) => (
-                  <PlatformBadge key={skill.name} icon={skill.icon}>
-                    {skill.name}
-                  </PlatformBadge>
+                  <span
+                    key={skill.name}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-space font-bold uppercase bg-[hsl(44,45%,92%)] border-2 border-[hsl(230,30%,14%)] text-[hsl(230,30%,14%)] hover:bg-[hsl(52,100%,55%)] transition-colors cursor-default"
+                  >
+                    <span>{skill.icon}</span>
+                    <span>{skill.name}</span>
+                  </span>
                 ))}
               </div>
             </div>
@@ -200,21 +194,21 @@ export default function AboutSection() {
       </div>
 
       {/* Bottom Actions inside Chamber */}
-      <div className="mt-16 pt-8 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
-        <span className="text-[#8a8a80] text-sm">
-          Interested in academic collaboration or software development?
+      <div className="mt-14 pt-8 border-t-2 border-white/10 flex flex-wrap items-center justify-between gap-4">
+        <span className="font-space text-xs sm:text-sm text-[#f2eee3]/70">
+          Interested in academic collaboration, NLP research, or engineering roles?
         </span>
         <div className="flex items-center gap-3">
           <Link
             href="/contact"
-            className="btn-primary"
+            className="btn-riso-pink text-xs"
           >
             Start a Conversation →
           </Link>
           <a
             href="/OmorFaruckUllas.pdf"
             download="OmorFaruckUllas_Resume.pdf"
-            className="btn-secondary-dark"
+            className="btn-riso-outline text-xs text-white border-white hover:bg-white hover:text-[hsl(230,30%,14%)]"
           >
             Download CV
           </a>

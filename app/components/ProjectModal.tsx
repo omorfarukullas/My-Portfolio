@@ -50,34 +50,35 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             initial={{ scale: 0.95, opacity: 0, y: 15 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.95, opacity: 0, y: 10 }}
-            transition={{ duration: 0.2, ease: 'easeOut' }}
+            transition={{ duration: 0.15, ease: 'easeOut' }}
             onClick={(e) => e.stopPropagation()}
-            className="bg-[#ffffeb] border-2 border-[#1a1a1a] rounded-[36px] w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 sm:p-10 flex flex-col gap-6 text-[#1a1a1a] outline-none"
-            style={{ fontFamily: 'var(--font-figtree)' }}
+            className="bg-[hsl(44,45%,92%)] border-3 border-[hsl(230,30%,14%)] riso-shadow-pink w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 sm:p-9 flex flex-col gap-6 text-[hsl(230,30%,14%)] outline-none"
           >
             {/* Modal Header */}
-            <div className="flex items-start justify-between gap-4 border-b border-[#e4e4d0] pb-6">
+            <div className="flex items-start justify-between gap-4 border-b-2 border-[hsl(230,30%,14%)] pb-5">
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2">
-                  <DarkSquareBadge variant="dark">{project.category}</DarkSquareBadge>
+                  <span className="font-space text-xs uppercase font-bold px-2.5 py-0.5 bg-[hsl(52,100%,55%)] border border-[hsl(230,30%,14%)]">
+                    {project.category}
+                  </span>
                   {project.status === 'Completed' ? (
-                    <TealBadge>Completed</TealBadge>
+                    <span className="font-space text-xs uppercase font-bold px-2.5 py-0.5 bg-white border border-[hsl(230,30%,14%)]">
+                      COMPLETED
+                    </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-medium rounded-full bg-[#ffa946]/20 text-[#1a1a1a] border border-[#ffa946]">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#ffa946]" />
-                      In Progress
+                    <span className="font-space text-xs uppercase font-bold px-2.5 py-0.5 bg-[hsl(330,100%,60%)] border border-[hsl(230,30%,14%)] animate-pulse">
+                      IN PROGRESS
                     </span>
                   )}
                 </div>
 
                 <h2
                   id="modal-project-title"
-                  className="text-3xl sm:text-4xl text-[#1a1a1a]"
-                  style={{ fontFamily: 'var(--font-eb-garamond)', letterSpacing: '-1px' }}
+                  className="text-2xl sm:text-3xl font-archivo uppercase text-[hsl(230,30%,14%)] leading-tight mt-1"
                 >
                   {project.title}
                 </h2>
-                <p className="text-sm font-medium text-[#8a8a80]">
+                <p className="font-space text-xs sm:text-sm font-bold text-[hsl(212,100%,45%)] uppercase tracking-wider">
                   {project.tagline}
                 </p>
               </div>
@@ -87,7 +88,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                 type="button"
                 onClick={onClose}
                 aria-label="Close modal"
-                className="w-10 h-10 rounded-full border-2 border-[#1a1a1a] bg-[#ffffeb] text-[#1a1a1a] hover:bg-[#e4e4d0] flex items-center justify-center font-bold text-lg transition-colors shrink-0"
+                className="w-10 h-10 border-2 border-[hsl(230,30%,14%)] bg-[hsl(330,100%,60%)] text-[hsl(230,30%,14%)] hover:bg-[hsl(52,100%,55%)] flex items-center justify-center font-bold text-lg font-space transition-colors shrink-0 cursor-pointer"
               >
                 ✕
               </button>
@@ -95,23 +96,23 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
             {/* Long Narrative Description */}
             <div>
-              <span className="text-xs uppercase font-semibold tracking-widest text-[#8a8a80] block mb-2">
-                Overview &amp; Architecture
+              <span className="font-space text-xs uppercase font-bold tracking-widest text-[hsl(230,12%,38%)] block mb-2">
+                // SYSTEM ARCHITECTURE &amp; SCOPE
               </span>
-              <p className="text-base sm:text-lg text-[#222222] leading-relaxed">
+              <p className="font-space text-sm sm:text-base text-[hsl(230,30%,20%)] leading-relaxed">
                 {project.longDescription}
               </p>
             </div>
 
             {/* Key Capabilities */}
-            <div className="bg-[#e4e4d0]/50 border border-[#1a1a1a]/20 rounded-2xl p-6">
-              <span className="text-xs uppercase font-semibold tracking-widest text-[#1a1a1a] block mb-3">
-                Key Technical Highlights
+            <div className="bg-white border-2 border-[hsl(230,30%,14%)] riso-shadow-ink-sm p-5">
+              <span className="font-space text-xs uppercase font-bold tracking-widest text-[hsl(230,30%,14%)] block mb-3 pb-2 border-b-2 border-[hsl(230,30%,14%)]">
+                SPECIFICATION HIGHLIGHTS
               </span>
               <ul className="flex flex-col gap-2.5">
                 {project.features.map((feature, i) => (
-                  <li key={i} className="flex items-start gap-2.5 text-sm sm:text-base text-[#222222]">
-                    <span className="text-[#034f46] font-bold">✓</span>
+                  <li key={i} className="flex items-start gap-2.5 font-space text-xs sm:text-sm text-[hsl(230,30%,20%)]">
+                    <span className="text-[hsl(212,100%,45%)] font-bold">★</span>
                     <span>{feature}</span>
                   </li>
                 ))}
@@ -120,26 +121,29 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
             {/* Technologies */}
             <div>
-              <span className="text-xs uppercase font-semibold tracking-widest text-[#8a8a80] block mb-2">
-                Tech Stack
+              <span className="font-space text-xs uppercase font-bold tracking-widest text-[hsl(230,12%,38%)] block mb-2">
+                // TECH STACK
               </span>
               <div className="flex flex-wrap gap-2">
                 {project.techStack.map((tech) => (
-                  <DarkSquareBadge key={tech} variant="cream">
+                  <span
+                    key={tech}
+                    className="font-space text-xs font-bold uppercase px-2.5 py-1 bg-white border border-[hsl(230,30%,14%)] text-[hsl(230,30%,14%)]"
+                  >
                     {tech}
-                  </DarkSquareBadge>
+                  </span>
                 ))}
               </div>
             </div>
 
             {/* Modal Actions */}
-            <div className="flex flex-wrap items-center justify-end gap-3 pt-6 border-t border-[#e4e4d0] mt-2">
+            <div className="flex flex-wrap items-center justify-end gap-3 pt-5 border-t-2 border-[hsl(230,30%,14%)] mt-1">
               {project.github && (
                 <a
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-primary text-sm"
+                  className="btn-riso-pink text-xs"
                 >
                   View Code on GitHub →
                 </a>
@@ -147,9 +151,9 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               <button
                 type="button"
                 onClick={onClose}
-                className="btn-secondary text-sm"
+                className="btn-riso-outline text-xs"
               >
-                Close
+                Close Spec
               </button>
             </div>
           </motion.div>
