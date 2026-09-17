@@ -1,202 +1,134 @@
 'use client';
 
 import { useState } from 'react';
-import { RADIUS, StickyTag } from './HandDrawn';
+import { TealBadge } from './WisprPrimitives';
 
 export default function CommentForm({ postSlug }: { postSlug: string }) {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [content, setContent] = useState('');
-    const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
-    const [message, setMessage] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [content, setContent] = useState('');
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [message, setMessage] = useState('');
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!name.trim() || !content.trim()) return;
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim() || !content.trim()) return;
 
-        setStatus('submitting');
-        setMessage('');
+    setStatus('submitting');
+    setMessage('');
 
-        try {
-            const res = await fetch(`/api/blog/${postSlug}/comments`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    author_name: name,
-                    author_email: email,
-                    content,
-                }),
-            });
+    try {
+      const res = await fetch(`/api/blog/${postSlug}/comments`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          author_name: name,
+          author_email: email,
+          content,
+        }),
+      });
 
-            const data = await res.json();
+      const data = await res.json();
 
-            if (!res.ok) {
-                throw new Error(data.error || 'Failed to submit comment');
-            }
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to submit comment');
+      }
 
-            setStatus('success');
-            setMessage('🎉 Thank you! Your thought was received and submitted for author review.');
-            setName('');
-            setEmail('');
-            setContent('');
-        } catch (err: any) {
-            setStatus('error');
-            setMessage(err.message || 'Something went wrong. Please try again.');
-        }
-    };
+      setStatus('success');
+      setMessage('Your note was submitted successfully and is awaiting moderation.');
+      setName('');
+      setEmail('');
+      setContent('');
+    } catch (err: any) {
+      setStatus('error');
+      setMessage(err.message || 'Something went wrong. Please try again.');
+    }
+  };
 
-    return (
-        <div style={{
-            background: 'var(--bg-elevated)',
-            border: '2.5px solid #2d2d2d',
-            borderRadius: RADIUS.wobbly,
-            padding: '2rem 1.75rem',
-            boxShadow: '4px 4px 0px #2d2d2d',
-            marginTop: '2rem',
-        }}>
-            <div style={{ marginBottom: '1.25rem' }}>
-                <StickyTag color="yellow" rotate={-1} style={{ marginBottom: '0.4rem' }}>
-                    💬 Leave a Note or Question
-                </StickyTag>
-                <h3 style={{
-                    fontFamily: 'Kalam, cursive',
-                    fontSize: '1.65rem',
-                    fontWeight: 700,
-                    color: '#2d2d2d',
-                    margin: '0.25rem 0',
-                }}>
-                    Join the Discussion
-                </h3>
-                <p style={{
-                    fontFamily: 'Patrick Hand, cursive',
-                    fontSize: '1.05rem',
-                    color: 'var(--text-secondary)',
-                    margin: 0,
-                }}>
-                    Have a question, feedback, or research idea? Drop a note below!
-                </p>
-            </div>
+  return (
+    <div
+      className="card-cream mt-8"
+      style={{ fontFamily: 'var(--font-figtree)' }}
+    >
+      <div className="mb-6 flex flex-col gap-2">
+        <TealBadge>Discourse &amp; Perspectives</TealBadge>
+        <h3
+          className="text-2xl sm:text-3xl text-[#1a1a1a]"
+          style={{ fontFamily: 'var(--font-eb-garamond)' }}
+        >
+          Join the conversation
+        </h3>
+        <p className="text-sm text-[#8a8a80]">
+          Contributions, inquiries, and technical feedback are welcomed.
+        </p>
+      </div>
 
-            {status === 'success' && (
-                <div style={{
-                    background: '#dcfce7',
-                    border: '2px solid #16a34a',
-                    borderRadius: RADIUS.wobblySm,
-                    padding: '0.75rem 1rem',
-                    color: '#15803d',
-                    fontFamily: 'Patrick Hand, cursive',
-                    fontSize: '1.1rem',
-                    fontWeight: 700,
-                    marginBottom: '1.25rem',
-                }}>
-                    {message}
-                </div>
-            )}
-
-            {status === 'error' && (
-                <div style={{
-                    background: '#fee2e2',
-                    border: '2px solid #dc2626',
-                    borderRadius: RADIUS.wobblySm,
-                    padding: '0.75rem 1rem',
-                    color: '#b91c1c',
-                    fontFamily: 'Patrick Hand, cursive',
-                    fontSize: '1.1rem',
-                    fontWeight: 700,
-                    marginBottom: '1.25rem',
-                }}>
-                    ⚠️ {message}
-                </div>
-            )}
-
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
-                    <div>
-                        <label style={{ display: 'block', fontFamily: 'Patrick Hand, cursive', fontSize: '1.05rem', fontWeight: 700, marginBottom: '0.25rem' }}>
-                            Your Name <span style={{ color: 'var(--accent)' }}>*</span>
-                        </label>
-                        <input
-                            type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            placeholder="Ada Lovelace"
-                            required
-                            style={{
-                                width: '100%',
-                                padding: '0.6rem 0.85rem',
-                                borderRadius: RADIUS.wobblySm,
-                                border: '2px solid #2d2d2d',
-                                background: '#ffffff',
-                                fontFamily: 'Patrick Hand, cursive',
-                                fontSize: '1.05rem',
-                                outline: 'none',
-                            }}
-                        />
-                    </div>
-
-                    <div>
-                        <label style={{ display: 'block', fontFamily: 'Patrick Hand, cursive', fontSize: '1.05rem', fontWeight: 700, marginBottom: '0.25rem' }}>
-                            Your Email (Optional, kept private)
-                        </label>
-                        <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder="ada@example.com"
-                            style={{
-                                width: '100%',
-                                padding: '0.6rem 0.85rem',
-                                borderRadius: RADIUS.wobblySm,
-                                border: '2px solid #2d2d2d',
-                                background: '#ffffff',
-                                fontFamily: 'Patrick Hand, cursive',
-                                fontSize: '1.05rem',
-                                outline: 'none',
-                            }}
-                        />
-                    </div>
-                </div>
-
-                <div>
-                    <label style={{ display: 'block', fontFamily: 'Patrick Hand, cursive', fontSize: '1.05rem', fontWeight: 700, marginBottom: '0.25rem' }}>
-                        Your Message <span style={{ color: 'var(--accent)' }}>*</span>
-                    </label>
-                    <textarea
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                        placeholder="What do you think about this topic?"
-                        required
-                        rows={4}
-                        style={{
-                            width: '100%',
-                            padding: '0.75rem 1rem',
-                            borderRadius: RADIUS.wobblySm,
-                            border: '2px solid #2d2d2d',
-                            background: '#ffffff',
-                            fontFamily: 'Patrick Hand, cursive',
-                            fontSize: '1.1rem',
-                            lineHeight: 1.5,
-                            outline: 'none',
-                            resize: 'vertical',
-                        }}
-                    />
-                </div>
-
-                <div>
-                    <button
-                        type="submit"
-                        disabled={status === 'submitting'}
-                        className="btn-sketch"
-                        style={{
-                            padding: '0.55rem 1.5rem',
-                            fontSize: '1.1rem',
-                            cursor: status === 'submitting' ? 'wait' : 'pointer',
-                        }}
-                    >
-                        {status === 'submitting' ? 'Submitting...' : 'Post Comment ✍️'}
-                    </button>
-                </div>
-            </form>
+      {status === 'success' && (
+        <div className="bg-[#034f46] text-[#ffffeb] rounded-xl p-4 text-sm font-medium mb-6">
+          ✓ {message}
         </div>
-    );
+      )}
+
+      {status === 'error' && (
+        <div className="bg-[#fee2e2] text-[#b91c1c] border border-[#dc2626] rounded-xl p-4 text-sm font-medium mb-6">
+          ✕ {message}
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-xs uppercase font-semibold tracking-wider text-[#8a8a80] mb-2">
+              Name *
+            </label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Your name"
+              required
+              className="input-wispr"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs uppercase font-semibold tracking-wider text-[#8a8a80] mb-2">
+              Email (Optional)
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@domain.com"
+              className="input-wispr"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-xs uppercase font-semibold tracking-wider text-[#8a8a80] mb-2">
+            Comment *
+          </label>
+          <textarea
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            placeholder="Share your perspective..."
+            required
+            rows={4}
+            className="input-wispr resize-y min-h-[100px]"
+          />
+        </div>
+
+        <div>
+          <button
+            type="submit"
+            disabled={status === 'submitting'}
+            className="btn-primary"
+          >
+            {status === 'submitting' ? 'Submitting…' : 'Submit Comment →'}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
 }

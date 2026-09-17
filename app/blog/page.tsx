@@ -4,77 +4,69 @@ import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
 import BlogListClient from './BlogListClient';
 import FeaturedPost from '@/app/components/FeaturedPost';
-import { StickyTag } from '@/app/components/HandDrawn';
+import { TealBadge } from '@/app/components/WisprPrimitives';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export const metadata = generatePageMetadata({
-    title: 'Field Notes & Blog',
-    description: 'Articles on Low-Resource NLP, Full Stack Development, React, Next.js, and building real-world solutions.',
-    canonical: 'https://omorfarukullas.vercel.app/blog',
+  title: 'Field Notes & Research Blog',
+  description: 'Technical writing on low-resource NLP, systems architecture, and engineering reflections.',
+  canonical: 'https://omorfarukullas.vercel.app/blog',
 });
 
 export default async function BlogPage() {
-    const posts = await getAllPostsAsync();
-    const allTags = await getAllTagsAsync();
-    const featuredPost = await getFeaturedPostAsync();
+  const posts = await getAllPostsAsync();
+  const allTags = await getAllTagsAsync();
+  const featuredPost = await getFeaturedPostAsync();
 
-    return (
-        <>
-            <Header />
-            <main style={{ paddingTop: '80px' }}>
-                <div className="container section">
-                    {/* Header */}
-                    <div style={{ marginBottom: '2.5rem', maxWidth: '620px' }}>
-                        <StickyTag color="yellow" rotate={-1} style={{ marginBottom: '0.65rem' }}>
-                            📝 Field Notes &amp; Thoughts
-                        </StickyTag>
-                        <h1 style={{
-                            fontSize: 'clamp(2.4rem, 5vw, 3.5rem)',
-                            fontWeight: 700,
-                            fontFamily: 'Kalam, cursive',
-                            color: '#2d2d2d',
-                            marginBottom: '0.75rem',
-                        }}>
-                            Writing &amp; Research Notes
-                        </h1>
-                        <p style={{
-                            color: 'var(--text-secondary)',
-                            fontSize: '1.25rem',
-                            lineHeight: 1.5,
-                            fontFamily: 'Patrick Hand, cursive',
-                        }}>
-                            Reflections on AI research, low-resource Bangla NLP, software engineering, and things learned along the way.
-                        </p>
-                    </div>
+  return (
+    <>
+      <Header />
+      <main className="pt-28 pb-20 bg-[#ffffeb] min-h-screen text-[#1a1a1a]" style={{ fontFamily: 'var(--font-figtree)' }}>
+        <div className="container mx-auto">
+          {/* Header */}
+          <div className="flex flex-col items-start gap-4 mb-16 max-w-2xl">
+            <TealBadge>Research Index &amp; Notebook</TealBadge>
+            <h1
+              className="text-[#1a1a1a]"
+              style={{
+                fontFamily: 'var(--font-eb-garamond)',
+                fontSize: 'clamp(42px, 6vw, 76px)',
+                lineHeight: 0.95,
+                letterSpacing: '-2px',
+                fontWeight: 400,
+              }}
+            >
+              Writing &amp; Field Notes.
+            </h1>
+            <p className="text-lg sm:text-xl text-[#8a8a80]">
+              Reflections on low-resource language processing, machine learning system deployment, and pragmatic engineering lessons.
+            </p>
+          </div>
 
-                    {/* Top Featured Post */}
-                    {featuredPost && (
-                        <FeaturedPost post={featuredPost} />
-                    )}
+          {/* Top Featured Post */}
+          {featuredPost && <FeaturedPost post={featuredPost} />}
 
-                    {/* All Posts Grid with Tag Filtering */}
-                    <div style={{ marginTop: '1rem' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem' }}>
-                            <h2 style={{
-                                fontFamily: 'Kalam, cursive',
-                                fontSize: '1.75rem',
-                                fontWeight: 700,
-                                color: '#2d2d2d',
-                                margin: 0,
-                            }}>
-                                📚 All Articles
-                            </h2>
-                            <span style={{ fontFamily: 'Patrick Hand, cursive', fontSize: '1.1rem', color: 'var(--text-muted)' }}>
-                                ({posts.length} posts)
-                            </span>
-                        </div>
-                        <BlogListClient posts={posts} allTags={allTags} />
-                    </div>
-                </div>
-            </main>
-            <Footer />
-        </>
-    );
+          {/* All Posts Grid with Tag Filtering */}
+          <div className="mt-8">
+            <div className="flex items-center justify-between pb-4 mb-8 border-b border-[#e4e4d0]">
+              <h2
+                className="text-2xl sm:text-3xl text-[#1a1a1a]"
+                style={{ fontFamily: 'var(--font-eb-garamond)' }}
+              >
+                All Publications
+              </h2>
+              <span className="text-sm font-medium text-[#8a8a80]">
+                {posts.length} entries recorded
+              </span>
+            </div>
+
+            <BlogListClient posts={posts} allTags={allTags} />
+          </div>
+        </div>
+      </main>
+      <Footer />
+    </>
+  );
 }

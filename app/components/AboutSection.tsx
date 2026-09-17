@@ -2,424 +2,224 @@
 
 import Link from 'next/link';
 import {
-    SiPython, SiCplusplus, SiOpenjdk, SiJavascript, SiTypescript,
-    SiReact, SiNextdotjs, SiNodedotjs, SiFastapi, SiTailwindcss,
-    SiMysql, SiPostgresql, SiSupabase,
-    SiPytorch, SiTensorflow, SiHuggingface,
-    SiRaspberrypi, SiGit, SiGithub
+  SiPython, SiCplusplus, SiOpenjdk, SiJavascript, SiTypescript,
+  SiReact, SiNextdotjs, SiNodedotjs, SiFastapi, SiTailwindcss,
+  SiMysql, SiPostgresql, SiSupabase,
+  SiPytorch, SiTensorflow, SiHuggingface,
+  SiRaspberrypi, SiGit, SiGithub
 } from 'react-icons/si';
-import { RADIUS, TapeStrip, Thumbtack, StickyTag, HandDrawnDivider } from './HandDrawn';
+import { TealBadge, PlatformBadge, DarkChamber } from './WisprPrimitives';
 
 const techStack = [
-    {
-        category: 'Languages',
-        icon: '💻',
-        color: 'yellow' as const,
-        rotate: -1,
-        skills: [
-            { name: 'Python', icon: <SiPython /> },
-            { name: 'C / C++', icon: <SiCplusplus /> },
-            { name: 'Java', icon: <SiOpenjdk /> },
-            { name: 'JavaScript', icon: <SiJavascript /> },
-            { name: 'TypeScript', icon: <SiTypescript /> },
-        ],
-    },
-    {
-        category: 'AI / ML & NLP',
-        icon: '🧠',
-        color: 'coral' as const,
-        rotate: 1,
-        skills: [
-            { name: 'PyTorch', icon: <SiPytorch /> },
-            { name: 'TensorFlow', icon: <SiTensorflow /> },
-            { name: 'Hugging Face', icon: <SiHuggingface /> },
-            { name: 'Low-Resource NLP', icon: <span>🧬</span> },
-            { name: 'Dataset Construction', icon: <span>📊</span> },
-        ],
-    },
-    {
-        category: 'Web & Backend',
-        icon: '🌐',
-        color: 'blue' as const,
-        rotate: -0.5,
-        skills: [
-            { name: 'React', icon: <SiReact /> },
-            { name: 'Next.js', icon: <SiNextdotjs /> },
-            { name: 'Node.js', icon: <SiNodedotjs /> },
-            { name: 'FastAPI', icon: <SiFastapi /> },
-            { name: 'Tailwind CSS', icon: <SiTailwindcss /> },
-        ],
-    },
-    {
-        category: 'Data & Databases',
-        icon: '🗄️',
-        color: 'green' as const,
-        rotate: 1.5,
-        skills: [
-            { name: 'MySQL', icon: <SiMysql /> },
-            { name: 'PostgreSQL', icon: <SiPostgresql /> },
-            { name: 'Supabase', icon: <SiSupabase /> },
-        ],
-    },
-    {
-        category: 'Embedded & IoT',
-        icon: '⚡',
-        color: 'orange' as const,
-        rotate: -1.2,
-        skills: [
-            { name: 'ESP32 (C++)', icon: <span>📟</span> },
-            { name: 'Raspberry Pi', icon: <SiRaspberrypi /> },
-            { name: 'Sensors & Hardware', icon: <span>☀️</span> },
-        ],
-    },
-    {
-        category: 'Tools & Workflow',
-        icon: '🛠️',
-        color: 'yellow' as const,
-        rotate: 0.8,
-        skills: [
-            { name: 'Git', icon: <SiGit /> },
-            { name: 'GitHub', icon: <SiGithub /> },
-            { name: 'Linux / Bash', icon: <span>🐧</span> },
-        ],
-    },
+  {
+    category: 'Languages',
+    skills: [
+      { name: 'Python', icon: <SiPython /> },
+      { name: 'C / C++', icon: <SiCplusplus /> },
+      { name: 'Java', icon: <SiOpenjdk /> },
+      { name: 'JavaScript', icon: <SiJavascript /> },
+      { name: 'TypeScript', icon: <SiTypescript /> },
+    ],
+  },
+  {
+    category: 'AI / ML & NLP',
+    skills: [
+      { name: 'PyTorch', icon: <SiPytorch /> },
+      { name: 'TensorFlow', icon: <SiTensorflow /> },
+      { name: 'Hugging Face', icon: <SiHuggingface /> },
+      { name: 'Low-Resource NLP', icon: <span>🧬</span> },
+      { name: 'Dataset Construction', icon: <span>📊</span> },
+    ],
+  },
+  {
+    category: 'Web & Backend',
+    skills: [
+      { name: 'React', icon: <SiReact /> },
+      { name: 'Next.js', icon: <SiNextdotjs /> },
+      { name: 'Node.js', icon: <SiNodedotjs /> },
+      { name: 'FastAPI', icon: <SiFastapi /> },
+      { name: 'Tailwind CSS', icon: <SiTailwindcss /> },
+    ],
+  },
+  {
+    category: 'Databases & Cloud',
+    skills: [
+      { name: 'MySQL', icon: <SiMysql /> },
+      { name: 'PostgreSQL', icon: <SiPostgresql /> },
+      { name: 'Supabase', icon: <SiSupabase /> },
+    ],
+  },
+  {
+    category: 'Embedded & IoT',
+    skills: [
+      { name: 'ESP32 (C++)', icon: <span>📟</span> },
+      { name: 'Raspberry Pi', icon: <SiRaspberrypi /> },
+      { name: 'Sensors Telemetry', icon: <span>☀️</span> },
+    ],
+  },
+  {
+    category: 'Tools & Workflow',
+    skills: [
+      { name: 'Git & GitHub', icon: <SiGithub /> },
+      { name: 'Linux / Bash', icon: <span>🐧</span> },
+    ],
+  },
 ];
 
 export default function AboutSection() {
-    return (
-        <section id="about" className="section" style={{ borderTop: '3px solid #2d2d2d' }}>
-            <div className="container">
+  return (
+    <DarkChamber id="about">
+      {/* Editorial Header */}
+      <div className="flex flex-col items-start gap-4 mb-16 max-w-3xl">
+        <TealBadge>Research &amp; Philosophy</TealBadge>
+        <h2
+          className="text-[#ffffeb]"
+          style={{
+            fontFamily: 'var(--font-eb-garamond)',
+            fontSize: 'clamp(36px, 5.5vw, 64px)',
+            lineHeight: 0.95,
+            letterSpacing: '-1.92px',
+            fontWeight: 400,
+          }}
+        >
+          Grounding intelligence in rigorous software architecture.
+        </h2>
+        <p
+          className="text-lg sm:text-xl text-[#8a8a80]"
+          style={{ fontFamily: 'var(--font-figtree)', lineHeight: 1.35 }}
+        >
+          Undergraduate researcher at United International University (UIU). Committed to closing the gap between academic low-resource NLP research and durable software systems.
+        </p>
+      </div>
 
-                {/* Section Header */}
-                <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-                    <StickyTag color="yellow" rotate={-1.5} style={{ fontSize: '1rem', marginBottom: '0.75rem' }}>
-                        📖 About Me & Research
-                    </StickyTag>
-                    <h2 style={{
-                        fontSize: 'clamp(2.2rem, 5vw, 3.5rem)',
-                        fontWeight: 700,
-                        color: '#2d2d2d',
-                        fontFamily: 'Kalam, cursive',
-                        lineHeight: 1.15,
-                        marginBottom: '0.75rem',
-                    }}>
-                        Researcher, Developer & Maker
-                    </h2>
-                    <p style={{
-                        fontSize: '1.25rem',
-                        color: 'var(--text-secondary)',
-                        maxWidth: '620px',
-                        margin: '0 auto',
-                        fontFamily: 'Patrick Hand, cursive',
-                    }}>
-                        Turning messy real-world data into systems that actually work — across low-resource AI, full stack web apps, and embedded IoT.
-                    </p>
-                </div>
+      {/* Two Column Feature Chamber: Academic Bio + Research Spotlight */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
+        {/* Academic Card */}
+        <div
+          className="lg:col-span-6 bg-[#222222] border border-white/10 rounded-[32px] p-8 sm:p-10 flex flex-col justify-between"
+          style={{ fontFamily: 'var(--font-figtree)' }}
+        >
+          <div className="flex flex-col gap-4">
+            <span className="text-xs uppercase font-semibold tracking-widest text-[#8a8a80]">
+              Academic Background
+            </span>
+            <h3
+              className="text-2xl sm:text-3xl text-[#ffffeb]"
+              style={{ fontFamily: 'var(--font-eb-garamond)' }}
+            >
+              United International University
+            </h3>
+            <p className="text-[#8a8a80] text-base sm:text-lg leading-relaxed">
+              B.Sc. in Computer Science &amp; Engineering. My foundational work covers distributed systems, algorithm analysis, and statistical language modeling.
+            </p>
+          </div>
 
-                {/* Top Grid: Bio Card + Research Spotlight */}
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                    gap: '2rem',
-                    marginBottom: '3.5rem',
-                }}>
-                    {/* Bio Notebook Card */}
-                    <div
-                        style={{
-                            position: 'relative',
-                            background: '#ffffff',
-                            border: '3px solid #2d2d2d',
-                            borderRadius: RADIUS.wobbly,
-                            padding: '2.25rem 2rem',
-                            boxShadow: '6px 6px 0px 0px #2d2d2d',
-                            transform: 'rotate(-0.8deg)',
-                        }}
-                    >
-                        <TapeStrip rotate={-1} />
-                        <h3 style={{
-                            fontFamily: 'Kalam, cursive',
-                            fontSize: '1.75rem',
-                            fontWeight: 700,
-                            marginBottom: '1rem',
-                            color: '#2d2d2d',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.5rem',
-                        }}>
-                            <span>🎓</span> Academic & Vision
-                        </h3>
-                        <p style={{ fontSize: '1.15rem', lineHeight: 1.65, color: '#333333', marginBottom: '1.25rem' }}>
-                            I&apos;m a Computer Science & Engineering undergraduate at <strong>United International University (UIU)</strong> in Dhaka, Bangladesh.
-                        </p>
-                        <p style={{ fontSize: '1.15rem', lineHeight: 1.65, color: '#333333', marginBottom: '1.25rem' }}>
-                            My primary research and engineering focus centers on <strong>AI/ML</strong>, <strong>Natural Language Processing (NLP)</strong> with emphasis on <strong>Low-Resource Language Processing (Bangla)</strong>, and building robust end-to-end software systems.
-                        </p>
-
-                        <div style={{
-                            background: 'var(--bg-postit)',
-                            border: '2px dashed #2d2d2d',
-                            borderRadius: RADIUS.wobblySm,
-                            padding: '0.85rem 1.1rem',
-                            fontFamily: 'Patrick Hand, cursive',
-                            fontSize: '1.1rem',
-                            color: '#2d2d2d',
-                            transform: 'rotate(0.5deg)',
-                        }}>
-                            💡 <strong>Core philosophy:</strong> Real impact happens when sound research principles meet pragmatic software engineering.
-                        </div>
-                    </div>
-
-                    {/* Research Spotlight Card (Speech Bubble Post-It) */}
-                    <div
-                        style={{
-                            position: 'relative',
-                            background: 'var(--bg-postit)',
-                            border: '3px solid #2d2d2d',
-                            borderRadius: RADIUS.wobblyMd,
-                            padding: '2.25rem 2rem',
-                            boxShadow: '6px 6px 0px 0px #2d2d2d',
-                            transform: 'rotate(1.2deg)',
-                        }}
-                    >
-                        <Thumbtack color="#ff4d4d" />
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
-                            <StickyTag color="coral" rotate={-1}>
-                                🧬 Research Spotlight
-                            </StickyTag>
-                            <span style={{
-                                fontFamily: 'Patrick Hand, cursive',
-                                fontSize: '0.95rem',
-                                color: 'var(--accent)',
-                                fontWeight: 700,
-                            }}>
-                                [In Progress]
-                            </span>
-                        </div>
-
-                        <h3 style={{
-                            fontFamily: 'Kalam, cursive',
-                            fontSize: '1.5rem',
-                            fontWeight: 700,
-                            marginBottom: '0.75rem',
-                            color: '#2d2d2d',
-                            lineHeight: 1.25,
-                        }}>
-                            Coordinated Propaganda Detection in Low-Resource Bangla
-                        </h3>
-
-                        <p style={{ fontSize: '1.1rem', lineHeight: 1.6, color: '#333333', marginBottom: '1rem' }}>
-                            Investigating whether coordinated propaganda campaigns can be automatically detected in Bangla using digital online media data.
-                        </p>
-                        <p style={{ fontSize: '1.1rem', lineHeight: 1.6, color: '#333333', marginBottom: '1.25rem' }}>
-                            Collaborating with a dedicated team to build an open Bangla propaganda dataset and evaluate transformer-based detection architectures across noisy, low-resource contexts.
-                        </p>
-
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
-                            {['Bangla NLP', 'Dataset Construction', 'Transformer Models', 'Social Network Analysis'].map((tag) => (
-                                <span
-                                    key={tag}
-                                    style={{
-                                        fontSize: '0.9rem',
-                                        background: '#ffffff',
-                                        border: '1.5px solid #2d2d2d',
-                                        borderRadius: RADIUS.wobblySm,
-                                        padding: '0.15rem 0.55rem',
-                                        fontFamily: 'Patrick Hand, cursive',
-                                        fontWeight: 600,
-                                    }}
-                                >
-                                    #{tag}
-                                </span>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-
-                {/* Currently Building & Exploring Checklist */}
-                <div
-                    style={{
-                        position: 'relative',
-                        background: '#ffffff',
-                        border: '3px solid #2d2d2d',
-                        borderRadius: RADIUS.wobbly,
-                        padding: '2.5rem 2rem',
-                        boxShadow: '6px 6px 0px 0px #2d2d2d',
-                        marginBottom: '4.5rem',
-                    }}
-                >
-                    <TapeStrip rotate={-1.5} />
-                    <h3 style={{
-                        fontFamily: 'Kalam, cursive',
-                        fontSize: '1.85rem',
-                        fontWeight: 700,
-                        color: '#2d2d2d',
-                        marginBottom: '1.5rem',
-                        textAlign: 'center',
-                        textDecoration: 'underline wavy var(--accent)',
-                        textUnderlineOffset: '6px',
-                    }}>
-                        🔭 Currently Building &amp; Exploring
-                    </h3>
-
-                    <div style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                        gap: '1.5rem',
-                    }}>
-                        {[
-                            {
-                                icon: '🔬',
-                                title: 'Bangla Propaganda Research',
-                                text: 'Constructing datasets and evaluating detection models for coordinated disinformation in low-resource Bangla.',
-                            },
-                            {
-                                icon: '☀️',
-                                title: 'HelioSense ESP32 IoT',
-                                text: 'Real-time smart solar panel monitoring system with sensor telemetry and environmental tracking.',
-                            },
-                            {
-                                icon: '🧠',
-                                title: 'Applied NLP & AI Deep Dive',
-                                text: 'Deepening focus on tokenizer optimization, embedding representations, and fine-tuning small LLMs.',
-                            },
-                            {
-                                icon: '🤝',
-                                title: 'Collaborative Projects',
-                                text: 'Always excited to connect for research discussions, open source contributions, or applied software engineering.',
-                            },
-                        ].map((item, i) => (
-                            <div
-                                key={i}
-                                style={{
-                                    background: 'var(--bg-elevated)',
-                                    border: '2px solid #2d2d2d',
-                                    borderRadius: RADIUS.wobblySm,
-                                    padding: '1.25rem',
-                                    boxShadow: '3px 3px 0px #2d2d2d',
-                                    transform: i % 2 === 0 ? 'rotate(-0.5deg)' : 'rotate(0.5deg)',
-                                    transition: 'transform 0.15s ease',
-                                }}
-                                onMouseEnter={(e) => e.currentTarget.style.transform = 'rotate(0deg) translateY(-2px)'}
-                                onMouseLeave={(e) => e.currentTarget.style.transform = i % 2 === 0 ? 'rotate(-0.5deg)' : 'rotate(0.5deg)'}
-                            >
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem' }}>
-                                    <span style={{ fontSize: '1.4rem' }}>{item.icon}</span>
-                                    <h4 style={{ fontFamily: 'Kalam, cursive', fontSize: '1.2rem', fontWeight: 700, margin: 0 }}>
-                                        {item.title}
-                                    </h4>
-                                </div>
-                                <p style={{ fontSize: '1.05rem', color: '#444444', margin: 0, lineHeight: 1.5 }}>
-                                    {item.text}
-                                </p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                <HandDrawnDivider />
-
-                {/* Tech Stack Categories Grid */}
-                <div>
-                    <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-                        <StickyTag color="green" rotate={1} style={{ fontSize: '1rem', marginBottom: '0.5rem' }}>
-                            🛠️ Toolkit &amp; Technologies
-                        </StickyTag>
-                        <h3 style={{
-                            fontFamily: 'Kalam, cursive',
-                            fontSize: '2.2rem',
-                            fontWeight: 700,
-                            color: '#2d2d2d',
-                        }}>
-                            Tools of the Craft
-                        </h3>
-                    </div>
-
-                    <div style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                        gap: '2rem',
-                    }}>
-                        {techStack.map((group) => (
-                            <div
-                                key={group.category}
-                                style={{
-                                    position: 'relative',
-                                    background: '#ffffff',
-                                    border: '2.5px solid #2d2d2d',
-                                    borderRadius: RADIUS.wobbly,
-                                    padding: '1.75rem 1.5rem',
-                                    boxShadow: '4px 4px 0px 0px #2d2d2d',
-                                    transform: `rotate(${group.rotate}deg)`,
-                                    transition: 'transform 0.15s ease, box-shadow 0.15s ease',
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(-4px) rotate(0deg)';
-                                    e.currentTarget.style.boxShadow = '8px 8px 0px 0px #2d2d2d';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.transform = `rotate(${group.rotate}deg)`;
-                                    e.currentTarget.style.boxShadow = '4px 4px 0px 0px #2d2d2d';
-                                }}
-                            >
-                                <Thumbtack color={group.color === 'coral' ? '#ff4d4d' : group.color === 'blue' ? '#2d5da1' : '#ffb703'} />
-
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', marginBottom: '1.25rem', borderBottom: '2px dashed #2d2d2d', paddingBottom: '0.5rem' }}>
-                                    <span style={{ fontSize: '1.35rem' }}>{group.icon}</span>
-                                    <h4 style={{
-                                        fontFamily: 'Kalam, cursive',
-                                        fontSize: '1.35rem',
-                                        fontWeight: 700,
-                                        color: '#2d2d2d',
-                                        margin: 0,
-                                    }}>
-                                        {group.category}
-                                    </h4>
-                                </div>
-
-                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                                    {group.skills.map((skill) => (
-                                        <div
-                                            key={skill.name}
-                                            style={{
-                                                display: 'inline-flex',
-                                                alignItems: 'center',
-                                                gap: '0.4rem',
-                                                padding: '0.35rem 0.75rem',
-                                                background: 'var(--bg-elevated)',
-                                                border: '1.5px solid #2d2d2d',
-                                                borderRadius: RADIUS.wobblySm,
-                                                boxShadow: '2px 2px 0px #2d2d2d',
-                                                fontSize: '1rem',
-                                                fontFamily: 'Patrick Hand, cursive',
-                                                fontWeight: 600,
-                                                color: '#2d2d2d',
-                                            }}
-                                        >
-                                            <span style={{ display: 'inline-flex', alignItems: 'center' }}>{skill.icon}</span>
-                                            <span>{skill.name}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Bottom CTA */}
-                <div style={{ textAlign: 'center', marginTop: '4rem', display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-                    <Link href="/projects" className="btn-sketch" style={{ fontSize: '1.2rem', padding: '0.7rem 2rem' }}>
-                        📂 View All Projects &amp; Demos →
-                    </Link>
-                    <a
-                        href="/OmorFaruckUllas.pdf"
-                        download="OmorFaruckUllas_Resume.pdf"
-                        className="btn-sketch-secondary"
-                        style={{ fontSize: '1.2rem', padding: '0.7rem 2rem' }}
-                    >
-                        📄 Download Full Resume (PDF)
-                    </a>
-                </div>
+          <div className="mt-8 pt-6 border-t border-white/10">
+            <div className="text-sm text-[#ffffeb]/90 italic">
+              &ldquo;Sound engineering is the substrate upon which reproducible machine learning thrives.&rdquo;
             </div>
-        </section>
-    );
+          </div>
+        </div>
+
+        {/* Research Spotlight Card: Forest Ink Velvet Room Panel */}
+        <div
+          className="lg:col-span-6 bg-[#034f46] border border-white/10 rounded-[32px] p-8 sm:p-10 flex flex-col justify-between text-[#ffffeb]"
+          style={{ fontFamily: 'var(--font-figtree)' }}
+        >
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center justify-between">
+              <span className="text-xs uppercase font-semibold tracking-widest text-[#ffffeb]/70">
+                Active Research Focus
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded-full bg-white/10 text-[#f0d7ff]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#ffa946] animate-pulse" />
+                In Progress
+              </span>
+            </div>
+
+            <h3
+              className="text-2xl sm:text-3xl text-[#ffffeb]"
+              style={{ fontFamily: 'var(--font-eb-garamond)' }}
+            >
+              Coordinated Propaganda Detection in Low-Resource Bangla
+            </h3>
+            <p className="text-[#ffffeb]/80 text-base sm:text-lg leading-relaxed">
+              Constructing an open standardized dataset and testing lightweight transformer pipelines to identify coordinated narrative manipulation and digital disinformation in low-resource Bangla social media.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-2 mt-8 pt-6 border-t border-white/10">
+            {['Bangla NLP', 'Dataset Engineering', 'Transformers', 'Graph Analysis'].map((tag) => (
+              <span
+                key={tag}
+                className="text-xs font-medium px-3 py-1 rounded-full bg-black/20 text-[#ffffeb]"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Tech Stack Chamber Section */}
+      <div className="pt-8">
+        <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
+          <div>
+            <span className="text-xs uppercase font-semibold tracking-widest text-[#8a8a80] block mb-1">
+              Capabilities
+            </span>
+            <h3
+              className="text-2xl sm:text-3xl text-[#ffffeb]"
+              style={{ fontFamily: 'var(--font-eb-garamond)' }}
+            >
+              Technical Arsenal
+            </h3>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {techStack.map((group) => (
+            <div
+              key={group.category}
+              className="bg-[#222222] border border-white/10 rounded-[28px] p-6 flex flex-col gap-4"
+              style={{ fontFamily: 'var(--font-figtree)' }}
+            >
+              <span className="text-sm font-semibold uppercase tracking-wider text-[#8a8a80]">
+                {group.category}
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {group.skills.map((skill) => (
+                  <PlatformBadge key={skill.name} icon={skill.icon}>
+                    {skill.name}
+                  </PlatformBadge>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Bottom Actions inside Chamber */}
+      <div className="mt-16 pt-8 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
+        <span className="text-[#8a8a80] text-sm">
+          Interested in academic collaboration or software development?
+        </span>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/contact"
+            className="btn-primary"
+          >
+            Start a Conversation →
+          </Link>
+          <a
+            href="/OmorFaruckUllas.pdf"
+            download="OmorFaruckUllas_Resume.pdf"
+            className="btn-secondary-dark"
+          >
+            Download CV
+          </a>
+        </div>
+      </div>
+    </DarkChamber>
+  );
 }

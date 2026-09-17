@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
-import { RADIUS, TapeStrip, StickyTag, Thumbtack } from '@/app/components/HandDrawn';
+import { RADIUS, TapeStrip, StickyTag, Thumbtack } from '@/app/components/WisprPrimitives';
 
 interface AttachmentItem {
     file_url: string;

@@ -1,32 +1,32 @@
 import type { Metadata } from 'next';
-import { Kalam, Patrick_Hand } from 'next/font/google';
+import { EB_Garamond, Figtree } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from './components/ThemeProvider';
 import { generatePersonSchema, generateWebSiteSchema } from '@/lib/seo';
 
-const kalam = Kalam({
-  variable: '--font-heading',
-  subsets: ['latin'],
-  display: 'swap',
-  weight: ['400', '700'],
-});
-
-const patrickHand = Patrick_Hand({
-  variable: '--font-body',
+const ebGaramond = EB_Garamond({
+  variable: '--font-eb-garamond',
   subsets: ['latin'],
   display: 'swap',
   weight: ['400'],
+});
+
+const figtree = Figtree({
+  variable: '--font-figtree',
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['400', '500', '600', '700'],
 });
 
 const siteUrl = 'https://omorfarukullas.vercel.app';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Omor Faruk Ullas | AI/ML, NLP & Low-Resource Language Researcher',
+    default: 'Omor Faruk Ullas — AI/ML, NLP & Software Engineer',
     template: '%s | Omor Faruk Ullas',
   },
   description:
-    'CSE undergraduate at United International University (UIU), Bangladesh. Focusing on AI/ML, NLP, low-resource language processing, and software engineering.',
+    'CSE undergraduate at United International University (UIU), Bangladesh. Focusing on AI/ML, NLP, low-resource language processing, and high-performance software engineering.',
   keywords: [
     'Omor Faruk Ullas', 'AI/ML Researcher', 'NLP',
     'Low-Resource Language Processing', 'Bangla NLP', 'Full Stack Developer',
@@ -72,11 +72,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(generatePersonSchema()) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(generateWebSiteSchema()) }} />
 
-        {/* Hand-drawn paper theme color */}
-        <meta name="theme-color" content="#fdfbf7" />
+        {/* Lumen Cream paper theme color */}
+        <meta name="theme-color" content="#ffffeb" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
       </head>
-      <body className={`${kalam.variable} ${patrickHand.variable}`}>
+      <body className={`${ebGaramond.variable} ${figtree.variable} font-sans`}>
         <ThemeProvider>
           {children}
         </ThemeProvider>

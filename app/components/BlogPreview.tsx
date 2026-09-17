@@ -2,73 +2,68 @@ import Link from 'next/link';
 import { getAllPostsAsync, getFeaturedPostAsync } from '@/lib/mdx';
 import BlogCard from './BlogCard';
 import FeaturedPost from './FeaturedPost';
-import { StickyTag } from './HandDrawn';
+import { TealBadge } from './WisprPrimitives';
 
 export default async function BlogPreview() {
-    const allPosts = await getAllPostsAsync();
-    if (allPosts.length === 0) return null;
+  const allPosts = await getAllPostsAsync();
+  if (allPosts.length === 0) return null;
 
-    const featuredPost = await getFeaturedPostAsync();
-    // Filter out featured post from the small cards below to avoid immediate duplicate
-    const recentPosts = featuredPost
-        ? allPosts.filter((p) => p.slug !== featuredPost.slug).slice(0, 3)
-        : allPosts.slice(0, 3);
+  const featuredPost = await getFeaturedPostAsync();
+  const recentPosts = featuredPost
+    ? allPosts.filter((p) => p.slug !== featuredPost.slug).slice(0, 3)
+    : allPosts.slice(0, 3);
 
-    return (
-        <section id="blog" className="section" style={{ borderTop: '3px solid #2d2d2d' }}>
-            <div className="container">
-                {/* Header */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1rem', marginBottom: '2.5rem' }}>
-                    <div>
-                        <StickyTag color="blue" rotate={-1} style={{ marginBottom: '0.5rem' }}>
-                            📝 Field Notes &amp; Thoughts
-                        </StickyTag>
-                        <h2 style={{
-                            fontSize: 'clamp(2rem, 5vw, 3rem)',
-                            fontWeight: 700,
-                            fontFamily: 'Kalam, cursive',
-                            color: '#2d2d2d',
-                            margin: '0.25rem 0 0 0',
-                        }}>
-                            Recent Writing &amp; Research
-                        </h2>
-                    </div>
-                    <Link
-                        href="/blog"
-                        className="btn-sketch"
-                        style={{ fontSize: '1.05rem', padding: '0.45rem 1.25rem' }}
-                    >
-                        View All Posts ({allPosts.length}) →
-                    </Link>
-                </div>
+  return (
+    <section id="blog" className="cream-section" style={{ fontFamily: 'var(--font-figtree)' }}>
+      <div className="container mx-auto">
+        {/* Editorial Section Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
+          <div className="flex flex-col items-start gap-4 max-w-2xl">
+            <TealBadge>Dispatches &amp; Field Notes</TealBadge>
+            <h2
+              className="text-[#1a1a1a]"
+              style={{
+                fontFamily: 'var(--font-eb-garamond)',
+                fontSize: 'clamp(36px, 5.5vw, 64px)',
+                lineHeight: 0.95,
+                letterSpacing: '-1.92px',
+                fontWeight: 400,
+              }}
+            >
+              Writing from the laboratory.
+            </h2>
+            <p className="text-[#8a8a80] text-lg sm:text-xl">
+              Research explorations into low-resource Bangla NLP, distributed systems, and modern software craft.
+            </p>
+          </div>
 
-                {/* Top Featured Post on Home Page */}
-                {featuredPost && (
-                    <FeaturedPost post={featuredPost} />
-                )}
+          <Link href="/blog" className="btn-secondary whitespace-nowrap w-fit">
+            All Notes ({allPosts.length}) →
+          </Link>
+        </div>
 
-                {/* Recent Articles Grid */}
-                {recentPosts.length > 0 && (
-                    <div>
-                        {featuredPost && (
-                            <h3 style={{
-                                fontFamily: 'Kalam, cursive',
-                                fontSize: '1.45rem',
-                                fontWeight: 700,
-                                color: '#2d2d2d',
-                                marginBottom: '1.25rem',
-                            }}>
-                                📚 More Recent Notes
-                            </h3>
-                        )}
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '2rem' }}>
-                            {recentPosts.map((post) => (
-                                <BlogCard key={post.slug} post={post} />
-                            ))}
-                        </div>
-                    </div>
-                )}
+        {/* Featured Post — Lavender Accent Card */}
+        {featuredPost && <FeaturedPost post={featuredPost} />}
+
+        {/* Recent Articles Grid */}
+        {recentPosts.length > 0 && (
+          <div>
+            {featuredPost && (
+              <h3
+                className="text-2xl sm:text-3xl text-[#1a1a1a] mb-8 pb-3 border-b border-[#e4e4d0]"
+                style={{ fontFamily: 'var(--font-eb-garamond)' }}
+              >
+                More Recent Entries
+              </h3>
+            )}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {recentPosts.map((post) => (
+                <BlogCard key={post.slug} post={post} />
+              ))}
             </div>
-        </section>
-    );
+          </div>
+        )}
+      </div>
+    </section>
+  );
 }

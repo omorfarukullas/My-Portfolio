@@ -5,26 +5,26 @@ import Footer from '@/app/components/Footer';
 import ProjectsSection from '@/app/components/ProjectsSection';
 
 export const metadata = generatePageMetadata({
-    title: 'Projects',
-    description: 'Portfolio of projects built by Omor Faruk Ullas — from healthcare platforms to desktop tools.',
-    canonical: `${seoConfig.siteUrl}/projects`,
+  title: 'Projects — Omor Faruk Ullas',
+  description: 'Portfolio of software architectures and research prototypes built by Omor Faruk Ullas.',
+  canonical: `${seoConfig.siteUrl}/projects`,
 });
 
 const webPageSchema = generateWebPageSchema(
-    'Projects — Omor Faruk Ullas',
-    'Explore projects built by Omor Faruk Ullas including MediconnectBD, a smart healthcare platform.',
-    `${seoConfig.siteUrl}/projects`,
+  'Projects — Omor Faruk Ullas',
+  'Explore engineering projects built by Omor Faruk Ullas including healthcare queues and NLP pipelines.',
+  `${seoConfig.siteUrl}/projects`,
 );
 
 export default function ProjectsPage() {
-    return (
-        <>
-            <Header />
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }} />
-            <main style={{ paddingTop: '80px' }}>
-                <ProjectsSection />
-            </main>
-            <Footer />
-        </>
-    );
+  return (
+    <>
+      <Header />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }} />
+      <main className="pt-20 pb-12 min-h-screen bg-[#ffffeb]">
+        <ProjectsSection />
+      </main>
+      <Footer />
+    </>
+  );
 }

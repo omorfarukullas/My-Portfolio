@@ -14,8 +14,7 @@ import PostAttachments from '@/app/components/PostAttachments';
 import CommentForm from '@/app/components/CommentForm';
 import CommentsList from '@/app/components/CommentsList';
 import Link from 'next/link';
-import Image from 'next/image';
-import { RADIUS, TapeStrip, StickyTag } from '@/app/components/HandDrawn';
+import { TealBadge, DarkSquareBadge } from '@/app/components/WisprPrimitives';
 
 interface Params { slug: string }
 
@@ -24,291 +23,203 @@ export const revalidate = 0;
 export const dynamicParams = true;
 
 export async function generateMetadata({ params }: { params: Promise<Params> }) {
-    const resolvedParams = await params;
-    const post = await getPostBySlugAsync(resolvedParams.slug);
-    if (!post) return {};
-    return generatePageMetadata({
-        title: post.seo_title || post.title,
-        description: post.seo_description || post.description,
-        ogImage: post.featured_image || undefined,
-        canonical: `${seoConfig.siteUrl}/blog/${post.slug}`,
-        type: 'article',
-        publishedAt: post.date,
-    });
+  const resolvedParams = await params;
+  const post = await getPostBySlugAsync(resolvedParams.slug);
+  if (!post) return {};
+  return generatePageMetadata({
+    title: post.seo_title || post.title,
+    description: post.seo_description || post.description,
+    ogImage: post.featured_image || undefined,
+    canonical: `${seoConfig.siteUrl}/blog/${post.slug}`,
+    type: 'article',
+    publishedAt: post.date,
+  });
 }
 
 export default async function BlogPostPage({ params }: { params: Promise<Params> }) {
-    const resolvedParams = await params;
-    const post = await getPostBySlugAsync(resolvedParams.slug);
-    if (!post) notFound();
+  const resolvedParams = await params;
+  const post = await getPostBySlugAsync(resolvedParams.slug);
+  if (!post) notFound();
 
-    const [related, { prev, next }] = await Promise.all([
-        getRelatedPostsAsync(post.slug, post.tags),
-        getAdjacentPostsAsync(post.slug),
-    ]);
+  const [related, { prev, next }] = await Promise.all([
+    getRelatedPostsAsync(post.slug, post.tags),
+    getAdjacentPostsAsync(post.slug),
+  ]);
 
-    const blogSchema = generateBlogPostingSchema(post);
-    const breadcrumbSchema = generateBreadcrumbSchema([
-        { name: 'Home', url: seoConfig.siteUrl },
-        { name: 'Blog', url: `${seoConfig.siteUrl}/blog` },
-        { name: post.title, url: `${seoConfig.siteUrl}/blog/${post.slug}` },
-    ]);
+  const blogSchema = generateBlogPostingSchema(post);
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: seoConfig.siteUrl },
+    { name: 'Blog', url: `${seoConfig.siteUrl}/blog` },
+    { name: post.title, url: `${seoConfig.siteUrl}/blog/${post.slug}` },
+  ]);
 
-    return (
-        <>
-            <Header />
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }} />
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+  return (
+    <>
+      <Header />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
-            <main style={{ paddingTop: '80px' }}>
-                <article>
-                    {/* Post Header */}
-                    <div style={{ borderBottom: '3px solid #2d2d2d', paddingBottom: '2.5rem', marginBottom: '2.5rem' }}>
-                        <div className="container" style={{ paddingTop: '3rem', maxWidth: '820px' }}>
-                            {/* Breadcrumb */}
-                            <nav aria-label="Breadcrumb" style={{
-                                display: 'flex',
-                                gap: '0.5rem',
-                                alignItems: 'center',
-                                fontSize: '1.05rem',
-                                fontFamily: 'Patrick Hand, cursive',
-                                color: 'var(--text-muted)',
-                                marginBottom: '1.5rem',
-                            }}>
-                                <Link href="/" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>Home</Link>
-                                <span>/</span>
-                                <Link href="/blog" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>Notebook</Link>
-                                <span>/</span>
-                                <span style={{ color: 'var(--accent)', fontWeight: 600 }}>{post.title}</span>
-                            </nav>
+      <main className="pt-28 pb-20 bg-[#ffffeb] min-h-screen text-[#1a1a1a]" style={{ fontFamily: 'var(--font-figtree)' }}>
+        <article>
+          {/* Post Editorial Header */}
+          <div className="border-b border-[#e4e4d0] pb-12 mb-12">
+            <div className="container mx-auto max-w-[840px]">
+              {/* Breadcrumb */}
+              <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-[#8a8a80] mb-6">
+                <Link href="/" className="hover:text-[#1a1a1a] transition-colors">Home</Link>
+                <span>/</span>
+                <Link href="/blog" className="hover:text-[#1a1a1a] transition-colors">Field Notes</Link>
+                <span>/</span>
+                <span className="text-[#1a1a1a] font-medium truncate max-w-[280px]">{post.title}</span>
+              </nav>
 
-                            {/* Tags */}
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.45rem', marginBottom: '1.25rem' }}>
-                                {post.tags.map((tag) => (
-                                    <Link key={tag} href={`/blog?tag=${tag}`}>
-                                        <StickyTag color="yellow" rotate={-1}>
-                                            #{tag}
-                                        </StickyTag>
-                                    </Link>
-                                ))}
-                            </div>
+              {/* Tags */}
+              <div className="flex flex-wrap gap-2 mb-4">
+                {post.tags.map((tag) => (
+                  <Link key={tag} href={`/blog?tag=${tag}`}>
+                    <DarkSquareBadge variant="cream">#{tag}</DarkSquareBadge>
+                  </Link>
+                ))}
+              </div>
 
-                            {/* Title */}
-                            <h1 style={{
-                                fontSize: 'clamp(2rem, 5vw, 3.25rem)',
-                                fontWeight: 700,
-                                fontFamily: 'Kalam, cursive',
-                                color: '#2d2d2d',
-                                lineHeight: 1.15,
-                                marginBottom: '1rem',
-                            }}>
-                                {post.title}
-                            </h1>
+              {/* Title in EB Garamond 400 */}
+              <h1
+                className="text-[#1a1a1a] mb-6"
+                style={{
+                  fontFamily: 'var(--font-eb-garamond)',
+                  fontSize: 'clamp(36px, 5.5vw, 64px)',
+                  lineHeight: 1.02,
+                  letterSpacing: '-1.5px',
+                  fontWeight: 400,
+                }}
+              >
+                {post.title}
+              </h1>
 
-                            <p style={{
-                                fontSize: '1.3rem',
-                                color: 'var(--text-secondary)',
-                                fontFamily: 'Patrick Hand, cursive',
-                                lineHeight: 1.5,
-                                marginBottom: '1.75rem',
-                            }}>
-                                {post.description}
-                            </p>
+              <p className="text-xl text-[#8a8a80] leading-relaxed mb-8">
+                {post.description}
+              </p>
 
-                            {/* Meta */}
-                            <div style={{
-                                display: 'flex',
-                                flexWrap: 'wrap',
-                                gap: '1rem',
-                                alignItems: 'center',
-                                fontSize: '1.05rem',
-                                fontFamily: 'Patrick Hand, cursive',
-                                color: 'var(--text-secondary)',
-                                borderTop: '2px dashed #2d2d2d',
-                                paddingTop: '1rem',
-                            }}>
-                                <span style={{ fontWeight: 700, color: '#2d2d2d' }}>✍️ {post.author}</span>
-                                <span>·</span>
-                                <time dateTime={post.date}>📅 {formatDate(post.date)}</time>
-                                <span>·</span>
-                                <span>⏱️ {post.readTime} min read</span>
+              {/* Author & Publication Meta */}
+              <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-[#e4e4d0] text-sm text-[#8a8a80]">
+                <div className="flex items-center gap-3">
+                  <span className="font-semibold text-[#1a1a1a]">{post.author}</span>
+                  <span>•</span>
+                  <time dateTime={post.date}>{formatDate(post.date)}</time>
+                  <span>•</span>
+                  <span>{post.readTime} min read</span>
+                </div>
 
-                                {/* Share button */}
-                                <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-                                    <a
-                                        href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`${seoConfig.siteUrl}/blog/${post.slug}`)}`}
-                                        target="_blank" rel="noopener noreferrer"
-                                        aria-label="Share on Twitter"
-                                        style={{
-                                            padding: '0.2rem 0.65rem',
-                                            background: '#ffffff',
-                                            border: '1.5px solid #2d2d2d',
-                                            borderRadius: RADIUS.wobblySm,
-                                            boxShadow: '1px 1px 0px #2d2d2d',
-                                            fontSize: '0.95rem',
-                                            fontWeight: 600,
-                                        }}
-                                    >
-                                        Share on X
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                <a
+                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`${seoConfig.siteUrl}/blog/${post.slug}`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-secondary text-xs"
+                  style={{ padding: '6px 14px' }}
+                >
+                  Share to X
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Post Content Canvas */}
+          <div className="container mx-auto max-w-[840px]">
+            {/* Optional Featured Cover Photo */}
+            {post.featured_image && (
+              <div className="relative w-full aspect-[16/9] rounded-[32px] overflow-hidden border-2 border-[#1a1a1a] mb-10 bg-white">
+                <img
+                  src={post.featured_image}
+                  alt={post.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            )}
+
+            {/* Article Prose Body in Cream Card */}
+            <div className="card-cream p-8 sm:p-12 mb-12">
+              <div className="prose max-w-none">
+                <MDXRemote
+                  source={post.content}
+                  options={{
+                    mdxOptions: {
+                      remarkPlugins: [remarkGfm],
+                      rehypePlugins: [rehypeSlug, [rehypeAutolinkHeadings, { behavior: 'wrap' }]],
+                    },
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Attached Media / PDFs */}
+            {post.attachments && post.attachments.length > 0 && (
+              <PostAttachments attachments={post.attachments} />
+            )}
+
+            {/* Adjacent Posts Navigation */}
+            {(prev || next) && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-10">
+                {prev ? (
+                  <Link href={`/blog/${prev.slug}`} className="block group no-underline">
+                    <div className="card-cream p-6 h-full">
+                      <span className="text-xs uppercase font-semibold text-[#8a8a80] block mb-1">
+                        ← Previous Entry
+                      </span>
+                      <span className="font-serif text-lg text-[#1a1a1a] group-hover:text-[#034f46] transition-colors" style={{ fontFamily: 'var(--font-eb-garamond)' }}>
+                        {prev.title}
+                      </span>
                     </div>
+                  </Link>
+                ) : <div />}
 
-                    {/* Post Content Notebook Canvas */}
-                    <div className="container" style={{ maxWidth: '820px', paddingBottom: '4rem' }}>
-
-                        {/* Optional Featured Cover Photo */}
-                        {post.featured_image && (
-                            <div style={{
-                                position: 'relative',
-                                width: '100%',
-                                borderRadius: RADIUS.wobbly,
-                                border: '3px solid #2d2d2d',
-                                overflow: 'hidden',
-                                boxShadow: '5px 5px 0px #2d2d2d',
-                                marginBottom: '2.5rem',
-                                background: '#faf8f5',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                            }}>
-                                <img
-                                    src={post.featured_image}
-                                    alt={post.title}
-                                    style={{
-                                        width: '100%',
-                                        height: 'auto',
-                                        maxHeight: '750px',
-                                        objectFit: 'contain',
-                                        display: 'block',
-                                    }}
-                                />
-                            </div>
-                        )}
-
-                        <div
-                            style={{
-                                position: 'relative',
-                                background: '#ffffff',
-                                border: '3px solid #2d2d2d',
-                                borderRadius: RADIUS.wobbly,
-                                padding: '3rem 2.5rem',
-                                boxShadow: '6px 6px 0px 0px #2d2d2d',
-                                marginBottom: '2.5rem',
-                            }}
-                        >
-                            <TapeStrip rotate={-1} />
-
-                            <div className="prose">
-                                <MDXRemote
-                                    source={post.content}
-                                    options={{
-                                        mdxOptions: {
-                                            remarkPlugins: [remarkGfm],
-                                            rehypePlugins: [rehypeSlug, [rehypeAutolinkHeadings, { behavior: 'wrap' }]],
-                                        },
-                                    }}
-                                />
-                            </div>
-                        </div>
-
-                        {/* Attached Research Files & PDFs */}
-                        {post.attachments && post.attachments.length > 0 && (
-                            <PostAttachments attachments={post.attachments} />
-                        )}
-
-                        {/* Prev / Next Navigation Cards */}
-                        {(prev || next) && (
-                            <div style={{
-                                display: 'grid',
-                                gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-                                gap: '1.5rem',
-                                marginTop: '2rem',
-                            }}>
-                                {prev ? (
-                                    <Link href={`/blog/${prev.slug}`} style={{ textDecoration: 'none' }}>
-                                        <div
-                                            style={{
-                                                background: '#ffffff',
-                                                border: '2px solid #2d2d2d',
-                                                borderRadius: RADIUS.wobblySm,
-                                                padding: '1.25rem',
-                                                boxShadow: '3px 3px 0px #2d2d2d',
-                                                transition: 'transform 0.15s ease, box-shadow 0.15s ease',
-                                            }}
-                                        >
-                                            <p style={{ fontSize: '0.95rem', fontFamily: 'Patrick Hand, cursive', color: 'var(--text-muted)', margin: 0 }}>← Previous note</p>
-                                            <p style={{ fontSize: '1.15rem', fontFamily: 'Kalam, cursive', fontWeight: 700, color: '#2d2d2d', margin: '0.35rem 0 0 0' }}>{prev.title}</p>
-                                        </div>
-                                    </Link>
-                                ) : <div />}
-
-                                {next ? (
-                                    <Link href={`/blog/${next.slug}`} style={{ textDecoration: 'none' }}>
-                                        <div
-                                            style={{
-                                                background: '#ffffff',
-                                                border: '2px solid #2d2d2d',
-                                                borderRadius: RADIUS.wobblySm,
-                                                padding: '1.25rem',
-                                                boxShadow: '3px 3px 0px #2d2d2d',
-                                                textAlign: 'right',
-                                                transition: 'transform 0.15s ease, box-shadow 0.15s ease',
-                                            }}
-                                        >
-                                            <p style={{ fontSize: '0.95rem', fontFamily: 'Patrick Hand, cursive', color: 'var(--text-muted)', margin: 0 }}>Next note →</p>
-                                            <p style={{ fontSize: '1.15rem', fontFamily: 'Kalam, cursive', fontWeight: 700, color: '#2d2d2d', margin: '0.35rem 0 0 0' }}>{next.title}</p>
-                                        </div>
-                                    </Link>
-                                ) : <div />}
-                            </div>
-                        )}
-
-                        {/* Visitor Discussion & Comments Section */}
-                        <div id="comments" style={{ marginTop: '4rem' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
-                                <StickyTag color="blue" rotate={1}>
-                                    💬 Discussion &amp; Feedback
-                                </StickyTag>
-                                <span style={{ fontFamily: 'Patrick Hand, cursive', fontSize: '1.1rem', color: 'var(--text-muted)' }}>
-                                    ({post.comments?.length || 0} approved comments)
-                                </span>
-                            </div>
-
-                            {/* Comment Form */}
-                            <CommentForm postSlug={post.slug} />
-
-                            {/* Comments List */}
-                            <CommentsList comments={post.comments || []} />
-                        </div>
-
-                        {/* Related Posts */}
-                        {related.length > 0 && (
-                            <div style={{ marginTop: '4.5rem' }}>
-                                <h2 style={{
-                                    fontSize: '1.75rem',
-                                    fontWeight: 700,
-                                    fontFamily: 'Kalam, cursive',
-                                    color: '#2d2d2d',
-                                    marginBottom: '1.5rem',
-                                    textDecoration: 'underline wavy var(--accent)',
-                                    textUnderlineOffset: '4px',
-                                }}>
-                                    Related Field Notes
-                                </h2>
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '1.5rem' }}>
-                                    {related.map((p) => (
-                                        <BlogCard key={p.slug} post={p} />
-                                    ))}
-                                </div>
-                            </div>
-                        )}
+                {next ? (
+                  <Link href={`/blog/${next.slug}`} className="block group no-underline sm:text-right">
+                    <div className="card-cream p-6 h-full">
+                      <span className="text-xs uppercase font-semibold text-[#8a8a80] block mb-1">
+                        Next Entry →
+                      </span>
+                      <span className="font-serif text-lg text-[#1a1a1a] group-hover:text-[#034f46] transition-colors" style={{ fontFamily: 'var(--font-eb-garamond)' }}>
+                        {next.title}
+                      </span>
                     </div>
-                </article>
-            </main>
-            <Footer />
-        </>
-    );
+                  </Link>
+                ) : <div />}
+              </div>
+            )}
+
+            {/* Visitor Discussion & Comments */}
+            <div id="comments" className="mt-16 pt-10 border-t border-[#e4e4d0]">
+              <div className="flex items-center gap-3 mb-6">
+                <TealBadge>Discussion</TealBadge>
+                <span className="text-sm text-[#8a8a80]">
+                  ({post.comments?.length || 0} approved comments)
+                </span>
+              </div>
+
+              <CommentForm postSlug={post.slug} />
+              <CommentsList comments={post.comments || []} />
+            </div>
+
+            {/* Related Posts */}
+            {related.length > 0 && (
+              <div className="mt-20 pt-10 border-t border-[#e4e4d0]">
+                <h2
+                  className="text-3xl text-[#1a1a1a] mb-8"
+                  style={{ fontFamily: 'var(--font-eb-garamond)' }}
+                >
+                  Related Dispatches
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  {related.map((p) => (
+                    <BlogCard key={p.slug} post={p} />
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </article>
+      </main>
+      <Footer />
+    </>
+  );
 }
