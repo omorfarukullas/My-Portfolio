@@ -5,14 +5,14 @@ import Footer from '@/app/components/Footer';
 import ProjectsSection from '@/app/components/ProjectsSection';
 
 export const metadata = generatePageMetadata({
-    title: 'Projects',
-    description: 'Portfolio of projects built by Omor Faruk Ullas — from healthcare platforms to desktop tools.',
+    title: 'Projects by Omor Faruck Ullas — AI/NLP, Full Stack & IoT',
+    description: 'Explore software and engineering projects developed by Omor Faruck Ullas (Omor Faruk Ullas), including MediSheba BD, KaajerBazar, HelioSense solar tracker, and Bangla NLP tools.',
     canonical: `${seoConfig.siteUrl}/projects`,
 });
 
 const webPageSchema = generateWebPageSchema(
-    'Projects — Omor Faruk Ullas',
-    'Explore projects built by Omor Faruk Ullas including MediconnectBD, a smart healthcare platform.',
+    'Projects by Omor Faruck Ullas — AI/NLP, Full Stack & IoT',
+    'Explore software and engineering projects developed by Omor Faruck Ullas (Omor Faruk Ullas), including MediSheba BD, KaajerBazar, HelioSense solar tracker, and Bangla NLP tools.',
     `${seoConfig.siteUrl}/projects`,
 );
 

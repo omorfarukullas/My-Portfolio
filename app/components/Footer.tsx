@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { siteConfig } from '@/config/site';
-import { SiFacebook, SiInstagram, SiX, SiLinkedin, SiGithub, SiKaggle } from 'react-icons/si';
+import { SiFacebook, SiInstagram, SiLinkedin, SiGithub, SiKaggle } from 'react-icons/si';
 import { MdEmail } from 'react-icons/md';
 import { RADIUS } from './HandDrawn';
 
@@ -122,7 +122,6 @@ export default function Footer() {
                             { icon: <SiGithub size={18} />, href: siteConfig.social.github, label: 'GitHub' },
                             { icon: <SiLinkedin size={18} />, href: siteConfig.social.linkedin, label: 'LinkedIn' },
                             { icon: <SiKaggle size={18} />, href: siteConfig.social.kaggle, label: 'Kaggle' },
-                            { icon: <SiX size={18} />, href: siteConfig.social.twitter, label: 'Twitter/X' },
                             { icon: <SiFacebook size={18} />, href: siteConfig.social.facebook, label: 'Facebook' },
                             { icon: <SiInstagram size={18} />, href: siteConfig.social.instagram, label: 'Instagram' },
                             { icon: <MdEmail size={20} />, href: `mailto:${siteConfig.social.email}`, label: 'Email' },
@@ -178,7 +177,7 @@ export default function Footer() {
                 borderTop: '2px dashed #2d2d2d',
             }}>
                 <p style={{ fontSize: '1rem', color: 'var(--text-secondary)', margin: 0 }}>
-                    © {year} Omor Faruk Ullas · Sketched with code & coffee ☕
+                    © {year} Omor Faruck Ullas · Sketched with code & coffee ☕
                 </p>
                 <div style={{
                     display: 'inline-flex',

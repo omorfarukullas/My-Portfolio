@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { SiFacebook, SiInstagram, SiX, SiLinkedin, SiGithub, SiKaggle } from 'react-icons/si';
+import { SiFacebook, SiInstagram, SiLinkedin, SiGithub, SiKaggle } from 'react-icons/si';
 import { siteConfig } from '@/config/site';
 import { RADIUS, TapeStrip, HandDrawnArrow, StickyTag } from './HandDrawn';
 
@@ -107,7 +107,7 @@ function HandDrawnPhotoCard() {
                 >
                     <Image
                         src="/Omor.png"
-                        alt="Omor Faruk Ullas"
+                        alt="Omor Faruck Ullas — CSE student and AI/ML researcher at UIU, Dhaka"
                         fill
                         priority
                         sizes="(max-width: 768px) 280px, 360px"
@@ -128,7 +128,7 @@ function HandDrawnPhotoCard() {
                         margin: '0 0 0.1rem 0',
                         lineHeight: 1.1,
                     }}>
-                        Omor Faruk Ullas ✍️
+                        Omor Faruck Ullas ✍️
                     </p>
                     <p style={{
                         fontFamily: 'Patrick Hand, cursive',
@@ -287,9 +287,6 @@ export default function HeroSection() {
                 <SketchSocialIcon href={siteConfig.social.kaggle} label="Kaggle">
                     <SiKaggle size={18} />
                 </SketchSocialIcon>
-                <SketchSocialIcon href={siteConfig.social.twitter ?? 'https://twitter.com'} label="Twitter/X">
-                    <SiX size={18} />
-                </SketchSocialIcon>
                 <SketchSocialIcon href={siteConfig.social.facebook ?? 'https://facebook.com'} label="Facebook">
                     <SiFacebook size={18} />
                 </SketchSocialIcon>
@@ -372,7 +369,7 @@ export default function HeroSection() {
                                 fontFamily: 'Kalam, cursive',
                             }}
                         >
-                            Omor Faruk{' '}
+                            Omor Faruck{' '}
                             <span style={{
                                 color: 'var(--accent)',
                                 textDecoration: 'underline wavy var(--accent)',
@@ -469,9 +466,6 @@ export default function HeroSection() {
                             </SketchSocialIcon>
                             <SketchSocialIcon href={siteConfig.social.kaggle} label="Kaggle">
                                 <SiKaggle size={18} />
-                            </SketchSocialIcon>
-                            <SketchSocialIcon href={siteConfig.social.twitter} label="Twitter/X">
-                                <SiX size={18} />
                             </SketchSocialIcon>
                             <SketchSocialIcon href={siteConfig.social.facebook} label="Facebook">
                                 <SiFacebook size={18} />

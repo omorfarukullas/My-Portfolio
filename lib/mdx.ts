@@ -67,7 +67,7 @@ export function getAllPosts(): BlogPostMeta[] {
                 title: data.title || 'Untitled',
                 description: data.description || '',
                 date: data.date || new Date().toISOString(),
-                author: data.author || 'Omor Faruk Ullas',
+                author: data.author || 'Omor Faruck Ullas',
                 tags: Array.isArray(data.tags) ? data.tags : [],
                 featured_image: data.featured_image || null,
                 featured: Boolean(data.featured),
@@ -101,7 +101,7 @@ export async function getAllPostsAsync(): Promise<BlogPostMeta[]> {
                         title: p.title,
                         description: p.description || '',
                         date: p.created_at || new Date().toISOString(),
-                        author: 'Omor Faruk Ullas',
+                        author: 'Omor Faruck Ullas',
                         tags: Array.isArray(p.tags) ? p.tags : [],
                         featured_image: p.featured_image_url || null,
                         featured: Boolean(p.featured),
@@ -142,7 +142,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
         title: data.title || 'Untitled',
         description: data.description || '',
         date: data.date || new Date().toISOString(),
-        author: data.author || 'Omor Faruk Ullas',
+        author: data.author || 'Omor Faruck Ullas',
         tags: Array.isArray(data.tags) ? data.tags : [],
         featured_image: data.featured_image || null,
         featured: Boolean(data.featured),
@@ -179,7 +179,7 @@ export async function getPostBySlugAsync(slug: string): Promise<BlogPost | null>
                         title: post.title,
                         description: post.description || '',
                         date: post.created_at || new Date().toISOString(),
-                        author: 'Omor Faruk Ullas',
+                        author: 'Omor Faruck Ullas',
                         tags: Array.isArray(post.tags) ? post.tags : [],
                         featured_image: post.featured_image_url || null,
                         featured: Boolean(post.featured),
@@ -273,7 +273,7 @@ export function generateRssFeed(posts: BlogPostMeta[], siteUrl: string): string 
     return `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Omor Faruk Ullas — Blog</title>
+    <title>Omor Faruck Ullas — Blog</title>
     <link>${siteUrl}/blog</link>
     <description>Articles on Full Stack Development, React, Node.js, and building real-world solutions.</description>
     <language>en-us</language>

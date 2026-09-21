@@ -5,14 +5,14 @@ import Footer from '@/app/components/Footer';
 import ContactSection from '@/app/components/ContactSection';
 
 export const metadata = generatePageMetadata({
-    title: 'Contact',
-    description: 'Get in touch with Omor Faruk Ullas for project collaborations, freelance work, or just to say hello.',
+    title: 'Contact Omor Faruck Ullas — Research & Collaboration | UIU',
+    description: 'Get in touch with Omor Faruck Ullas (Omor Faruk Ullas), CSE student at United International University (UIU), Dhaka, for research collaborations, software projects, or academic discussions.',
     canonical: `${seoConfig.siteUrl}/contact`,
 });
 
 const webPageSchema = generateWebPageSchema(
-    'Contact — Omor Faruk Ullas',
-    'Get in touch with Omor Faruk Ullas for project collaborations or freelance opportunities.',
+    'Contact Omor Faruck Ullas — Research & Collaboration | UIU',
+    'Get in touch with Omor Faruck Ullas (Omor Faruk Ullas), CSE student at United International University (UIU), Dhaka, for research collaborations, software projects, or academic discussions.',
     `${seoConfig.siteUrl}/contact`,
 );
 

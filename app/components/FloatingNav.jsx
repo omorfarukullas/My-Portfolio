@@ -162,7 +162,7 @@ export default function FloatingNav() {
                         {/* Text with multiple effects */}
                         <span className="relative">
                             <span className="bg-gradient-to-r from-cyber-purple via-neon-cyan to-cyber-purple bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient">
-                                Omor Faruk Ullas
+                                Omor Faruck Ullas
                             </span>
                             {/* Glowing underline on hover */}
                             <motion.div

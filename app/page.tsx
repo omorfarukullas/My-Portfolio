@@ -4,8 +4,11 @@ import HeroSection from './components/HeroSection';
 import BlogPreview from './components/BlogPreview';
 import ContactSection from './components/ContactSection';
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+import { generatePageMetadata } from '@/lib/seo';
+
+export const metadata = generatePageMetadata({
+  canonical: 'https://omorfarukullas.vercel.app',
+});
 
 export default function Home() {
   return (

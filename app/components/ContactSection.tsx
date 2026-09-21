@@ -108,11 +108,6 @@ export default function ContactSection() {
                                     href: siteConfig.social.kaggle,
                                     icon: '📊',
                                 },
-                                {
-                                    label: 'Twitter / X: @berlinsergio34',
-                                    href: siteConfig.social.twitter,
-                                    icon: '🐦',
-                                },
                             ].map(({ label, href, icon }) => (
                                 <a
                                     key={label}

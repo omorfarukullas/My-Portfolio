@@ -67,7 +67,6 @@ export function generatePageMetadata(options: PageSeoOptions = {}): Metadata {
             title: resolvedOgTitle,
             description: resolvedOgDesc,
             images: [ogImage],
-            creator: seoConfig.twitterHandle,
         },
         robots: {
             index: !noIndex,
@@ -90,26 +89,56 @@ export function generatePersonSchema() {
         '@context': 'https://schema.org',
         '@type': 'Person',
         name: seoConfig.author.name,
-        jobTitle: 'Full Stack Developer',
+        alternateName: seoConfig.alternateName,
+        jobTitle: 'CSE Undergraduate & AI/ML Researcher',
         description: seoConfig.siteDescription,
         url: seoConfig.siteUrl,
-        image: `${seoConfig.siteUrl}${seoConfig.defaultOgImage}`,
+        image: `${seoConfig.siteUrl}/Omor.png`,
         email: seoConfig.author.email,
         sameAs: [
             'https://github.com/omorfarukullas',
-            'https://linkedin.com/in/omorfarukullas',
-            'https://twitter.com/omorfarukullas',
+            'https://www.linkedin.com/in/omorullas/',
+            'https://www.kaggle.com/omorfaruk16',
         ],
         knowsAbout: [
-            'React', 'Next.js', 'Node.js', 'TypeScript', 'JavaScript',
-            'Python', 'Java', 'MySQL', 'MongoDB', 'Full Stack Development',
+            'Artificial Intelligence',
+            'Machine Learning',
+            'Natural Language Processing',
+            'Bangla NLP',
+            'Low-Resource Language Processing',
+            'Coordinated Propaganda Detection',
+            'Transformer Models',
+            'PyTorch',
+            'Python',
+            'Full Stack Development',
+            'React',
+            'Next.js',
+            'TypeScript',
+            'Internet of Things',
         ],
+        affiliation: {
+            '@type': 'EducationalOrganization',
+            name: 'United International University',
+            alternateName: 'UIU',
+            sameAs: 'https://www.uiu.ac.bd/',
+        },
         alumniOf: {
             '@type': 'EducationalOrganization',
             name: 'United International University',
+            alternateName: 'UIU',
             sameAs: 'https://www.uiu.ac.bd/',
         },
         nationality: { '@type': 'Country', name: 'Bangladesh' },
+    };
+}
+
+export function generateProfilePageSchema(pageUrl: string = seoConfig.siteUrl) {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'ProfilePage',
+        name: `${seoConfig.siteName} — Profile`,
+        url: pageUrl,
+        mainEntity: generatePersonSchema(),
     };
 }
 
@@ -120,7 +149,11 @@ export function generateWebSiteSchema() {
         name: `${seoConfig.siteName} Portfolio`,
         url: seoConfig.siteUrl,
         description: seoConfig.siteDescription,
-        author: { '@type': 'Person', name: seoConfig.author.name },
+        author: {
+            '@type': 'Person',
+            name: seoConfig.author.name,
+            alternateName: seoConfig.alternateName,
+        },
         potentialAction: {
             '@type': 'SearchAction',
             target: `${seoConfig.siteUrl}/blog?q={search_term_string}`,
@@ -137,7 +170,11 @@ export function generateWebPageSchema(title: string, description: string, url: s
         description,
         url,
         isPartOf: { '@type': 'WebSite', url: seoConfig.siteUrl },
-        author: { '@type': 'Person', name: seoConfig.author.name },
+        author: {
+            '@type': 'Person',
+            name: seoConfig.author.name,
+            alternateName: seoConfig.alternateName,
+        },
     };
 }
 
@@ -161,15 +198,16 @@ export function generateBlogPostingSchema(post: {
         author: {
             '@type': 'Person',
             name: seoConfig.author.name,
+            alternateName: seoConfig.alternateName,
             url: seoConfig.siteUrl,
         },
         publisher: {
-            '@type': 'Organization',
-            name: seoConfig.siteName,
+            '@type': 'Person',
+            name: seoConfig.author.name,
             url: seoConfig.siteUrl,
         },
         image: post.featured_image
-            ? `${seoConfig.siteUrl}${post.featured_image}`
+            ? (post.featured_image.startsWith('http') ? post.featured_image : `${seoConfig.siteUrl}${post.featured_image}`)
             : `${seoConfig.siteUrl}${seoConfig.defaultOgImage}`,
         keywords: post.tags.join(', '),
         isPartOf: {
@@ -191,3 +229,4 @@ export function generateBreadcrumbSchema(items: { name: string; url: string }[])
         })),
     };
 }
+

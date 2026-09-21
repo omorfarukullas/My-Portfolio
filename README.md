@@ -394,12 +394,12 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 📧 Contact
 
-**Omor Faruk Ullas**
+**Omor Faruck Ullas**
 
-- 🌐 Portfolio: [omorfarukullas](https://omorfarukullas.vercel.app/)
-- 💼 LinkedIn: [linkedin.com/in/omorullas](https://linkedin.com/in/omorullas)
+- 🌐 Portfolio: [omorfarukullas.vercel.app](https://omorfarukullas.vercel.app/)
+- 💼 LinkedIn: [linkedin.com/in/omorullas](https://www.linkedin.com/in/omorullas/)
 - 🐙 GitHub: [@omorfarukullas](https://github.com/omorfarukullas)
-- 🐦 Twitter: [@berlinsergio34](https://x.com/berlinsergio34)
+- 📊 Kaggle: [@omorfaruk16](https://www.kaggle.com/omorfaruk16)
 - ✉️ Email: omor.farukh16@gmail.com
 
 ---
@@ -408,6 +408,6 @@ This project is open source and available under the [MIT License](LICENSE).
 
 **⚡ Built with passion, optimized for speed, designed for the future ⚡**
 
-Made with 💜 by Omor Faruk Ullas
+Made with 💜 by Omor Faruck Ullas
 
 </div>

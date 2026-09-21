@@ -174,9 +174,13 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
                                 alignItems: 'center',
                                 justifyContent: 'center',
                             }}>
-                                <img
+                                <Image
                                     src={post.featured_image}
                                     alt={post.title}
+                                    width={1200}
+                                    height={630}
+                                    priority
+                                    sizes="(max-width: 820px) 100vw, 820px"
                                     style={{
                                         width: '100%',
                                         height: 'auto',

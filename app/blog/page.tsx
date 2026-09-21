@@ -1,5 +1,6 @@
 import { getAllPostsAsync, getAllTagsAsync, getFeaturedPostAsync } from '@/lib/mdx';
-import { generatePageMetadata } from '@/lib/seo';
+import { generatePageMetadata, generateWebPageSchema } from '@/lib/seo';
+import { seoConfig } from '@/config/seo';
 import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
 import BlogListClient from './BlogListClient';
@@ -10,10 +11,16 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export const metadata = generatePageMetadata({
-    title: 'Field Notes & Blog',
-    description: 'Articles on Low-Resource NLP, Full Stack Development, React, Next.js, and building real-world solutions.',
-    canonical: 'https://omorfarukullas.vercel.app/blog',
+    title: 'Field Notes & Research Blog — Omor Faruck Ullas',
+    description: 'Articles and research reflections by Omor Faruck Ullas (Omor Faruk Ullas) on AI/ML, low-resource Bangla NLP, full-stack systems, and web architecture.',
+    canonical: `${seoConfig.siteUrl}/blog`,
 });
+
+const blogPageSchema = generateWebPageSchema(
+    'Field Notes & Research Blog — Omor Faruck Ullas',
+    'Articles and research reflections by Omor Faruck Ullas on AI/ML, low-resource Bangla NLP, and full-stack software development.',
+    `${seoConfig.siteUrl}/blog`,
+);
 
 export default async function BlogPage() {
     const posts = await getAllPostsAsync();
@@ -23,6 +30,7 @@ export default async function BlogPage() {
     return (
         <>
             <Header />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPageSchema) }} />
             <main style={{ paddingTop: '80px' }}>
                 <div className="container section">
                     {/* Header */}
